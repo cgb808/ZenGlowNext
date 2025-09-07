@@ -1,0 +1,1 @@
+FETCH_FROM_URL:https://raw.githubusercontent.com/cgb808/dev-indexer_1/98c699922c3560b08d4ae76a49c75204c49a490e/app/core/metrics.py
