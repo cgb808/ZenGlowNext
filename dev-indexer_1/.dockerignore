@@ -1,0 +1,80 @@
+# Context/venv noise
+.venv
+__pycache__
+*.pyc
+*.pyo
+*.pytest_cache
+
+# Git
+.git
+.gitignore
+
+# Local env / secrets
+.env
+*.env.local
+
+# Node / frontend leftovers (if any mounted)
+node_modules
+
+# Large artifacts
+PARKED!!!!
+PARKED!!!!.tar.gz
+
+# Editor
+.vscode
+# ---------------------------------------------------------
+# Docker build context prune for dev-indexer_1
+# Keeps image lean and build cache efficient.
+# ---------------------------------------------------------
+
+# VCS
+.git
+.gitignore
+
+# Python caches / venv
+__pycache__/
+*.py[cod]
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+.venv/
+venv/
+
+# Node / frontend artifacts (if added later)
+node_modules/
+dist/
+build/
+
+# Editor / OS noise
+.vscode/
+.idea/
+*.swp
+*.DS_Store
+
+# Logs & dumps
+*.log
+*.pid
+*.out
+*.tmp
+
+# Local env files
+.env
+!.env.example
+
+# Data directories (mounted or external)
+pgdata/
+redisdata/
+chroma_data/
+
+# Notebooks checkpoints
+.ipynb_checkpoints/
+
+# Archives
+*.tar
+*.tar.gz
+*.zip
+
+# Coverage / test artifacts
+.coverage
+htmlcov/
+coverage.xml

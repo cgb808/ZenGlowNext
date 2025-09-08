@@ -1,0 +1,46 @@
+# GitLab CI/CD Pipeline for ZenDexer Sync Verification
+# This pipeline deploys the sync API, runs integration tests, and verifies audit log sync to the RAG/vector DB.
+
+stages:
+  - build
+  - deploy
+  - test
+  - verify
+
+variables:
+  SYNC_API_URL: "https://your-sync-endpoint"
+  SYNC_AUTH_TOKEN: "$SYNC_AUTH_TOKEN"
+
+build-image:
+  stage: build
+  image: docker:latest
+  services:
+    - docker:dind
+  script:
+    - docker build -t zendexer/sync-api:latest ./sync-api
+    - docker push zendexer/sync-api:latest
+  only:
+    - main
+
+deploy-sync-api:
+  stage: deploy
+  image: alpine:latest
+  script:
+    - echo "Deploy your sync API here (K8s, Swarm, or cloud CLI)"
+  only:
+    - main
+
+test-sync-verification:
+  stage: verify
+  image: python:3.11
+  script:
+    - pip install requests cryptography
+    - python scripts/test_sync.py  # This script uploads a log batch and verifies storage
+  only:
+    - schedules
+    - main
+  variables:
+    SYNC_API_URL: "https://your-sync-endpoint"
+    SYNC_AUTH_TOKEN: "$SYNC_AUTH_TOKEN"
+
+# Schedule this job in GitLab UI for periodic verification

@@ -1,0 +1,54 @@
+# === Build & lockfiles ===
+node_modules/
+package-lock.json
+yarn.lock
+.pnpm-lock.yaml
+*.tsbuildinfo
+
+# === Local runtime junk ===
+.env*
+.DS_Store
+dist/
+out/
+build/
+.cache/
+tmp/
+logs/
+*.log
+
+# === Supabase generated ===
+.supabase/
+supabase/.temp/
+supabase/.output/
+
+# === Docker/CI ===
+*.tar
+*.img
+Dockerfile
+.dockerignore
+jenkins*.yml
+Jenkinsfile
+
+# === VS Code junk ===
+.vscode/
+.code-assistant/
+.history/
+coverage/
+test-results/
+
+# === Binary/audio blobs ===
+*.mp3
+*.wav
+*.ogg
+*.webm
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.mp4
+*.mov
+*.zip
+
+# === Misc ===
+*.iml
+.idea/

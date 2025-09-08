@@ -1,0 +1,49 @@
+📁 ZenGlow/
+├── ⚙️  ktlint
+├── ⚙️  metro.config.js
+├── 📦 package.json
+├── 📦 package-lock.json
+├── 📦 yarn.lock
+├── ⚙️  tsconfig.json
+│
+├── 📁 audio-drop/
+├── 📁 components/
+├── 📁 configs/
+├── 📁 Docs/
+├── 📁 hooks/
+├── 📁 schemas/
+├── 📁 scripts/
+├── 📁 src/
+│   ├── 🎵 assets/
+│   ├── 🧩 components/
+│   ├── 📚 content/
+│   ├── 🧠 context/
+│   ├── 🧠 contexts/
+│   ├── 🗃️ database/
+│   ├── 🏋️ exercises/
+│   ├── 🪝 hooks/
+│   ├── 🧰 lib/
+│   ├── 🧪 schemas/
+│   ├── 🖥️ screens/
+│   ├── 🔌 services/
+│   ├── 🧾 types/
+│   └── 🛠️ utils/
+│
+├── 🛢️ supabase/
+├── 🧾 types/
+├── 🛠️ utils/
+│
+├── ⚙️ .env.example
+├── ⚙️ .env.local
+├── ⚙️ .eslintrc.json
+├── ⚙️ .gitattributes
+├── ⚙️ .gitignore
+├── ⚙️ .prettierrc.json
+│
+├── 📱 App.js
+├── ⚙️  app.json
+├── 📘 AUDIO_GUIDE.md
+├── 📝 CHANGELOG.md
+├── 🧠 COMPLETE_AI_ECOSYSTEM.md
+
+

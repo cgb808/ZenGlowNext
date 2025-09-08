@@ -1,0 +1,20 @@
+{
+  "github.copilot.chat.commitMessageGeneration": {
+    "instructions": [
+      "Refer to COPILOT.md for SOP (modes, safety matrix, directory policy).",
+      "Execution Rule: ONE terminal command per step; wait for output before next.",
+      "Context Sources: project-index.json, root README.md, docs/ hierarchy.",
+      "Directory Policy: No new root files unless in allowlist (README.md, COPILOT.md, Makefile, docker-compose*.yml, kong.yml, package.json, package-lock.json, project-index*.json, requirements-*.txt, settings.json, pytest.ini, run_tests.sh, .env*, .gitignore); enforce via scripts/root_hygiene_check.py.",
+      "Memory MCP: Persist key architectural decisions & doc relocations.",
+      "Sequential Thinking: Break complex tasks into verifiable substeps before edits.",
+      "Commit Guidance: Summarize intent, scope (dirs touched), notable constraints.",
+      "Multi-Root: Secondary curated repo synced via multi_repo_sync.sh (manifest-driven).",
+      "Remote CUDA: Heavy training uses remote_cuda.sh / cuda_aliases.sh; always sync (zpush) first.",
+      "Curated Manifest: Add new share-worthy docs to [includes] in repo_sync_manifest.txt.",
+      "Project Summary: See docs/PROJECT_SUMMARY_AGGREGATED.md for consolidated context refresher.",
+      "Large Artifacts: Never add datasets / model weights to curated subset; document retrieval steps instead.",
+      "Reference: docs/MULTI_ROOT_WORKSPACE.md for integrated workflow overview.",
+      "Backlog Alignment: Always consult DEVOPS_TODO.md (sections 1-17 + phase plan) before suggesting new DevOps / infra / security / observability tasks."
+    ]
+  }
+}

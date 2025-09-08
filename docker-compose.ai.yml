@@ -1,0 +1,46 @@
+version: '3.8'
+
+networks:
+  zenglow-ai-net:
+    driver: bridge
+
+services:
+  ai-train:
+    build:
+      context: ./ai-workspace/.devcontainer
+      dockerfile: Dockerfile
+    container_name: zenglow-ai-train
+    working_dir: /workspace/ai-workspace
+    volumes:
+      - ./:/workspace:cached
+      - ./ai-workspace/.env:/workspace/ai-workspace/.env:ro
+    command: sleep infinity
+    environment:
+      PYTHONPATH: /workspace
+    ports:
+      - "8888:8888" # Jupyter
+      - "6006:6006" # TensorBoard
+    networks:
+      - zenglow-ai-net
+    depends_on:
+      - supabase-db-ai
+
+  # Lightweight Supabase Postgres ONLY for experimentation (Auth/Realtime optional later)
+  supabase-db-ai:
+    image: supabase/postgres:15.1.1.84
+    container_name: supabase-db-ai
+    restart: unless-stopped
+    environment:
+      POSTGRES_PASSWORD: examplepassword
+      POSTGRES_DB: ai_lab
+      POSTGRES_USER: ai_lab
+      SUPABASE_INTERNAL_IMAGE: '1'
+    ports:
+      - '54324:5432'
+    volumes:
+      - supabase_ai_db_data:/var/lib/postgresql/data
+    networks:
+      - zenglow-ai-net
+
+volumes:
+  supabase_ai_db_data:

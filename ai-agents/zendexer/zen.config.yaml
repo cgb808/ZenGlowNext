@@ -1,0 +1,23 @@
+version: "4.0-rag"
+watch_paths:
+  - ./src
+  - ./components
+  - ./docs
+registry_path: .zen/registry.yaml
+exclude_paths:
+  - node_modules
+  - .git
+  - dist
+  - build
+ai_service:
+  enabled: true
+  index_endpoint: $AI_SERVICE_URL/index
+  retry_attempts: 3
+  circuit_breaker:
+    failure_threshold: 3
+    timeout_ms: 30000
+monitoring:
+  log_level: info
+content_processing:
+  default_chunk_size: 1000
+  default_chunk_overlap: 200

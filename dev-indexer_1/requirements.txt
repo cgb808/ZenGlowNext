@@ -1,0 +1,3 @@
+# Root runtime requirements (delegates to infrastructure/configs/requirements.txt)
+# This file exists so Make targets (deps-gpu-or-cpu / setup) work at repo root.
+-r infrastructure/configs/requirements.txt

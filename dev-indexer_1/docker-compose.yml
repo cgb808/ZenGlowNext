@@ -1,0 +1,105 @@
+# docker-compose.yml
+# This file defines the complete backend stack for your RAG system, including:
+# 1. db (PostgreSQL): The primary, persistent database for storing documents and vectors.
+# 2. redis: The high-speed, in-memory cache used as a buffer for the intake pipeline.
+
+version: '3.8'
+
+services:
+  # (Optional) Chroma vector DB – disabled by default; uncomment if still needed
+  # chroma:
+  #   image: chromadb/chroma:latest
+  #   container_name: rag_chroma
+  #   restart: unless-stopped
+  #   ports:
+  #     - '8001:8000' # host:container (avoid clashing with app's 8000)
+  #   environment:
+  #     - IS_PERSISTENT=TRUE
+  #   healthcheck:
+  #     test: ['CMD', 'wget', '-qO-', 'http://localhost:8000/api/v1/heartbeat']
+  #     interval: 15s
+  #     timeout: 5s
+  #     retries: 5
+  #     start_period: 15s
+
+  # The PostgreSQL database service
+  db:
+    # pgvector-enabled image (includes vector extension). Timescale optional.
+    image: pgvector/pgvector:pg15
+    container_name: rag_postgres_db
+    restart: unless-stopped
+    environment:
+      # Use a .env file for these secrets in a real production environment
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: your-super-strong-and-secret-password
+      POSTGRES_DB: rag_db
+    # Bind Postgres only to loopback to encourage SSH/VPN/WireGuard access patterns
+    ports:
+      - '127.0.0.1:5432:5432'
+    volumes:
+      # Persists PostgreSQL data on the host machine
+      - ./pgdata:/var/lib/postgresql/data
+      # Initialize schema & extensions (vector present; timescaledb created only if image supports)
+      - ./sql/rag_core_schema.sql:/docker-entrypoint-initdb.d/10_rag_core_schema.sql:ro
+      - ./sql/rag_indexes.sql:/docker-entrypoint-initdb.d/20_rag_indexes.sql:ro
+    healthcheck:
+      # Checks if the database is ready to accept connections
+      test: ['CMD-SHELL', 'pg_isready -U postgres -d rag_db']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  # The Redis service for caching and queuing
+  # redis service removed (using host redis already running on 6379). Add back if containerized redis needed.
+
+  # FastAPI indexer application (dev mode)
+  indexer:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args: # Align container user with host to avoid permission issues on mounted volumes
+        UID: ${HOST_UID:-1000}
+        GID: ${HOST_GID:-1000}
+        USERNAME: ${HOST_USER:-cgb808}
+    container_name: rag_indexer
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment: # Using mapping style for clarity
+      # Core DB connectivity
+      POSTGRES_HOST: db
+      POSTGRES_DB: rag_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: your-super-strong-and-secret-password
+      DATABASE_URL: postgresql://postgres:your-super-strong-and-secret-password@db:5432/rag_db
+      PG_EMBED_DIM: 768
+      RAG_TOP_K_DEFAULT: 5
+      # Optional Ollama remote (adjust to actual host with model). On Linux add extra_hosts below.
+      OLLAMA_HOST: host.docker.internal
+      OLLAMA_PORT: 11434
+      OLLAMA_MODEL: gemma:2b
+      PHI3_REMOTE_HOST: 192.168.1.133
+      PHI3_REMOTE_PORT: 5000
+      BGE_REMOTE_HOST: 192.168.1.133
+      BGE_REMOTE_PORT: 5001
+      CUDA_REMOTE_HOST: 192.168.1.133
+      CUDA_REMOTE_USER: cgbowen
+      CUDA_REMOTE_SSH_KEY: /home/cgbowen/.ssh/id_ed25519
+      REDIS_HOST: host.docker.internal # using host redis
+      REDIS_PORT: 6379
+      HOME: /home/${HOST_USER:-cgb808}
+    ports:
+      - '8001:8000' # TEMP: host port shifted from 8000 -> 8001 (VS Code local listener conflict); revert when freed
+    volumes:
+      # Mount developer home (adjust host path if moved to /zfs or btrfs)
+      - /DEV_ZFS/home/${HOST_USER:-cgb808}:/home/${HOST_USER:-cgb808}:rw
+      # Project source for live reload
+      - ./:/workspace:rw
+    command: ['uvicorn', 'app.main:app', '--host', '0.0.0.0', '--port', '8000']
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
+
+volumes:
+  pgdata:

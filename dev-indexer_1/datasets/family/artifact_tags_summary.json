@@ -1,0 +1,13 @@
+{
+  "total_artifacts": 2,
+  "distinct_tags": 7,
+  "tag_freq": {
+    "2025": 1,
+    "assessment": 1,
+    "fall": 1,
+    "photo": 1,
+    "project": 1,
+    "reading": 1,
+    "science": 1
+  }
+}

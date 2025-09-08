@@ -1,0 +1,163 @@
+# Summary: This dev-mode Docker Swarm Compose stack is optimized for local inference with AMD Rade  smollm-predictor:
+    image: zendexer/phi2-predictor:latest
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 2G
+        reservations:
+          cpus: '0.5'
+          memory: 1G
+    environment:
+      - MODEL_TYPE=phi-2
+      - USE_GPU=optional
+      - GPU_BACKEND=opencl
+      - FALLBACK_TO_CPU=true
+      - DEV_MODE=true
+      - TASK_FOCUS=metric_aggregationlback.
+# All models fall back to CPU when GPU is unavailable. Persistent model caches and logs are enabled. Secrets are handled securely.
+
+version: '3.8'
+
+services:
+  fastapi-gateway:
+    build:
+      context: ../fastapi-gateway
+      dockerfile: Dockerfile
+    image: zendexer/fastapi-gateway:dev
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 1G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+    environment:
+      - API_GATEWAY_KEY=changeme
+    networks:
+      - ai-network
+    ports:
+      - "8088:8088"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8088/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+  mistral-interface:
+    image: zendexer/mistral-interface:latest
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: '4.0'
+          memory: 10G
+        reservations:
+          cpus: '2.0'
+          memory: 6G
+    environment:
+      - MODEL_TYPE=mistral-7b
+      - USE_GPU=optional
+      - GPU_BACKEND=opencl
+      - FALLBACK_TO_CPU=true
+      - DEV_MODE=true
+      - MODEL_QUANTIZATION=int4
+      - GPU_MEMORY_FRACTION=0.7
+      - RAG_SERVICE_URL=http://rag-service:8000
+      - PHI2_SERVICE_URL=http://phi2-assistant:8001
+      - PHI2_PREDICTOR_URL=http://smollm-predictor:8002
+      - SMOLLM_SERVICE_URL=http://smollm-predictor:8002
+    volumes:
+      - mistral_cache:/app/model_cache
+      - logs:/app/logs
+    networks:
+      - ai-network
+    ports:
+      - "8080:8080"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  phi2-assistant:
+    image: zendexer/phi2-assistant:latest
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 4G
+        reservations:
+          cpus: '1.0'
+          memory: 2G
+    environment:
+      - MODEL_TYPE=phi-2
+      - USE_GPU=false
+      - FALLBACK_TO_CPU=true
+      - DEV_MODE=true
+      - MODEL_QUANTIZATION=int8
+      - TASK_FOCUS=code_analysis
+    volumes:
+      - phi2_cache:/app/model_cache
+      - sidecar_data:/app/sidecars
+      - logs:/app/logs
+    networks:
+      - ai-network
+    ports:
+      - "8001:8001"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8001/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  smollm-predictor:
+    image: zendexer/smollm2-predictor:latest
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 2G
+        reservations:
+          cpus: '0.5'
+          memory: 1G
+    environment:
+      - MODEL_TYPE=smollm2-1.7b
+      - USE_GPU=optional
+      - GPU_BACKEND=opencl
+      - FALLBACK_TO_CPU=true
+      - DEV_MODE=true
+      - TASK_FOCUS=metric_aggregation
+    volumes:
+      - smollm_cache:/app/model_cache
+      - logs:/app/logs
+    networks:
+      - ai-network
+    ports:
+      - "8002:8002"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8002/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+volumes:
+  mistral_cache:
+    driver: local
+  phi2_cache:
+    driver: local
+  smollm_cache:
+    driver: local
+  sidecar_data:
+    driver: local
+  logs:
+    driver: local
+
+networks:
+  ai-network:
+    driver: overlay
+    attachable: true

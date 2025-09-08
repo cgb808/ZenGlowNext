@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Pre-push size guard (dev-indexer_1).
+# Install (once): git config core.hooksPath .githooks
+# Threshold override: THRESHOLD_MB=80 git push
+# Temporary disable: DISABLE_SIZE_GUARD=1 git push
+
+if [[ "${DISABLE_SIZE_GUARD:-0}" == "1" ]]; then
+  echo "[pre-push:size-guard] Disabled (DISABLE_SIZE_GUARD=1)" >&2
+  exit 0
+fi
+
+THRESHOLD_MB=${THRESHOLD_MB:-50}
+THRESHOLD_BYTES=$((THRESHOLD_MB * 1024 * 1024))
+
+echo "[pre-push:size-guard] Scanning (limit ${THRESHOLD_MB}MB)..." >&2
+
+oversized=$(git ls-files -z | xargs -0 du -b 2>/dev/null | awk -v L="$THRESHOLD_BYTES" '$1 > L') || true
+
+if [[ -n "$oversized" ]]; then
+  echo "[pre-push:size-guard] BLOCKED: files exceed ${THRESHOLD_MB}MB:" >&2
+  echo "$oversized" | awk '{ sz=$1; $1=""; path=$0; printf("  %8.2f MB  %s\n", sz/1024/1024, path) }' >&2
+  echo "Remediate: remove from index (git rm) or use external storage / LFS." >&2
+  exit 1
+fi
+
+echo "[pre-push:size-guard] OK" >&2
+
+# Optional workspace size WARN (non-blocking) if repo dir exceeds limit (default 2.0 GB)
+REPO_WARN_GB=${REPO_WARN_GB:-2.0}
+if command -v du >/dev/null 2>&1; then
+  # Using apparent size to avoid double counting hard links
+  repo_bytes=$(du -sb . 2>/dev/null | awk '{print $1}') || repo_bytes=0
+  warn_bytes=$(awk -v g="$REPO_WARN_GB" 'BEGIN{printf "%.0f", g*1024*1024*1024}')
+  if [[ $repo_bytes -gt $warn_bytes ]]; then
+    human=$(awk -v b="$repo_bytes" 'BEGIN{printf "%.2f", b/1024/1024/1024}')
+    echo "[pre-push:size-guard] WARN: workspace size ${human}GB > ${REPO_WARN_GB}GB (consider scripts/safe_cleanup.sh)" >&2
+  fi
+fi
+exit 0

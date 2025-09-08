@@ -1,0 +1,16 @@
+fastapi
+uvicorn[standard]  # For TLS/reverse proxy support
+pydantic
+numpy
+openai
+sentence-transformers
+chromadb
+
+# --- Cloud Security/Firewall Requirements ---
+# 1. Use cloud provider firewall/security groups to restrict inbound ports (e.g., 8004) to trusted IPs or internal networks only.
+# 2. Deploy all services in a private subnet/VPC; expose only necessary endpoints via a secure reverse proxy or API gateway.
+# 3. Use encrypted Docker overlay networks for inter-service communication.
+# 4. Place a reverse proxy (e.g., NGINX, Traefik) in front of public endpoints, enforce TLS, authentication, and IP allowlists.
+# 5. Never expose secrets or sensitive ports to the public; use Docker secrets or cloud KMS.
+# 6. Monitor firewall logs and set up alerts for unauthorized access attempts.
+# 7. Document and review all firewall/networking rules as part of SOC 2 compliance.

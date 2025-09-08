@@ -1,0 +1,53 @@
+{
+  "created_ts": 1756967907,
+  "files": {
+    "app/family/context.py": {
+      "sha256": "6e81fe4511ca6bb70d1ccf5a600eeb272a76a07a0ef5a9b1e44aa1db2a00c7a2"
+    },
+    "app/family/router.py": {
+      "sha256": "c13aee83e876bd42236f37b6a9bf5ac80817a7eed415fe3f782ec41e7ebea18f"
+    },
+    "app/family/repo.py": {
+      "sha256": "5ba656248d6163570b57e3b3f5de9b7fba24d991dfb499090902113fbc3f9702"
+    },
+    "app/family/pg_repo.py": {
+      "sha256": "f548ec1628bc236d624406336a837c2089e8a86d523fd8b3867abfb2fada8a59"
+    },
+    "app/family/seed_data.json": {
+      "sha256": "d622c20cfffbc1b3791ed0a4ba87e968d6069a6a31e2f6fbf3bc18ba02314937"
+    },
+    "sql/family_schema.sql": {
+      "sha256": "c938ea0a6683945cd492d27ede3f5683589fedbd9dceaa63ec392b68240d4d85"
+    },
+    "sql/family_rls.sql": {
+      "sha256": "8dd7395dc0be954822b071c599f970c31f3418a7e778e6c89127bf44bd2aaafb"
+    },
+    "scripts/export_family_finetune_dataset.py": {
+      "sha256": "3de9dca55c6138d15de4b88e1415410e0adbc02d5b06a52cd47a8630fa47b512"
+    },
+    "scripts/export_family_conversations.py": {
+      "sha256": "9fbf63d1d85a6d995e30e423d7cc275db360ff9d052acb745b7470c9744139f0"
+    },
+    "scripts/build_family_dataset.py": {
+      "sha256": "de820a7abf4ed87112b54d2422d09c44cae4023996da86097c71a22734d199e1"
+    },
+    "scripts/package_family_context.py": {
+      "sha256": "25c7d2ea3d417236b63d94465bba48f811a61079a94a89b894a934902be1b8ad"
+    },
+    "docs/DATASET_EXPORT.md": {
+      "sha256": "e8817d94806c98d03cbaf70c879564d79fa16313ec5ca9117bb7fe5d7045a470"
+    },
+    "docs/FAMILY_CONTEXT_DESIGN.md": {
+      "sha256": "2b1f199d1d00ebf847c770b995124abb9fe4c69621fa76653e5be722f60ed042"
+    },
+    "docs/FAMILY_REMOTE_TRANSFER.md": {
+      "sha256": "8528a3e19156662cdf8df0408c25582f278a69445ff7dbc113f83a954c0ae0ad"
+    },
+    "tests/test_conversation_generators.py": {
+      "sha256": "4bad61b78d10b785abf7caf00e2195d20a53d3ae45b1363a6e2c01f2337dfbf8"
+    }
+  },
+  "count": 15,
+  "root": "dev-indexer_1",
+  "description": "Family context + dataset generator package"
+}

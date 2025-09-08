@@ -1,0 +1,158 @@
+# Summary: Dev-mode Docker Swarm Compose for Zendexer
+# Local inference, CPU fallback, and AMD Radeon 870M OpenCL GPU support enabled for SmolLM
+# Mistral runs CPU-only. All replicas set to 0 for standby/dev testing.
+# Redis is used for cache, secure sync, and backup hooks.
+
+version: '3.8'
+
+services:
+  mistral-interface:
+    image: zendexer/mistral-interface:latest
+    deploy:
+      replicas: 0
+      resources:
+        limits:
+          cpus: '4.0'
+          memory: 8G
+    environment:
+      - MODEL_TYPE=mistral-7b
+      - USE_GPU=false
+      - FALLBACK_TO_CPU=true
+      - DEV_MODE=true
+      - MODEL_QUANTIZATION=int4
+      - GPU_MEMORY_FRACTION=0.7
+      - REDIS_URL=redis://redis:6379/0
+    volumes:
+      - mistral_cache:/app/model_cache
+      - logs:/app/logs
+    networks:
+      - ai-dev-network
+    ports:
+      - "8080:8080"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  phi2-assistant:
+    image: zendexer/phi2-assistant:latest
+    deploy:
+      replicas: 0
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 4G
+    environment:
+      - MODEL_TYPE=phi-2
+      - USE_GPU=false
+      - FALLBACK_TO_CPU=true
+      - DEV_MODE=true
+      - TASK_FOCUS=code_analysis
+      - REDIS_URL=redis://redis:6379/0
+    volumes:
+      - phi2_cache:/app/model_cache
+      - sidecar_data:/app/sidecars
+      - logs:/app/logs
+    networks:
+      - ai-dev-network
+    ports:
+      - "8001:8001"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8001/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  smollm-predictor:
+    image: zendexer/phi2-predictor:latest
+    deploy:
+      replicas: 0
+      resources:
+        limits:
+          cpus: '3.0'
+          memory: 6G
+    environment:
+      - MODEL_TYPE=phi-2
+      - USE_GPU=optional
+      - GPU_BACKEND=opencl
+      - DEV_MODE=true
+      - TASK_FOCUS=local_prediction
+      - LOCAL_INTERFACE=true
+      - REDIS_URL=redis://redis:6379/0
+    volumes:
+      - smollm_cache:/app/model_cache
+      - logs:/app/logs
+    networks:
+      - ai-dev-network
+    ports:
+      - "8002:8002"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8002/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  local-data-manager:
+    build:
+      context: ./local-data-manager
+      dockerfile: Dockerfile
+    image: zendexer/local-data-manager:dev
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 2G
+    environment:
+      - ENCRYPTION_KEY_PATH=/run/secrets/health_data_encryption_key
+      - LOCAL_RETENTION_DAYS=30
+      - AUDIT_EVERYTHING=true
+      - DEVICE_STORAGE_OPTIMIZATION=true
+      - SECURE_SYNC_SCHEDULE=monthly
+    secrets:
+      - health_data_encryption_key
+    volumes:
+      - health_data:/app/health_data
+      - audit_logs:/app/audit_logs
+    networks:
+      - ai-dev-network
+    ports:
+      - "8004:8004"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8004/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  redis:
+    image: redis:7-alpine
+    command: ["redis-server", "--save", "60", "1", "--loglevel", "warning"]
+    volumes:
+      - redis_data:/data
+    networks:
+      - ai-dev-network
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+volumes:
+  mistral_cache:
+  phi2_cache:
+  smollm_cache:
+  sidecar_data:
+  logs:
+  health_data:
+  audit_logs:
+  redis_data:
+
+networks:
+  ai-dev-network:
+    driver: bridge
+secrets:
+  health_data_encryption_key:
+    file: ./secrets/health_data_encryption_key

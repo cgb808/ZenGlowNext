@@ -1,0 +1,39 @@
+version: '3.8'
+services:
+  ai-service:
+    build:
+      context: /mnt/c/Users/CGBowen/Documents/GitHub/ZenIndexer
+      dockerfile: Dockerfile.ai
+    container_name: zenindexer-ai-service
+    ports:
+      - "8000:8000"
+    volumes:
+      - /mnt/c/Users/CGBowen/Documents/GitHub/ZenIndexer:/app
+      - /root/models:/app/models:ro
+    environment:
+      - LLM_MODEL_PATH=/app/models/mistral-7b-instruct-v0.1.Q4_K_M.gguf
+      - VECTOR_DB_PATH=/app/vector_db
+      - EMBEDDING_MODEL=all-MiniLM-L6-v2
+      - MAX_CHUNK_SIZE=8000
+      - SIMILARITY_THRESHOLD=0.8
+      - BATCH_SIZE=10
+    networks:
+      - zenindexer-network
+    deploy:
+      mode: replicated
+      replicas: 1
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 4G
+        reservations:
+          cpus: '1.0'
+          memory: 2G
+      restart_policy:
+        condition: on-failure
+volumes:
+  chroma_db_data:
+    driver: local
+networks:
+  zenindexer-network:
+    driver: bridge

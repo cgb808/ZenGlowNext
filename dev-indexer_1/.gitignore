@@ -1,0 +1,25 @@
+# Root ignore (created)
+__pycache__/
+*.pyc
+.venv/
+.env
+# Explicitly allow committing sanitized env snapshot
+!.env.redacted
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+node_modules/
+*.log
+*.tmp
+*.swp
+*.swo
+*.tar.gz
+*.zip
+models/weights/
+artifact/
+Artifact/
+# Whisper / audio models (excluded)
+vendor/whisper.cpp/models/
+vendor/whisper.cpp/ggml-*.bin
+tests/whisper/
+.wdmc/

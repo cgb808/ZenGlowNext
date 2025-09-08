@@ -1,0 +1,9 @@
+node_modules
+.git
+build
+dist
+*.log
+*.tmp
+coverage
+__snapshots__
+__tests__

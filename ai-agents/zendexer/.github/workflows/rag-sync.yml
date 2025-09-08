@@ -1,0 +1,24 @@
+name: RAG Feeder Sync
+on:
+  push:
+    branches: [ main, dev ]
+  pull_request:
+    branches: [ main ]
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    env:
+      AI_SERVICE_URL: ${{ secrets.AI_SERVICE_URL || '' }}
+      NODE_ENV: ci
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
+      - run: npm ci
+      - name: Check AI_SERVICE_URL
+        run: |
+          if [ -z "$AI_SERVICE_URL" ]; then
+            echo "::error::AI_SERVICE_URL secret is not set. Please define it in your repository or organization secrets." && exit 1
+          fi
+      - run: node zenindexer.js --once

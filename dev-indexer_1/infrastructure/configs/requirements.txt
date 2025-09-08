@@ -1,0 +1,34 @@
+# Consolidated backend deps for ZenGlow Indexer (CPU baseline)
+# Pin minimally to keep Python 3.12 compatible. GPU or extras can be layered via a separate requirements-gpu.txt.
+
+fastapi>=0.115,<1
+uvicorn[standard]>=0.30,<1
+httpx>=0.27,<1
+requests>=2.32,<3
+psutil>=5.9,<6
+pydantic>=2.7,<3
+websockets>=12,<13
+
+# Database (psycopg2-binary is easy for dev; switch to psycopg2 in prod if needed)
+psycopg2-binary>=2.9,<3
+
+# Optional: Redis client (used by future cache impl; safe to preinstall)
+redis>=5,<6
+
+# Dev tools
+python-dotenv>=1.0,<2
+ruff>=0.5,<1
+black>=24.3,<25
+pre-commit>=3.5,<4
+
+# Vector and data utils (lightweight)
+numpy>=1.26,<3
+scikit-learn>=1.5,<2
+
+# For CORS and static files (normally FastAPI/Starlette bring this in)
+starlette>=0.37,<1
+python-multipart>=0.0.9
+
+# Optional: Supabase Python client (used by edge function helper; safe to preinstall for dev)
+supabase>=2.6,<3
+

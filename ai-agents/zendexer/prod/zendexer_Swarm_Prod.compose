@@ -1,0 +1,126 @@
+# Summary: This is the production-mode Docker Swarm Compose stack for ZenDexer.
+# It includes Mistral sharding support, secure services, persistent caching, logging, secrets, and GPU-first optimization where available.
+
+version: '3.8'
+
+services:
+  mistral-interface:
+    image: zendexer/mistral-interface:latest
+    deploy:
+      mode: replicated
+      replicas: 3
+      placement:
+        constraints:
+          - node.labels.gpu==true
+      resources:
+        limits:
+          cpus: '6.0'
+          memory: 10G
+        reservations:
+          cpus: '3.0'
+          memory: 6G
+      restart_policy:
+        condition: on-failure
+    environment:
+      - MODEL_TYPE=mistral-7b
+      - USE_GPU=optional
+      - GPU_BACKEND=opencl
+      - SHARDING_ENABLED=true
+      - DEPLOYMENT_MODE=production
+      - MODEL_QUANTIZATION=int4
+      - RAG_SERVICE_URL=http://rag-service:8000
+      - PHI2_SERVICE_URL=http://phi2-assistant:8001
+      - PARENTAL_PREDICTOR_URL=http://smollm-predictor:8002
+      - SMOLLM_SERVICE_URL=http://smollm-predictor:8002
+      - SECURE_SYNC_ENABLED=true
+    volumes:
+      - mistral_cache:/app/model_cache
+      - logs:/app/logs
+    networks:
+      - ai-network
+      - secure-local-network
+    ports:
+      - "8080:8080"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  phi2-assistant:
+    image: zendexer/phi2-assistant:latest
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 4G
+        reservations:
+          cpus: '1.0'
+          memory: 2G
+    environment:
+      - MODEL_TYPE=phi-2
+      - USE_GPU=false
+      - MODEL_QUANTIZATION=int8
+      - TASK_FOCUS=code_analysis
+    volumes:
+      - phi2_cache:/app/model_cache
+      - sidecar_data:/app/sidecars
+      - logs:/app/logs
+    networks:
+      - ai-network
+    ports:
+      - "8001:8001"
+
+  smollm-predictor:
+    image: zendexer/phi2-predictor:latest
+    deploy:
+      replicas: 2
+      placement:
+        constraints:
+          - node.labels.secure==true
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 3G
+        reservations:
+          cpus: '1.0'
+          memory: 1.5G
+    environment:
+      - MODEL_TYPE=phi-2
+      - USE_GPU=optional
+      - GPU_BACKEND=opencl
+      - TASK_FOCUS=parental_prediction
+      - DEPLOYMENT_MODE=production
+      - PRIVACY_MODE=local_only
+      - PARENTAL_DASHBOARD=true
+      - CHILD_WELLNESS_TRACKING=true
+    volumes:
+      - smollm_cache:/app/model_cache
+      - logs:/app/logs
+    networks:
+      - ai-network
+      - secure-local-network
+    ports:
+      - "8002:8002"
+
+volumes:
+  mistral_cache:
+    driver: local
+  phi2_cache:
+    driver: local
+  smollm_cache:
+    driver: local
+  sidecar_data:
+    driver: local
+  logs:
+    driver: local
+
+networks:
+  ai-network:
+    driver: overlay
+    attachable: true
+  secure-local-network:
+    driver: overlay
+    encrypted: true
+    attachable: false

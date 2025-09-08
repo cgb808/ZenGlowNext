@@ -1,0 +1,42 @@
+[build-system]
+requires = ["setuptools>=67", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.pytest.ini_options]
+minversion = "7.0"
+addopts = "-q"
+pythonpath = ["."]
+norecursedirs = [
+	"pgdata","data","models","artifact","Artifact","supabase","frontend","deploy","infrastructure","vendor","logs"
+]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+ignore_missing_imports = true
+
+[tool.ruff]
+line-length = 100
+exclude = [".venv"]
+
+[tool.black]
+line-length = 100
+target-version = ["py312"]
+
+[tool.ruff.lint]
+select = ["E","F","I","UP","B"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["app"]
+
+[project]
+name = "zenglow-indexer"
+version = "0.0.0"
+description = "ZenGlow indexer service"
+dependencies = [
+	# Optional but used if available for analytical event batching
+	"msgpack>=1.0.7",
+	"psutil>=5.9.8",
+	"redis>=5.0.1",
+	"asyncpg>=0.29.0",
+]

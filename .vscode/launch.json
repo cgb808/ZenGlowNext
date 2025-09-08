@@ -1,0 +1,23 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Attach to Hermes (Android)",
+      "type": "reactnativedirect",
+      "request": "attach",
+      "cwd": "${workspaceFolder}",
+      "platform": "android",
+      "useHermesEngine": true,
+      "port": 8081
+    },
+    {
+      "name": "Attach to Hermes (iOS)",
+      "type": "reactnativedirect",
+      "request": "attach",
+      "cwd": "${workspaceFolder}",
+      "platform": "ios",
+      "useHermesEngine": true,
+      "port": 8081
+    }
+  ]
+}

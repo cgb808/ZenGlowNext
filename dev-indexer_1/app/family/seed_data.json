@@ -1,0 +1,61 @@
+{
+  "households": [
+    {
+      "id": "ripley_log_home",
+      "address": "Ripley, WV",
+      "type": "primary_residence",
+      "members": ["charles", "nancy", "willow", "chase"],
+      "meta": {"purchased_year": 2024}
+    },
+    {
+      "id": "cottageville_rental",
+      "address": "Cottageville, WV",
+      "type": "rental_unit",
+      "members": [],
+      "meta": {"intended_for": "amy_family"}
+    }
+  ],
+  "people": [
+    {"id": "charles", "name": "Charles", "last_name": "Bowen", "age": 49, "birthdate": "1976-02-16", "roles": ["patriarch","grandparent","guardian"], "household_id": "ripley_log_home"},
+    {"id": "nancy", "name": "Nancy", "last_name": "Bowen", "age": 50, "birthdate": "1975-06-18", "roles": ["matriarch","grandparent","guardian"], "household_id": "ripley_log_home"},
+    {"id": "tracey", "name": "Tracey", "age": 30, "roles": ["parent"], "meta": {"maiden_last_known": null}},
+    {"id": "sierra", "name": "Sierra", "age": 28, "roles": ["parent"]},
+    {"id": "chloe", "name": "Chloe", "age": 32, "roles": ["parent"], "meta": {"married_name": "Mullins", "country": "Italy"}},
+    {"id": "chase", "name": "Chase", "last_name": "Bowen", "age": 18, "birthdate": "2007-05-01", "roles": ["young_adult"], "household_id": "ripley_log_home", "meta": {"employment": "Marathon Oil (barge)"}},
+    {"id": "willow", "name": "Willow", "age": 5, "roles": ["child"], "household_id": "ripley_log_home"},
+    {"id": "remington", "name": "Remington", "age": 3, "roles": ["grandchild"]},
+    {"id": "josiah", "name": "Josiah", "age": 4, "roles": ["grandchild"]},
+    {"id": "levi", "name": "Levi", "age": 2, "roles": ["grandchild"]},
+    {"id": "layla", "name": "Layla", "age": 1, "roles": ["grandchild"]},
+    {"id": "cyrus", "name": "Cyrus", "last_name": "Bowen", "age": 0, "roles": ["grandchild"], "meta": {"initials_pattern": "C.B."}},
+    {"id": "amy", "name": "Amy", "last_name": "Williams", "age": 0, "roles": ["aunt"], "meta": {"note": "Age not provided; set 0 placeholder"}},
+    {"id": "connor", "name": "Connor", "last_name": "Mallory", "age": 14, "roles": ["cousin"], "meta": {"school": "Ripley Middle"}},
+    {"id": "bella", "name": "Bella", "last_name": "Mallory", "age": 12, "roles": ["cousin"], "meta": {"school": "Ripley Middle"}},
+    {"id": "scottie", "name": "Scottie", "age": 0, "roles": ["partner"], "meta": {"note": "Age unknown placeholder"}},
+    {"id": "justin", "name": "Justin", "last_name": "Mullins", "age": 0, "roles": ["inlaw"], "meta": {"country": "Italy"}},
+    {"id": "jake", "name": "Jake", "last_name": "Brooks", "age": 0, "roles": ["inlaw"]},
+    {"id": "emmy", "name": "Emmy", "age": 0, "roles": ["former_partner"], "meta": {"note": "former relationship with Chase"}}
+  ],
+  "guardians": [
+    {"guardian": "charles", "child": "willow", "legal": true},
+    {"guardian": "nancy", "child": "willow", "legal": true}
+  ],
+  "artifacts": [
+    {"entity_id": "willow", "kind": "document", "title": "Willow Fall 2025 Reading Assessment", "tags": ["reading","assessment","2025","fall"], "meta": {"score": 92}, "content_ref": "doc:willow-reading-fall-2025"},
+    {"entity_id": "willow", "kind": "media", "title": "Willow Science Project Volcano Photo", "tags": ["science","project","photo"], "meta": {"resolution": "1024x768"}, "content_ref": "img:willow-volcano-project"}
+  ],
+  "health_metrics": [
+    {"entity_id": "willow", "metric": "reading_score", "value": 92, "unit": null},
+    {"entity_id": "willow", "metric": "height_in", "value": 50, "unit": "in"},
+    {"entity_id": "chase", "metric": "gpa", "value": 3.6, "unit": null},
+    {"entity_id": "chase", "metric": "height_in", "value": 66, "unit": "in"}
+  ]
+  ,"pets": [
+    {"id": "hershey", "name": "Hershey", "species": "dog", "breed": "chocolate lab", "age": 12, "household_id": "ripley_log_home"},
+    {"id": "gunner", "name": "Gunner", "species": "dog", "breed": "aussie doodle", "age": 7, "household_id": "ripley_log_home"},
+    {"id": "nova", "name": "Nova", "species": "dog", "breed": "pitbull", "age": 1, "household_id": "ripley_log_home"},
+    {"id": "alex", "name": "Alex", "species": "cat", "age": 0, "household_id": "ripley_log_home"},
+    {"id": "daquan", "name": "Daquan", "species": "cat", "age": 0, "household_id": "ripley_log_home"},
+    {"id": "precious", "name": "Precious", "species": "cat", "age": 0, "household_id": "ripley_log_home"}
+  ]
+}

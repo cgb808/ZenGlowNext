@@ -1,0 +1,16 @@
+# ZenDexer RAG Config
+# Switches agent and memory based on mode
+
+agent_mode: ${AGENT_MODE}
+
+memory:
+  dev: ./memory/dev/
+  prod: ./memory/prod/
+
+vector_store:
+  dev: ./vector-store/chroma_dev_index/
+  prod: ./vector-store/chroma_prod_index/
+
+agent:
+  dev: agent_dev.py
+  prod: agent_prod.py

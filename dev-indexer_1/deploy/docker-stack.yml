@@ -1,0 +1,103 @@
+version: '3.8'
+
+# Docker Swarm stack for ZenGlow indexer + Postgres.
+# NOTE: Build and push the application image to a registry (or use a local
+# registry) before deploying with `docker stack deploy -c deploy/docker-stack.yml zenglow`.
+
+services:
+  db:
+    image: pgvector/pgvector:pg15
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD_FILE: /run/secrets/pg_password
+      POSTGRES_DB: rag_db
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./sql/rag_core_schema.sql:/docker-entrypoint-initdb.d/10_rag_core_schema.sql:ro
+      - ./sql/rag_indexes.sql:/docker-entrypoint-initdb.d/20_rag_indexes.sql:ro
+      - ./sql/inference_logging.sql:/docker-entrypoint-initdb.d/30_inference_logging.sql:ro
+      - ./sql/pii_secure_schema.sql:/docker-entrypoint-initdb.d/40_pii_secure_schema.sql:ro
+    networks:
+      - zenglow_net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d rag_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    deploy:
+      placement:
+        constraints:
+          - node.role == worker
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 10
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 1G
+        reservations:
+          cpus: '0.25'
+          memory: 256M
+    secrets:
+      - pg_password
+
+  indexer:
+    # Replace with pushed image reference, e.g. your-registry/zenglow-indexer:latest
+    image: zenglow/indexer:latest
+    # If you want to build locally and use without registry, manually `docker build -t zenglow/indexer:latest .` on each node.
+    environment:
+      POSTGRES_HOST: db
+      POSTGRES_DB: rag_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD_FILE: /run/secrets/pg_password
+      DATABASE_URL: postgresql://postgres:__PW_PLACEHOLDER__@db:5432/rag_db
+      OLLAMA_HOST: host.docker.internal
+      OLLAMA_PORT: 11434
+      OLLAMA_MODEL: gemma:2b
+      RAG_TOP_K_DEFAULT: 5
+      PG_EMBED_DIM: 768
+      ENABLE_RELOAD: '0'
+    secrets:
+      - pg_password
+    ports:
+      - target: 8000
+        published: 8001
+        protocol: tcp
+        mode: ingress
+    depends_on: []  # Swarm ignores ordering; indexer will retry until DB healthy if coded to do so
+    networks:
+      - zenglow_net
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        delay: 10s
+        order: start-first
+      rollback_config:
+        parallelism: 1
+        delay: 10s
+        order: stop-first
+      restart_policy:
+        condition: any
+        delay: 5s
+        max_attempts: 5
+      resources:
+        limits:
+          cpus: '1.8'
+          memory: 2G
+        reservations:
+          cpus: '0.6'
+          memory: 512M
+
+networks:
+  zenglow_net:
+    driver: overlay
+
+volumes:
+  pgdata:
+    driver: local
+
+secrets:
+  pg_password:
+    file: ./deploy/secrets/pg_password.txt

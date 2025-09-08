@@ -1,0 +1,7 @@
+# Code owners help route reviews automatically
+# Pattern format: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+* @cgb808
+
+# Optionally add per-folder owners below as the team grows
+# /ai-agents/ @cgb808

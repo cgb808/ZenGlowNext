@@ -1,0 +1,41 @@
+name: Python CI
+
+on:
+  pull_request:
+    paths:
+      - "dev-indexer_1/**.py"
+      - ".github/workflows/python-ci.yml"
+  push:
+    paths:
+      - "dev-indexer_1/**.py"
+      - ".github/workflows/python-ci.yml"
+
+jobs:
+  lint-and-smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install deps
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r dev-indexer_1/requirements.txt
+      - name: Ruff lint
+        run: ruff check dev-indexer_1
+      - name: Import smoke test (app.main)
+        run: |
+          python - << 'PY'
+          import sys
+          sys.path.insert(0, 'dev-indexer_1')
+          import importlib
+          importlib.import_module('app.main')
+          print('import app.main OK')
+          PY
+      - name: Uvicorn app-dir smoke (from repo root)
+        run: |
+          python -m uvicorn app.main:app --app-dir dev-indexer_1 --host 127.0.0.1 --port 8001 --no-access-log &
+          PID=$!
+          sleep 2
+          kill $PID || true

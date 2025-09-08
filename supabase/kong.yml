@@ -1,0 +1,53 @@
+### Minimal Kong declarative config (boot baseline)
+# Full prior configuration backed up in `kong.full.yml`.
+_format_version: "2.1"
+_transform: true
+
+consumers:
+  - username: service_role
+    keyauth_credentials:
+      - key: ${SERVICE_ROLE_KEY:-dev_service_role_key}
+
+services:
+  - name: rest-v1
+    # Point to local httpbin stub for gateway validation
+    url: http://httpbin:80/
+    routes:
+      - name: rest-v1-all
+        strip_path: true
+        paths:
+          - /rest/v1/
+    plugins:
+      - name: key-auth
+        config:
+          hide_credentials: true
+  - name: metrics-ws
+    url: http://rag_indexer:8000
+    routes:
+      - name: metrics-ws-route
+        paths:
+          - /ws/metrics
+        protocols:
+          - http
+          - https
+        strip_path: false
+        preserve_host: true
+        # Explicitly enable websocket upgrades (Kong generally auto-detects, this is for clarity)
+        headers:
+          Upgrade: [websocket, WebSocket]
+          Connection: [upgrade, Upgrade]
+    plugins:
+      - name: cors
+        config:
+          origins:
+            - "*"
+          methods: [GET, OPTIONS]
+          headers: [Upgrade, Connection]
+          exposed_headers: []
+          credentials: false
+          max_age: 3600
+# Incremental roadmap (apply once stable):
+# 1. Add ACL plugin & admin group, then CORS plugin.
+# 2. Reintroduce auth-v1, realtime-v1, storage-v1 services.
+# 3. Add rate-limiting / ip-restriction as needed.
+# 4. Add tags and optional health upstream.

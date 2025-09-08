@@ -1,0 +1,343 @@
+{
+  "missing_count": 26,
+  "missing": [
+    {
+      "module": "app.api.openelm_router",
+      "imported_by": [
+        "app/main.py"
+      ],
+      "expected_files": [
+        "app/api/openelm_router.py",
+        "app/api/openelm_router/__init__.py",
+        "app/api/openelm_router.py",
+        "app/api/openelm_router/__init__.py"
+      ],
+      "git_deleted_match": null
+    },
+    {
+      "module": "app.audio.transcription_simple_router",
+      "imported_by": [
+        "app/main.py"
+      ],
+      "expected_files": [
+        "app/audio/transcription_simple_router.py",
+        "app/audio/transcription_simple_router/__init__.py",
+        "app/audio/transcription_simple_router.py",
+        "app/audio/transcription_simple_router/__init__.py"
+      ],
+      "git_deleted_match": null
+    },
+    {
+      "module": "app.audio.tts_sidecar_router",
+      "imported_by": [
+        "app/main.py"
+      ],
+      "expected_files": [
+        "app/audio/tts_sidecar_router.py",
+        "app/audio/tts_sidecar_router/__init__.py",
+        "app/audio/tts_sidecar_router.py",
+        "app/audio/tts_sidecar_router/__init__.py"
+      ],
+      "git_deleted_match": null
+    },
+    {
+      "module": "app.cache.redis_supabase_cache",
+      "imported_by": [
+        "app/main.py"
+      ],
+      "expected_files": [
+        "app/cache/redis_supabase_cache.py",
+        "app/cache/redis_supabase_cache/__init__.py",
+        "app/cache/redis_supabase_cache.py",
+        "app/cache/redis_supabase_cache/__init__.py"
+      ],
+      "git_deleted_match": null
+    },
+    {
+      "module": "app.core.access_log_middleware",
+      "imported_by": [
+        "app/main.py"
+      ],
+      "expected_files": [
+        "app/core/access_log_middleware.py",
+        "app/core/access_log_middleware/__init__.py",
+        "app/core/access_log_middleware.py",
+        "app/core/access_log_middleware/__init__.py"
+      ],
+      "git_deleted_match": null
+    },
+    {
+      "module": "app.core.diagnostics_router",
+      "imported_by": [
+        "app/main.py"
+      ],
+      "expected_files": [
+        "app/core/diagnostics_router.py",
+        "app/core/diagnostics_router/__init__.py",
+        "app/core/diagnostics_router.py",
+        "app/core/diagnostics_router/__init__.py"
+      ],
+      "git_deleted_match": null
+    },
+    {
+      "module": "app.core.events_router",
+      "imported_by": [
+        "app/main.py"
+      ],
+      "expected_files": [
+        "app/core/events_router.py",
+        "app/core/events_router/__init__.py",
+        "app/core/events_router.py",
+        "app/core/events_router/__init__.py"
+      ],
+      "git_deleted_match": null
+    },
+    {
+      "module": "app.core.logging",
+      "imported_by": [
+        "app/main.py"
+      ],
+      "expected_files": [
+        "app/core/logging.py",
+        "app/core/logging/__init__.py",
+        "app/core/logging.py",
+        "app/core/logging/__init__.py"
+      ],
+      "git_deleted_match": null
+    },
+    {
+      "module": "app.core.metrics_endpoint_router",
+      "imported_by": [
+        "app/main.py"
+      ],
+      "expected_files": [
+        "app/core/metrics_endpoint_router.py",
+        "app/core/metrics_endpoint_router/__init__.py",
+        "app/core/metrics_endpoint_router.py",
+        "app/core/metrics_endpoint_router/__init__.py"
+      ],
+      "git_deleted_match": null
+    },
+    {
+      "module": "app.core.metrics_router",
+      "imported_by": [
+        "app/main.py"
+      ],
+      "expected_files": [
+        "app/core/metrics_router.py",
+        "app/core/metrics_router/__init__.py",
+        "app/core/metrics_router.py",
+        "app/core/metrics_router/__init__.py"
+      ],
+      "git_deleted_match": null
+    },
+    {
+      "module": "app.core.redis_cache",
+      "imported_by": [
+        "app/rag/ranking_router.py"
+      ],
+      "expected_files": [
+        "app/core/redis_cache.py",
+        "app/core/redis_cache/__init__.py",
+        "app/core/redis_cache.py",
+        "app/core/redis_cache/__init__.py"
+      ],
+      "git_deleted_match": null
+    },
+    {
+      "module": "app.core.secrets",
+      "imported_by": [
+        "app/main.py"
+      ],
+      "expected_files": [
+        "app/core/secrets.py",
+        "app/core/secrets/__init__.py",
+        "app/core/secrets.py",
+        "app/core/secrets/__init__.py"
+      ],
+      "git_deleted_match": null
+    },
+    {
+      "module": "app.core.short_term_memory",
+      "imported_by": [
+        "app/main.py"
+      ],
+      "expected_files": [
+        "app/core/short_term_memory.py",
+        "app/core/short_term_memory/__init__.py",
+        "app/core/short_term_memory.py",
+        "app/core/short_term_memory/__init__.py"
+      ],
+      "git_deleted_match": null
+    },
+    {
+      "module": "app.core.timescale",
+      "imported_by": [
+        "app/main.py"
+      ],
+      "expected_files": [
+        "app/core/timescale.py",
+        "app/core/timescale/__init__.py",
+        "app/core/timescale.py",
+        "app/core/timescale/__init__.py"
+      ],
+      "git_deleted_match": null
+    },
+    {
+      "module": "app.devices_router",
+      "imported_by": [
+        "app/main.py"
+      ],
+      "expected_files": [
+        "app/devices_router.py",
+        "app/devices_router/__init__.py",
+        "app/devices_router.py",
+        "app/devices_router/__init__.py"
+      ],
+      "git_deleted_match": null
+    },
+    {
+      "module": "app.discovery.router",
+      "imported_by": [
+        "app/main.py"
+      ],
+      "expected_files": [
+        "app/discovery/router.py",
+        "app/discovery/router/__init__.py",
+        "app/discovery/router.py",
+        "app/discovery/router/__init__.py"
+      ],
+      "git_deleted_match": null
+    },
+    {
+      "module": "app.feedback.router",
+      "imported_by": [
+        "app/main.py"
+      ],
+      "expected_files": [
+        "app/feedback/router.py",
+        "app/feedback/router/__init__.py",
+        "app/feedback/router.py",
+        "app/feedback/router/__init__.py"
+      ],
+      "git_deleted_match": null
+    },
+    {
+      "module": "app.memory",
+      "imported_by": [
+        "app/main.py"
+      ],
+      "expected_files": [
+        "app/memory.py",
+        "app/memory/__init__.py",
+        "app/memory.py",
+        "app/memory/__init__.py"
+      ],
+      "git_deleted_match": null
+    },
+    {
+      "module": "app.memory.pool",
+      "imported_by": [
+        "app/main.py"
+      ],
+      "expected_files": [
+        "app/memory/pool.py",
+        "app/memory/pool/__init__.py",
+        "app/memory/pool.py",
+        "app/memory/pool/__init__.py"
+      ],
+      "git_deleted_match": null
+    },
+    {
+      "module": "app.persona_brightness",
+      "imported_by": [
+        "app/main.py"
+      ],
+      "expected_files": [
+        "app/persona_brightness.py",
+        "app/persona_brightness/__init__.py",
+        "app/persona_brightness.py",
+        "app/persona_brightness/__init__.py"
+      ],
+      "git_deleted_match": null
+    },
+    {
+      "module": "app.rag.cache_version",
+      "imported_by": [
+        "app/main.py"
+      ],
+      "expected_files": [
+        "app/rag/cache_version.py",
+        "app/rag/cache_version/__init__.py",
+        "app/rag/cache_version.py",
+        "app/rag/cache_version/__init__.py"
+      ],
+      "git_deleted_match": null
+    },
+    {
+      "module": "app.rag.rebuild_router",
+      "imported_by": [
+        "app/main.py"
+      ],
+      "expected_files": [
+        "app/rag/rebuild_router.py",
+        "app/rag/rebuild_router/__init__.py",
+        "app/rag/rebuild_router.py",
+        "app/rag/rebuild_router/__init__.py"
+      ],
+      "git_deleted_match": null
+    },
+    {
+      "module": "app.swarm.ant_swarm",
+      "imported_by": [
+        "app/main.py"
+      ],
+      "expected_files": [
+        "app/swarm/ant_swarm.py",
+        "app/swarm/ant_swarm/__init__.py",
+        "app/swarm/ant_swarm.py",
+        "app/swarm/ant_swarm/__init__.py"
+      ],
+      "git_deleted_match": null
+    },
+    {
+      "module": "app.swarm.state_router",
+      "imported_by": [
+        "app/main.py"
+      ],
+      "expected_files": [
+        "app/swarm/state_router.py",
+        "app/swarm/state_router/__init__.py",
+        "app/swarm/state_router.py",
+        "app/swarm/state_router/__init__.py"
+      ],
+      "git_deleted_match": null
+    },
+    {
+      "module": "app.swarm.swarm_control_router",
+      "imported_by": [
+        "app/main.py"
+      ],
+      "expected_files": [
+        "app/swarm/swarm_control_router.py",
+        "app/swarm/swarm_control_router/__init__.py",
+        "app/swarm/swarm_control_router.py",
+        "app/swarm/swarm_control_router/__init__.py"
+      ],
+      "git_deleted_match": null
+    },
+    {
+      "module": "app.system.arc_router",
+      "imported_by": [
+        "app/main.py"
+      ],
+      "expected_files": [
+        "app/system/arc_router.py",
+        "app/system/arc_router/__init__.py",
+        "app/system/arc_router.py",
+        "app/system/arc_router/__init__.py"
+      ],
+      "git_deleted_match": null
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+name: Slim PR CI
+
+on:
+  pull_request:
+    branches: [master]
+
+jobs:
+  health:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install deps
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f dev-indexer_1/requirements.txt ]; then pip install -r dev-indexer_1/requirements.txt; fi
+          pip install pytest ruff
+      - name: Lint (non-blocking)
+        run: ruff check dev-indexer_1 || true
+      - name: Health test
+        run: |
+          if [ -f dev-indexer_1/tests/test_health.py ]; then pytest -q dev-indexer_1/tests/test_health.py; else echo 'No health test'; fi
+      - name: Done
+        run: echo "Slim health CI complete."
