@@ -1,0 +1,90 @@
+mcp_servers:
+  installed:
+    fetch:
+      command: uv
+      args:
+        - tool
+        - run
+        - mcp-server-fetch
+      status: active
+      purpose: HTTP requests and API interactions
+    git:
+      command: uv
+      args:
+        - tool
+        - run
+        - mcp-server-git
+        - '--repository'
+        - .
+      status: active
+      purpose: Git repository operations and version control
+    jenkins:
+      tool: mcp-jenkins
+      status: installed
+      purpose: CI/CD automation and deployment orchestration
+      configuration: .vscode/jenkins-mcp.json
+      helper_script: scripts/jenkins_mcp_helper.py
+  suggested:
+    filesystem:
+      command: uv
+      args:
+        - tool
+        - run
+        - mcp-server-filesystem
+        - '--base-path'
+        - .
+      priority: low
+      purpose: File system operations and workspace management
+      benefit: Enhanced file operations (currently unavailable)
+      status: unavailable
+    supabase:
+      command: uv
+      args:
+        - tool
+        - run
+        - mcp-server-supabase
+      priority: high
+      purpose: Direct Supabase database operations and schema management
+      benefit: Real-time database sync for parent dashboard
+    audio:
+      command: uv
+      args:
+        - tool
+        - run
+        - mcp-server-audio
+      priority: medium
+      purpose: Audio file processing and manipulation
+      benefit: Enhanced emotional audio system management
+    analytics:
+      command: uv
+      args:
+        - tool
+        - run
+        - mcp-server-analytics
+      priority: medium
+      purpose: User behavior and emotional pattern analysis
+      benefit: Better predictive insights for child wellness
+ci_cd:
+  jenkins:
+    pipeline_file: Jenkinsfile
+    configuration: .vscode/jenkins-mcp.json
+    helper_script: scripts/jenkins_mcp_helper.py
+    setup_guide: JENKINS_MCP_SETUP.yml
+    jobs:
+      development_build: ZenGlow/development-build
+      staging_deploy: ZenGlow/staging-deploy
+      production_release: ZenGlow/production-release
+    environments:
+      development:
+        expo_env: development
+        auto_deploy: true
+        trigger: push to feature branches
+      staging:
+        expo_env: staging
+        auto_deploy: true
+        trigger: merge to develop branch
+      production:
+        expo_env: production
+        auto_deploy: false
+        trigger: manual release tags
+description: MCP server integrations and CI/CD pipeline configuration

@@ -1,0 +1,3384 @@
+{
+  ".babelrc": {
+    "type": "file",
+    "size": 3,
+    "lastModified": "2025-08-15T06:55:03.281Z",
+    "contentHash": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356"
+  },
+  ".copilot.md": {
+    "type": "file",
+    "size": 524,
+    "lastModified": "2025-08-15T06:55:03.281Z",
+    "contentHash": "3304ba11bdb84581e675afa955cc6e105825fb9dffbc4d959b28403559fba2df"
+  },
+  ".copilotignore": {
+    "type": "file",
+    "size": 558,
+    "lastModified": "2025-08-15T06:55:03.281Z",
+    "contentHash": "42a3ea8ac049d2a0e7e3b44780f2d1155c686e5749ee05eed5d6fd6cffee90fa"
+  },
+  ".devcontainer": {
+    "Dockerfile": {
+      "type": "file",
+      "size": 1422,
+      "lastModified": "2025-08-15T06:55:03.281Z",
+      "contentHash": "d733f28e6d44a8638d25cdbe2e817718363bba2a5c3533fdd780e64b08c465c5"
+    },
+    "devcontainer.json": {
+      "type": "file",
+      "size": 2982,
+      "lastModified": "2025-08-15T06:55:03.281Z",
+      "contentHash": "8e4aaaca8df8cbfa647ed5ae9210cbf75f0f5540ae0e3ce403e09a0503df8782"
+    }
+  },
+  ".eas": {
+    "workflows": {
+      "publish-production.yml": {
+        "type": "file",
+        "size": 246,
+        "lastModified": "2025-08-15T06:55:03.281Z",
+        "contentHash": "80f0fef7beb353289979d35876a5c0bd0d7bde964c1e4e0727fcdc9bf4dffa50"
+      },
+      "publish-staging.yml": {
+        "type": "file",
+        "size": 276,
+        "lastModified": "2025-08-15T06:55:03.281Z",
+        "contentHash": "9a03bed0d209dc4d779f10659ac5eb524bfd45a7dec10cacbc6040c4520a841f"
+      },
+      "publish-update.yml": {
+        "type": "file",
+        "size": 293,
+        "lastModified": "2025-08-15T06:55:03.281Z",
+        "contentHash": "fa20b66c2bf45026b732e860a35ce062a03458fb926d1817100d0170247b48da"
+      }
+    }
+  },
+  ".easignore": {
+    "type": "file",
+    "size": 395,
+    "lastModified": "2025-08-15T06:55:03.281Z",
+    "contentHash": "6f7bdf3d4711787c318291d89107dd5b3fce375be40e7ede2078ce9e28e7a1e6"
+  },
+  ".env.example": {
+    "type": "file",
+    "size": 284,
+    "lastModified": "2025-08-15T06:55:03.281Z",
+    "contentHash": "5d2328bc32904e301cbc0efb53cd472aaf089ce082f0089d74faf043a3f843c5"
+  },
+  ".gitattributes": {
+    "type": "file",
+    "size": 498,
+    "lastModified": "2025-08-15T06:55:03.281Z",
+    "contentHash": "aa2f70728ac18d86ee046363165d65a34ef4eaf5e8f23afcc49ea0c401e08798"
+  },
+  ".github": {
+    "codacy github runner": {
+      "type": "file",
+      "size": 1,
+      "lastModified": "2025-08-15T06:55:03.281Z",
+      "contentHash": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    "copilot-instructions.md": {
+      "type": "file",
+      "size": 1,
+      "lastModified": "2025-08-15T06:55:03.281Z",
+      "contentHash": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    "workflows": {
+      "codacy.yml": {
+        "type": "file",
+        "size": 1,
+        "lastModified": "2025-08-15T06:55:03.281Z",
+        "contentHash": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+      },
+      "main.yml": {
+        "type": "file",
+        "size": 1,
+        "lastModified": "2025-08-15T06:55:03.281Z",
+        "contentHash": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+      },
+      "project-index.yml": {
+        "type": "file",
+        "size": 1489,
+        "lastModified": "2025-08-15T07:05:11.818Z",
+        "contentHash": "aee0c1ddf5883452b0ef86195970de02715c7ababf0981207ad05af9a500c00a"
+      },
+      "release-tag.yml": {
+        "type": "file",
+        "size": 1373,
+        "lastModified": "2025-08-15T06:55:03.281Z",
+        "contentHash": "a9aba4e42ed3b836c4c3e69e8ca3126d8ca12d4914bd63507bc48725e57287f3"
+      }
+    }
+  },
+  ".gitignore": {
+    "type": "file",
+    "size": 2163,
+    "lastModified": "2025-08-15T07:08:04.438Z",
+    "contentHash": "70b1860ad43cba59b887ad7d9ee915da1df4a0e2d92d6afcd572c5eb23655e39"
+  },
+  ".idea": {
+    ".gitignore": {
+      "type": "file",
+      "size": 47,
+      "lastModified": "2025-08-15T06:55:03.281Z",
+      "contentHash": "a9e54fc4f08bc97d82c04bd86ff37d3af84ba9ef4ad87fcfcb438dab622e8aaa"
+    },
+    "ZenGlow.iml": {
+      "type": "file",
+      "size": 336,
+      "lastModified": "2025-08-15T06:55:03.281Z",
+      "contentHash": "0ff94b49c61885dd797e3da61dc3444c7ab48f317373ca42681910f1f8413752"
+    },
+    "caches": {
+      "deviceStreaming.xml": {
+        "type": "file",
+        "size": 40186,
+        "lastModified": "2025-08-15T06:55:03.282Z",
+        "contentHash": "28d431ffa70dd65eea76d159ee144c4c995c2244f5b41134689241c1f9a39ef8"
+      }
+    },
+    "misc.xml": {
+      "type": "file",
+      "size": 172,
+      "lastModified": "2025-08-15T06:55:03.282Z",
+      "contentHash": "06ab2c6e9c2bb8931ac5c74133ec880182a23fb12f2c6e2b81f0aaefbd17449b"
+    },
+    "modules.xml": {
+      "type": "file",
+      "size": 266,
+      "lastModified": "2025-08-15T06:55:03.282Z",
+      "contentHash": "af3356d6f061f8339010fe0453a04b21664af71b0010e48e69a2bc4e3021e49f"
+    },
+    "vcs.xml": {
+      "type": "file",
+      "size": 167,
+      "lastModified": "2025-08-15T06:55:03.282Z",
+      "contentHash": "6323e12648862a0a96fc0d7877672817d6cd91e2c2a3c3d78f1090db23c6e88e"
+    }
+  },
+  ".indexer": {
+    "README.md": {
+      "type": "file",
+      "size": 992,
+      "lastModified": "2025-08-15T06:55:03.282Z",
+      "contentHash": "c9144e14d01c336087e3305365db414b9188f67c060b177af66b151e863d6578"
+    },
+    "fileIcons.js": {
+      "type": "file",
+      "size": 1369,
+      "lastModified": "2025-08-15T06:55:03.282Z",
+      "contentHash": "4cb08dd36d463806b72ee4d69a77e8fb203bd5df28f7ac912d1050aeea45eded"
+    },
+    "indexer.config.yaml": {
+      "type": "file",
+      "size": 176,
+      "lastModified": "2025-08-15T06:55:03.282Z",
+      "contentHash": "478ab512fc3ccf0af69827d676651fc8cbef68b69964331391af6277d73509f5"
+    },
+    "indexer.js": {
+      "type": "file",
+      "size": 7042,
+      "lastModified": "2025-08-15T06:55:03.282Z",
+      "contentHash": "36c23c38ec1f683b9628e1dd60313f5061e1ed3e437d34e7c7a7cb141abd0954"
+    },
+    "registry.yaml": {
+      "type": "file",
+      "size": 1315802,
+      "lastModified": "2025-08-15T06:55:03.285Z",
+      "contentHash": "82b1a1894faad41c5681023caaae5a25607196a6474f802c5899f5548894e889"
+    }
+  },
+  ".prettierrc": {
+    "type": "file",
+    "size": 133,
+    "lastModified": "2025-08-15T06:55:03.285Z",
+    "contentHash": "534128db718b61f5fda0bb3a25812bbb2ac8f0870daeb0deee7df52da05a8361"
+  },
+  ".sudo_as_admin_successful.txt": {
+    "type": "file",
+    "size": 0,
+    "lastModified": "2025-08-15T06:55:03.285Z",
+    "contentHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  ".vscode": {
+    "launch.json": {
+      "type": "file",
+      "size": 509,
+      "lastModified": "2025-08-15T06:55:03.285Z",
+      "contentHash": "57638a63707214559e3405ff7994c9929808ddd1ce412887ca94695ec7eeacfd"
+    },
+    "settings.json": {
+      "type": "file",
+      "size": 1560,
+      "lastModified": "2025-08-15T06:55:03.285Z",
+      "contentHash": "534a234131341a203cf97e2cd70326c01a2f2ef41c88f27ed6c678282d15e03e"
+    },
+    "tasks.json": {
+      "type": "file",
+      "size": 274,
+      "lastModified": "2025-08-15T06:55:03.285Z",
+      "contentHash": "1ad72d65fd1570cbf5ba57034f546388ef163c05782bfb774f571f8c0e9ddfd2"
+    }
+  },
+  ".wget-hsts": {
+    "type": "file",
+    "size": 295,
+    "lastModified": "2025-08-15T06:55:03.285Z",
+    "contentHash": "3a79219ec15b50c946cf025657206b52baeac443f92e03ec4619e5e1697f3b5c"
+  },
+  "AI_BEHAVIOR_BLUEPRINT.md": {
+    "type": "file",
+    "size": 3081,
+    "lastModified": "2025-08-15T06:55:03.285Z",
+    "contentHash": "3f5e889f2a523f91fc2dbfecc40f17f92e3ab3b2b68883eb648a7d02d1c2920f"
+  },
+  "App.js.legacy": {
+    "type": "file",
+    "size": 2157,
+    "lastModified": "2025-08-15T06:55:03.285Z",
+    "contentHash": "351ef530adc2032724898b0190fa53515797f012f121bbc1e4e9d9800a767ee1"
+  },
+  "CHANGELOG.md": {
+    "type": "file",
+    "size": 520,
+    "lastModified": "2025-08-15T06:55:03.285Z",
+    "contentHash": "1faf74fc88a2c8adbd079a4585f181849e7f6ec080961667f4b985bacbcc645f"
+  },
+  "DEVELOPMENT_LOG.md": {
+    "type": "file",
+    "size": 0,
+    "lastModified": "2025-08-15T06:55:03.285Z",
+    "contentHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "Docs": {
+    "ADVANCED_AI_IMPLEMENTATION_PLAN.md": {
+      "type": "file",
+      "size": 16568,
+      "lastModified": "2025-08-15T06:55:03.285Z",
+      "contentHash": "178132b0db533623d9c3796fcb49d148962a0218faec67a83671d3a7653de568"
+    },
+    "ANDROID_CLIENT_EXAMPLE.md": {
+      "type": "file",
+      "size": 2340,
+      "lastModified": "2025-08-15T06:55:03.285Z",
+      "contentHash": "f5eed27ce25d943ee5519fff2984d4c3b158b308cb430e3d8bc548ccf2913668"
+    },
+    "ANDROID_FLASK_INTEGRATION_EXAMPLE.md": {
+      "type": "file",
+      "size": 1748,
+      "lastModified": "2025-08-15T06:55:03.285Z",
+      "contentHash": "39e2f556e80e68c0e1ae2c06c68996ba7440a0a368d6ae2bfa7cb3264250b915"
+    },
+    "API_DOCUMENTATION.md": {
+      "type": "file",
+      "size": 3740,
+      "lastModified": "2025-08-15T06:55:03.285Z",
+      "contentHash": "8e95265589c87df32ebb8cf6d2f3ff8f6b76dc5ff3b025ed6910c07a80094c5e"
+    },
+    "AUDIO_GUIDE.md": {
+      "type": "file",
+      "size": 8971,
+      "lastModified": "2025-08-15T06:55:03.286Z",
+      "contentHash": "63a99eda1001ccb1ba3c7a138dbdfe51d31a2721ca27b34518fcab5ba8fc7d6b"
+    },
+    "BGE_EMBEDDING_MODEL_INFO.md": {
+      "type": "file",
+      "size": 112,
+      "lastModified": "2025-08-15T06:55:03.286Z",
+      "contentHash": "954f49be3589c47f2c697b20256d701f18e916f1f09a325869022f3ed1ca6f80"
+    },
+    "BLUETOOTH_LOW_ENERGY_GUIDE.md": {
+      "type": "file",
+      "size": 5209,
+      "lastModified": "2025-08-15T06:55:03.286Z",
+      "contentHash": "f43306ccbd1c6d6a217651387d80e257c81b6f0ec4a00be197be2ada8af4f1de"
+    },
+    "CHANGELOG.md": {
+      "type": "file",
+      "size": 0,
+      "lastModified": "2025-08-15T06:55:03.286Z",
+      "contentHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "COMPLETE_AI_ECOSYSTEM.md": {
+      "type": "file",
+      "size": 3541,
+      "lastModified": "2025-08-15T06:55:03.286Z",
+      "contentHash": "4f5bb2e13153140c99d80a5fcf2bdd4b8810c2c4f5a4915768df69c018770327"
+    },
+    "DARTS_AND_STATSFORECAST_PREDICTIVE_MODELS.md": {
+      "type": "file",
+      "size": 1522,
+      "lastModified": "2025-08-15T06:55:03.286Z",
+      "contentHash": "e05be6b236c5e10137e097ae66412b91a8d95cc38c2bfcc9970a47038f1610f9"
+    },
+    "ENV_SETUP.md": {
+      "type": "file",
+      "size": 848,
+      "lastModified": "2025-08-15T06:55:03.286Z",
+      "contentHash": "c24e12aa2e0f22c941b446e4c28f4ef7c2c826f08e96e684c941c21e17d1f6d3"
+    },
+    "EnhancedZenMoonAvatar.md": {
+      "type": "file",
+      "size": 1460,
+      "lastModified": "2025-08-15T06:55:03.286Z",
+      "contentHash": "5a29a2435d3a7a622125cb6bb0f09835a1e3543463214a551d8aad9c211f2d6b"
+    },
+    "EnhancedZenMoonShowcase.jsx": {
+      "type": "file",
+      "size": 31900,
+      "lastModified": "2025-08-15T06:55:03.286Z",
+      "contentHash": "749d48ad8f67f22096a23814bf693ea6fdc8c8b274999f57f24e87cca0ceb494"
+    },
+    "FLASK_BACKEND_ARCHITECTURE.md": {
+      "type": "file",
+      "size": 8880,
+      "lastModified": "2025-08-15T06:55:03.286Z",
+      "contentHash": "59a3def8fb9159cfadf0b369e71d38afb33f031abd5ab1d88ef7ead83f1e071e"
+    },
+    "FaceComponents.md": {
+      "type": "file",
+      "size": 508,
+      "lastModified": "2025-08-15T06:55:03.286Z",
+      "contentHash": "353d36ae7ad5b3a06368e27744e0c0c19abe74641ae06c0293fbc18b25ce50a7"
+    },
+    "GEMMA_7B_MODEL_INFO.md": {
+      "type": "file",
+      "size": 138,
+      "lastModified": "2025-08-15T06:55:03.286Z",
+      "contentHash": "b90661a87f039f357dda03cd9b2c43ff4a537c70262a81120e61a03733c9d018"
+    },
+    "LITERT_ANDROID_GUIDE.md": {
+      "type": "file",
+      "size": 8968,
+      "lastModified": "2025-08-15T06:55:03.286Z",
+      "contentHash": "64f40be2471604deef4ff4b589e6a9301bd8f4f0c9614a7375a85b81d268e76a"
+    },
+    "NEURALPROPHET_PREDICTIVE_MODEL.md": {
+      "type": "file",
+      "size": 468,
+      "lastModified": "2025-08-15T06:55:03.286Z",
+      "contentHash": "55846661abe0d6d3080d2a901b10a7714175617a7906f0c25278ee297dbd194a"
+    },
+    "ON_DEVICE_MODELS_SUMMARY.md": {
+      "type": "file",
+      "size": 551,
+      "lastModified": "2025-08-15T06:55:03.286Z",
+      "contentHash": "406346777181c3a86f3e4bf3a688daac17c9c65b0e314d112b55708732e96d0a"
+    },
+    "PROJECT_OVERVIEW.md": {
+      "type": "file",
+      "size": 3150,
+      "lastModified": "2025-08-15T06:55:03.286Z",
+      "contentHash": "afd631f5e700dce2489d0a70faf8ffd0cd2ff4b46014d19d36d96e9a9921b4b6"
+    },
+    "ParentChildTagalong_Implementation.md": {
+      "type": "file",
+      "size": 4393,
+      "lastModified": "2025-08-15T06:55:03.286Z",
+      "contentHash": "1946ab22f515b169d3d1aaf33e8300f9f37049c22dffa2a928fee02d008edbd6"
+    },
+    "ParentDashboard_README.md": {
+      "type": "file",
+      "size": 8232,
+      "lastModified": "2025-08-15T06:55:03.286Z",
+      "contentHash": "5b22dba0b2733f0a13649c02d2d0589869aca79e240c05d56541c3d3b7a0d23a"
+    },
+    "README.md": {
+      "type": "file",
+      "size": 7681,
+      "lastModified": "2025-08-15T06:55:03.286Z",
+      "contentHash": "25f45c895d49382adae9e8e02bd49c480fe4c7faf0f1fca2f5056d37c695b7e6"
+    },
+    "SYSTEM_ARCHITECTURE_FLOWCHART.md": {
+      "type": "file",
+      "size": 10115,
+      "lastModified": "2025-08-15T06:55:03.287Z",
+      "contentHash": "aedcc25d62efb9167b61e9479432614a74e90e72d4e1746f050106edd89ff426"
+    },
+    "Security_Audit_Checklist.md": {
+      "type": "file",
+      "size": 9661,
+      "lastModified": "2025-08-15T06:55:03.287Z",
+      "contentHash": "a815e77d46b80a014b2fa5cc1494c3bf0e7d6ac33f791957fbc8942c24536330"
+    },
+    "Security_Implementation_Guide.md": {
+      "type": "file",
+      "size": 6540,
+      "lastModified": "2025-08-15T06:55:03.287Z",
+      "contentHash": "415530359f4d5b289ceac35b5897446a2a847a1869216b0a74b5ac7142c90cc2"
+    },
+    "Security_Usage_Examples.md": {
+      "type": "file",
+      "size": 5676,
+      "lastModified": "2025-08-15T06:55:03.287Z",
+      "contentHash": "4fac4d140b09dc7fd82498e3ce75a1853d1a51a873555cc636c1f678b4e42da6"
+    },
+    "SoundLibraryPlaceholders.md": {
+      "type": "file",
+      "size": 1083,
+      "lastModified": "2025-08-15T06:55:03.287Z",
+      "contentHash": "73eb86eb4aa1b7c58e7074bbfdc8bf27c05c3f4c35b60635abf582232c622a4f"
+    },
+    "TFLITE_MODEL_MAKER_GUIDE.md": {
+      "type": "file",
+      "size": 2762,
+      "lastModified": "2025-08-15T06:55:03.287Z",
+      "contentHash": "2e23cc83e879131f3176afaee73f9d2e775fa7944c6d2f4720cb9c5eb3be3cc5"
+    },
+    "TINYLSTM_TRAINING_AND_MOBILE_INTEGRATION.md": {
+      "type": "file",
+      "size": 11640,
+      "lastModified": "2025-08-15T06:55:03.287Z",
+      "contentHash": "bb142e429adc91aa68a115ccd6683bb27e0951e7b4a9911ec2866fb5bdb5c284"
+    },
+    "TROUBLESHOOTING_GUIDE.md": {
+      "type": "file",
+      "size": 505,
+      "lastModified": "2025-08-15T06:55:03.287Z",
+      "contentHash": "08fa50dacb31d561b2f43d88c68b12f028bd7b34b6b9b7f8985764f1b5b013e3"
+    },
+    "UI_COMPANION_ARCHITECTURE.md": {
+      "type": "file",
+      "size": 1557,
+      "lastModified": "2025-08-15T06:55:03.287Z",
+      "contentHash": "19349c628a9bc907fde5f4774fc6a6f66cbd5222b1043c007ff3a6d33ca346ef"
+    },
+    "WEARABLE_SENSOR_INTEGRATION.md": {
+      "type": "file",
+      "size": 11219,
+      "lastModified": "2025-08-15T06:55:03.287Z",
+      "contentHash": "18b0432e15d07adcd2a6aa832edc7d1a5005d3719a2824e970480632b71ce4c2"
+    },
+    "ZenGlowCompanion.md": {
+      "type": "file",
+      "size": 3172,
+      "lastModified": "2025-08-15T06:55:03.287Z",
+      "contentHash": "8d604723c9d187b443a4d1dc49bc0268ce98a1032852e70b49dea12d5c03f217"
+    },
+    "ZenMoonAvatar.md": {
+      "type": "file",
+      "size": 2202,
+      "lastModified": "2025-08-15T06:55:03.287Z",
+      "contentHash": "1f54617fc0e923ea42d1920e666410882022f7ae88794ce8476df454266702cc"
+    },
+    "ZenSoundProvider.md": {
+      "type": "file",
+      "size": 5025,
+      "lastModified": "2025-08-15T06:55:03.287Z",
+      "contentHash": "46fc651a2d17957be240062f5430c2cf57cc34ac46ae90db31edf16ec2685d64"
+    },
+    "api": {
+      "API_DOCUMENTATION.md": {
+        "type": "file",
+        "size": 3605,
+        "lastModified": "2025-08-15T06:55:03.287Z",
+        "contentHash": "33842ad8097b53bf8555fbab1fa167097585833fa174ef47305692816b2689cf"
+      }
+    },
+    "backend": {
+      "FLASK_BACKEND_ARCHITECTURE.md": {
+        "type": "file",
+        "size": 8565,
+        "lastModified": "2025-08-15T06:55:03.287Z",
+        "contentHash": "a1b61f9307efd7e9e340686efad3003c0d1e5cc46a8d0ae80120178fe36a1047"
+      }
+    },
+    "dependencies.md": {
+      "type": "file",
+      "size": 1595,
+      "lastModified": "2025-08-15T06:55:03.287Z",
+      "contentHash": "f7f549e9e68dd24de9993b7daaeb16ad876f47b1b00adbccd3a3a5cabc91032e"
+    },
+    "development-snippets.md": {
+      "type": "file",
+      "size": 6890,
+      "lastModified": "2025-08-15T06:55:03.287Z",
+      "contentHash": "0b9d6f99e43ccab2032d7d0c660ec583d2c2f58add6a71c6218c047a36ad9239"
+    },
+    "exerciseSchema.md": {
+      "type": "file",
+      "size": 753,
+      "lastModified": "2025-08-15T06:55:03.287Z",
+      "contentHash": "8dcd1f97b0664ce796e62a273f556e0aefab9bb342a508b054103e99228c532d"
+    },
+    "focusExercises.md": {
+      "type": "file",
+      "size": 1934,
+      "lastModified": "2025-08-15T06:55:03.287Z",
+      "contentHash": "eaeea84f14d90c661b5206b19100869994c4f2dd5a2a32ad6d023bfb5abef0ff"
+    },
+    "gradle_debug": {
+      "type": "file",
+      "size": 1242,
+      "lastModified": "2025-08-15T06:55:03.288Z",
+      "contentHash": "1f593d44ebff7ebc695ecabc3d8b94b674ab701991fdd676a5262c4af34c58bd"
+    },
+    "housekeeping-tasks.md": {
+      "type": "file",
+      "size": 1645,
+      "lastModified": "2025-08-15T06:55:03.288Z",
+      "contentHash": "83f795dc5714f757ea1e3853ccde358ab0dac1f25e6028ad3fcaf1ce0be85461"
+    },
+    "mobile-setup.md": {
+      "type": "file",
+      "size": 4611,
+      "lastModified": "2025-08-15T06:55:03.288Z",
+      "contentHash": "26584a401fdd5b591aba7752b8fb599cd139be6efa6a720b82339157a196f804"
+    },
+    "project": {
+      "PROJECT_OUTLINE.md": {
+        "type": "file",
+        "size": 3133,
+        "lastModified": "2025-08-15T06:55:03.288Z",
+        "contentHash": "8c4a4b21d90489298625192826159c17b54bb57d8fd77e7437b6d4c995b980b7"
+      },
+      "SELF_IMPROVING_PIPELINE_OVERVIEW.md": {
+        "type": "file",
+        "size": 25190,
+        "lastModified": "2025-08-15T06:55:03.288Z",
+        "contentHash": "c940d2703b0cf1c5bb01ff6056de7b1021fdcfaacd675558cc4b6863e22a5ee3"
+      },
+      "architecture.yml": {
+        "type": "file",
+        "size": 1942,
+        "lastModified": "2025-08-15T06:55:03.288Z",
+        "contentHash": "23e0fd89e0b4787ce9622087a6cfc10cc48e6c061d4248ccc911722b809b8fbb"
+      },
+      "dependencies.yml": {
+        "type": "file",
+        "size": 2456,
+        "lastModified": "2025-08-15T06:55:03.288Z",
+        "contentHash": "b5d7637e92d7055f01be6bfa29f3b3b34c218f9e9be085b5583d548c9315d206"
+      },
+      "design-system.yml": {
+        "type": "file",
+        "size": 1359,
+        "lastModified": "2025-08-15T06:55:03.288Z",
+        "contentHash": "b826aab3caffcde5673b367d33e5c4398aa6c62eb7a0438a6e676083b29c9fb0"
+      },
+      "features.yml": {
+        "type": "file",
+        "size": 2024,
+        "lastModified": "2025-08-15T06:55:03.288Z",
+        "contentHash": "b11a56c4a98d3dee65aed93c92f821cf5da2d5d4b6864a28326698c101e1d7c4"
+      }
+    },
+    "supabase-setup.md": {
+      "type": "file",
+      "size": 4956,
+      "lastModified": "2025-08-15T06:55:03.288Z",
+      "contentHash": "64c3a681ec6d25ba1be6d5cdac8fb62cd06a82e5d621735f414f819786d0a08d"
+    },
+    "workspace-extensions-tools.md": {
+      "type": "file",
+      "size": 4060,
+      "lastModified": "2025-08-15T06:55:03.288Z",
+      "contentHash": "1319adf0556594d4d1844e709bcfbf495db4f6cce240011749e47eee4663ca60"
+    },
+    "workspace-incomplete-audit.md": {
+      "type": "file",
+      "size": 1358,
+      "lastModified": "2025-08-15T06:55:03.288Z",
+      "contentHash": "c41f0a69a906c6cdc09cdbc49c62ab8f89b94e5c3cde714689bf4f91cdbc3252"
+    },
+    "wsl-graphics-guide.md": {
+      "type": "file",
+      "size": 3619,
+      "lastModified": "2025-08-15T06:55:03.288Z",
+      "contentHash": "4034b86e6836b82ca6672026c7e356d03c36bc5cca083f3d690655a7521795ee"
+    },
+    "zfs-optimization.md": {
+      "type": "file",
+      "size": 5181,
+      "lastModified": "2025-08-15T06:55:03.288Z",
+      "contentHash": "f0e37ecf28a028e1b62c85a14024c2967dca68af2cb67f705d8145b7c13fa3e5"
+    }
+  },
+  "INFRASTRUCTURE_GUIDE.md": {
+    "type": "file",
+    "size": 0,
+    "lastModified": "2025-08-15T06:55:03.288Z",
+    "contentHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "ISSUE_TRACKER.md": {
+    "type": "file",
+    "size": 0,
+    "lastModified": "2025-08-15T06:55:03.288Z",
+    "contentHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "LICENSE": {
+    "type": "file",
+    "size": 1088,
+    "lastModified": "2025-08-15T06:55:03.288Z",
+    "contentHash": "81f7d60afa4316010b1c0df8eb8f0c80b27586a86b72f1bde85e129bfd10d52a"
+  },
+  "PROJECT_AUDIT_AND_CLEANUP_PLAN.md": {
+    "type": "file",
+    "size": 4112,
+    "lastModified": "2025-08-15T06:55:03.288Z",
+    "contentHash": "81f1484bfb9423e3afc643465d7dd0f8fa74116d72bbb07b3f07220c92070d4d"
+  },
+  "Project_clean_up.md": {
+    "type": "file",
+    "size": 4287,
+    "lastModified": "2025-08-15T06:55:03.288Z",
+    "contentHash": "111a3a1bd01b6c9bfb17dce1e1f32c39ca2f5ff9b729389d17de8b293ff68d5f"
+  },
+  "README.md": {
+    "type": "file",
+    "size": 2882,
+    "lastModified": "2025-08-15T07:09:21.417Z",
+    "contentHash": "599a0a420bdc3927ae84d81d810d5d852ceb159e9cad23c61d2d87106a2b4b0b"
+  },
+  "STRUCTURE_ANALYSIS_REPORT.md": {
+    "type": "file",
+    "size": 7273,
+    "lastModified": "2025-08-15T06:55:03.288Z",
+    "contentHash": "faf9b7f11741c24b847cf08ae9602edc53953c4b9ad55a4197ab150be8ae1c8e"
+  },
+  "ZenCompanion.tsx": {
+    "type": "file",
+    "size": 0,
+    "lastModified": "2025-08-15T06:55:03.288Z",
+    "contentHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "ZenCompanionProvider.tsx": {
+    "type": "file",
+    "size": 2,
+    "lastModified": "2025-08-15T06:55:03.288Z",
+    "contentHash": "75a11da44c802486bc6f65640aa48a730f0f684c5c07a42ba3cd1735eb3fb070"
+  },
+  "ZenGlow.code-workspace": {
+    "type": "file",
+    "size": 1196,
+    "lastModified": "2025-08-15T06:55:03.288Z",
+    "contentHash": "b37f631ddcdc2a25ba4a2465f86733ca8bde0a08ac93b19554410d7a34a59691"
+  },
+  "__mocks__": {
+    "js-polyfills.js": {
+      "type": "file",
+      "size": 21,
+      "lastModified": "2025-08-15T06:55:03.288Z",
+      "contentHash": "8222b8169ee86f25cdccd84d340340060ae3f0cff55e2ea9d344d7c332733b71"
+    }
+  },
+  "__tests__": {
+    "README.md": {
+      "type": "file",
+      "size": 7465,
+      "lastModified": "2025-08-15T06:55:03.289Z",
+      "contentHash": "83fa5bbbb0c740333a75f1bf2d728a80dcbedc61f47a2ffcbe4876443e8c2c29"
+    },
+    "components": {
+      "ThemedText.test.tsx": {
+        "type": "file",
+        "size": 4618,
+        "lastModified": "2025-08-15T06:55:03.289Z",
+        "contentHash": "6d3dd54f02719e3a88411e6fb110611644d22d2bd3747298df05e8c978bc878d"
+      }
+    },
+    "hooks": {
+      "useAudio.test.js": {
+        "type": "file",
+        "size": 8471,
+        "lastModified": "2025-08-15T06:55:03.289Z",
+        "contentHash": "abfa73e7eba0efae8d23f218456a99523b51d91d2f8102632e0783fc32d0b497"
+      }
+    },
+    "integration": {
+      "coreSystemsIntegration.test.js": {
+        "type": "file",
+        "size": 11155,
+        "lastModified": "2025-08-15T06:55:03.289Z",
+        "contentHash": "f4ebc0f54373d0977efd7f4192b429ff3eb079b4f0aeb26fad1119b1cf89fc32"
+      }
+    },
+    "sampleTest.spec.js": {
+      "type": "file",
+      "size": 107,
+      "lastModified": "2025-08-15T06:55:03.289Z",
+      "contentHash": "9f191327a4d2a7440a785acab6300f081bab1cfd54788d97b9f320b68034ce57"
+    },
+    "sensors": {
+      "db.test.ts": {
+        "type": "file",
+        "size": 7300,
+        "lastModified": "2025-08-15T06:55:03.289Z",
+        "contentHash": "f5640a3e6595cbd8a972a56ec70089542846ea2cf085a7327b27c15a33adf7b0"
+      },
+      "flushScheduler.test.ts": {
+        "type": "file",
+        "size": 9604,
+        "lastModified": "2025-08-15T06:55:03.289Z",
+        "contentHash": "f98fd8baead637d6757d3b663450cd28708126eb8ee2f0148244f5cfe41a2d8a"
+      },
+      "integration.test.ts": {
+        "type": "file",
+        "size": 3393,
+        "lastModified": "2025-08-15T06:55:03.289Z",
+        "contentHash": "971d3dc341350da27761f61ff49413e6eaa2bd71812ee6c64e710b7c0dfc5ce7"
+      },
+      "transport.test.ts": {
+        "type": "file",
+        "size": 3702,
+        "lastModified": "2025-08-15T06:55:03.289Z",
+        "contentHash": "d685eb81a22fb74f0dab402967c04d31caa3a829473e13b020215a2c255c0c34"
+      }
+    },
+    "services": {
+      "parentDashboardApi.test.ts": {
+        "type": "file",
+        "size": 9645,
+        "lastModified": "2025-08-15T06:55:03.289Z",
+        "contentHash": "4940a9a1792af3a4bb77c91c5a48bab8b02801917cfcd66d084a23bbebbe47bc"
+      }
+    },
+    "testUtils.js": {
+      "type": "file",
+      "size": 7612,
+      "lastModified": "2025-08-15T06:55:03.289Z",
+      "contentHash": "32064e63f8d05b304f04060b71202587272f6267c78248a71b59f2d6bfc874d2"
+    },
+    "utils": {
+      "childSafety.test.js": {
+        "type": "file",
+        "size": 15218,
+        "lastModified": "2025-08-15T06:55:03.289Z",
+        "contentHash": "ce86336c20f880e17a5c885dfcfdaf0b192dda623a08b33c7dbfad40b0ba6b5a"
+      },
+      "zenScore.test.js": {
+        "type": "file",
+        "size": 8653,
+        "lastModified": "2025-08-15T06:55:03.289Z",
+        "contentHash": "497f80b5b854e394bbc00aea7a7e94e3aca3a9932372ff78213f133b71883f4d"
+      }
+    }
+  },
+  "ai-agents": {
+    "README.md": {
+      "type": "file",
+      "size": 4201,
+      "lastModified": "2025-08-15T06:55:03.290Z",
+      "contentHash": "c466f0692a76357c5fb78acd2b9cb887c02c8f7b7ec7bcbc9ee332855739e4e8"
+    },
+    "agents": {
+      "sft_1.1Fa33Qum.5B.f16.gguf.part": {
+        "type": "file",
+        "size": 0,
+        "lastModified": "2025-08-15T06:55:03.290Z",
+        "contentHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "sft_1.5B.Q4_K_S.gguf": {
+        "type": "file",
+        "size": 0,
+        "lastModified": "2025-08-15T06:55:03.290Z",
+        "contentHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "sft_1.5B.Q6_K.gguf": {
+        "type": "file",
+        "size": 0,
+        "lastModified": "2025-08-15T06:55:03.290Z",
+        "contentHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "sft_1.5B.f16.gguf": {
+        "type": "file",
+        "size": 0,
+        "lastModified": "2025-08-15T06:55:03.290Z",
+        "contentHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "sft_1.vpCSADaw.5B.f16.gguf.part": {
+        "type": "file",
+        "size": 0,
+        "lastModified": "2025-08-15T06:55:03.290Z",
+        "contentHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "sft_1.zCnN7T7I.5B.Q6_K.gguf.part": {
+        "type": "file",
+        "size": 0,
+        "lastModified": "2025-08-15T06:55:03.290Z",
+        "contentHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    "api": {
+      "mood-checkin.ts": {
+        "type": "file",
+        "size": 0,
+        "lastModified": "2025-08-15T06:55:03.290Z",
+        "contentHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "notifications.ts": {
+        "type": "file",
+        "size": 0,
+        "lastModified": "2025-08-15T06:55:03.290Z",
+        "contentHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "parent-dashboard.ts": {
+        "type": "file",
+        "size": 0,
+        "lastModified": "2025-08-15T06:55:03.290Z",
+        "contentHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    "bootstrap-info": {
+      "database-backend-platform.yaml": {
+        "type": "file",
+        "size": 1426,
+        "lastModified": "2025-08-15T06:55:03.290Z",
+        "contentHash": "9d533d7469e51951f574c0d6da6727e5bb11855eaba8654325c047a9503a6676"
+      }
+    },
+    "fastapi-gateway": {
+      "Dockerfile": {
+        "type": "file",
+        "size": 774,
+        "lastModified": "2025-08-15T06:55:03.290Z",
+        "contentHash": "7b090e31ce3b14e8248bd515d249f75a58eeb94021d9e98ac0919d631590ea1e"
+      },
+      "main.py": {
+        "type": "file",
+        "size": 1595,
+        "lastModified": "2025-08-15T06:55:03.290Z",
+        "contentHash": "bcaba461ef11fd114f335416b7353c12e8cb9beaab0671490958e8369b3d66f5"
+      },
+      "requirements.txt": {
+        "type": "file",
+        "size": 43,
+        "lastModified": "2025-08-15T06:55:03.290Z",
+        "contentHash": "baaa504340500bd03d01ba07cf174aec73b2496fbbc6706fdd844f4e8ac90f72"
+      }
+    },
+    "llama.cpp": {
+      "AUTHORS": {
+        "type": "file",
+        "size": 0,
+        "lastModified": "2025-08-15T06:55:03.290Z",
+        "contentHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "CMakeLists.txt": {
+        "type": "file",
+        "size": 0,
+        "lastModified": "2025-08-15T06:55:03.290Z",
+        "contentHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "CMakePresets.json": {
+        "type": "file",
+        "size": 0,
+        "lastModified": "2025-08-15T06:55:03.290Z",
+        "contentHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "CODEOWNERS": {
+        "type": "file",
+        "size": 0,
+        "lastModified": "2025-08-15T06:55:03.290Z",
+        "contentHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "CONTRIBUTING.md": {
+        "type": "file",
+        "size": 0,
+        "lastModified": "2025-08-15T06:55:03.290Z",
+        "contentHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "LICENSE": {
+        "type": "file",
+        "size": 0,
+        "lastModified": "2025-08-15T06:55:03.290Z",
+        "contentHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "Makefile": {
+        "type": "file",
+        "size": 0,
+        "lastModified": "2025-08-15T06:55:03.290Z",
+        "contentHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "README.md": {
+        "type": "file",
+        "size": 0,
+        "lastModified": "2025-08-15T06:55:03.290Z",
+        "contentHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "SECURITY.md": {
+        "type": "file",
+        "size": 0,
+        "lastModified": "2025-08-15T06:55:03.290Z",
+        "contentHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "build-xcframework.sh": {
+        "type": "file",
+        "size": 0,
+        "lastModified": "2025-08-15T06:55:03.290Z",
+        "contentHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "convert_hf_to_gguf.py": {
+        "type": "file",
+        "size": 0,
+        "lastModified": "2025-08-15T06:55:03.290Z",
+        "contentHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "convert_hf_to_gguf_update.py": {
+        "type": "file",
+        "size": 0,
+        "lastModified": "2025-08-15T06:55:03.290Z",
+        "contentHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "convert_llama_ggml_to_gguf.py": {
+        "type": "file",
+        "size": 0,
+        "lastModified": "2025-08-15T06:55:03.290Z",
+        "contentHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "convert_lora_to_gguf.py": {
+        "type": "file",
+        "size": 0,
+        "lastModified": "2025-08-15T06:55:03.290Z",
+        "contentHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "flake.lock": {
+        "type": "file",
+        "size": 0,
+        "lastModified": "2025-08-15T06:55:03.290Z",
+        "contentHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "flake.nix": {
+        "type": "file",
+        "size": 0,
+        "lastModified": "2025-08-15T06:55:03.291Z",
+        "contentHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "mypy.ini": {
+        "type": "file",
+        "size": 0,
+        "lastModified": "2025-08-15T06:55:03.291Z",
+        "contentHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "poetry.lock": {
+        "type": "file",
+        "size": 0,
+        "lastModified": "2025-08-15T06:55:03.291Z",
+        "contentHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "pyproject.toml": {
+        "type": "file",
+        "size": 0,
+        "lastModified": "2025-08-15T06:55:03.291Z",
+        "contentHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "pyrightconfig.json": {
+        "type": "file",
+        "size": 0,
+        "lastModified": "2025-08-15T06:55:03.291Z",
+        "contentHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "requirements.txt": {
+        "type": "file",
+        "size": 0,
+        "lastModified": "2025-08-15T06:55:03.291Z",
+        "contentHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    "physionet.org": {
+      "robots.txt": {
+        "type": "file",
+        "size": 0,
+        "lastModified": "2025-08-15T06:55:03.291Z",
+        "contentHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    "sync-ai-agents.sh": {
+      "type": "file",
+      "size": 997,
+      "lastModified": "2025-08-15T06:55:03.291Z",
+      "contentHash": "327648a02c344af56317b537325dc6ab08aa42c55880e5ec15a1397dbfc31fc6"
+    },
+    "transmission-pipeline": {
+      "INTEGRATION_COMPLETE.md": {
+        "type": "file",
+        "size": 0,
+        "lastModified": "2025-08-15T06:55:03.291Z",
+        "contentHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "README.md": {
+        "type": "file",
+        "size": 0,
+        "lastModified": "2025-08-15T06:55:03.291Z",
+        "contentHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "config.py": {
+        "type": "file",
+        "size": 0,
+        "lastModified": "2025-08-15T06:55:03.291Z",
+        "contentHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "dummy_export.xml": {
+        "type": "file",
+        "size": 0,
+        "lastModified": "2025-08-15T06:55:03.291Z",
+        "contentHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "streaming_bridge.py": {
+        "type": "file",
+        "size": 0,
+        "lastModified": "2025-08-15T06:55:03.291Z",
+        "contentHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "transmission_bridge.py": {
+        "type": "file",
+        "size": 0,
+        "lastModified": "2025-08-15T06:55:03.291Z",
+        "contentHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "transmission_coordinator.py": {
+        "type": "file",
+        "size": 0,
+        "lastModified": "2025-08-15T06:55:03.291Z",
+        "contentHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    "zendexer": {
+      ".github": {
+        "workflows": {
+          "rag-sync.yml": {
+            "type": "file",
+            "size": 649,
+            "lastModified": "2025-08-15T06:55:03.291Z",
+            "contentHash": "424e35929aebf96f74a576611fd9f63a4ea24a12e19c34b15eff138807c7c714"
+          }
+        }
+      },
+      ".zenignore": {
+        "type": "file",
+        "size": 74,
+        "lastModified": "2025-08-15T06:55:03.291Z",
+        "contentHash": "2cef6d3d7f87813eebd76e6f16b5dfeccd5304f4d8199ac4dd1ffbd5e3f0a5f4"
+      },
+      "Dockerfile.ai": {
+        "type": "file",
+        "size": 804,
+        "lastModified": "2025-08-15T06:55:03.291Z",
+        "contentHash": "57e757b9b1c560555ae1fab13e89dda78eafe93e52e4b44236394c71df6fe0ba"
+      },
+      "INTEGRATION_STATUS.md": {
+        "type": "file",
+        "size": 3865,
+        "lastModified": "2025-08-15T06:55:03.291Z",
+        "contentHash": "924266b92cb2b573acb4d1266b0a43336ad66af1408424eabe72646d89fa1fc7"
+      },
+      "agent_dev.py": {
+        "type": "file",
+        "size": 235,
+        "lastModified": "2025-08-15T06:55:03.291Z",
+        "contentHash": "27093d895f7d3808c75c3b93cf056737092c28c991e646d39c9b83164f2df6e8"
+      },
+      "agent_prod.py": {
+        "type": "file",
+        "size": 237,
+        "lastModified": "2025-08-15T06:55:03.291Z",
+        "contentHash": "11eb0dbbd9864178531a8cd8e3a8d067ad6c3f48f96cb535a63147df3ca44491"
+      },
+      "data-analysis": {
+        "fitbit_analysis.py": {
+          "type": "file",
+          "size": 7646,
+          "lastModified": "2025-08-15T06:55:03.291Z",
+          "contentHash": "f06577ea85a7b64d95bdacabb2a48c684297e50433b1468152b4724cf2277764"
+        },
+        "requirements.txt": {
+          "type": "file",
+          "size": 112,
+          "lastModified": "2025-08-15T06:55:03.291Z",
+          "contentHash": "80d94863c9783c97d226c67fc52ab8658448a4d4e43776bb903eca3a6f9f8e47"
+        }
+      },
+      "dev": {
+        ".env.sample": {
+          "type": "file",
+          "size": 66,
+          "lastModified": "2025-08-15T06:55:03.291Z",
+          "contentHash": "05c552f41e69f834b5991210ee189f750e9896f304f6571c7cc9a26ebc5bd9f8"
+        },
+        "requirements.txt": {
+          "type": "file",
+          "size": 69,
+          "lastModified": "2025-08-15T06:55:03.291Z",
+          "contentHash": "11a3f701af4462050a3cfaac790fdcda806c21956ec7c5b5f1e5bde254e99883"
+        },
+        "zendexer.py": {
+          "type": "file",
+          "size": 160,
+          "lastModified": "2025-08-15T06:55:03.291Z",
+          "contentHash": "1fd0b72555fb63526edacb4bcf61c498fa7a4abe79cebf0fcf2eaf1f74be44af"
+        },
+        "zendexer_Swarm_Dev.compose": {
+          "type": "file",
+          "size": 3720,
+          "lastModified": "2025-08-15T06:55:03.291Z",
+          "contentHash": "ba8df747483c04303813e4ce619380c3d66149370293619bc1c50aa89d2fc4c0"
+        }
+      },
+      "docker-compose.yml": {
+        "type": "file",
+        "size": 964,
+        "lastModified": "2025-08-15T06:55:03.292Z",
+        "contentHash": "17207b364561f355adb8253ea3c26d7302378a7ae5cc6d8b2f8fd6ef1e2a828c"
+      },
+      "dummy_export.xml": {
+        "type": "file",
+        "size": 0,
+        "lastModified": "2025-08-15T06:55:03.292Z",
+        "contentHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "load_agent.py": {
+        "type": "file",
+        "size": 239,
+        "lastModified": "2025-08-15T06:55:03.292Z",
+        "contentHash": "a1e310a645824973cb9f819c891d4d073a65eea6adb584a3a5c8823f6c206b74"
+      },
+      "memory": {
+        "dev": {
+          "requirements.txt": {
+            "type": "file",
+            "size": 69,
+            "lastModified": "2025-08-15T06:55:03.292Z",
+            "contentHash": "11a3f701af4462050a3cfaac790fdcda806c21956ec7c5b5f1e5bde254e99883"
+          },
+          "zenaiassistant.py": {
+            "type": "file",
+            "size": 1791,
+            "lastModified": "2025-08-15T06:55:03.292Z",
+            "contentHash": "0e5667fd76f25f260e9b355cfbfdb3292c36377958afca76e364d86a20a5ebcb"
+          },
+          "zendexer.py": {
+            "type": "file",
+            "size": 1789,
+            "lastModified": "2025-08-15T06:55:03.292Z",
+            "contentHash": "38cf79c6624e2eb0e2ed4fabd7147a0e48fa3d9e62716f1bbfa3ca3b8571f2e5"
+          }
+        },
+        "prod": {
+          "requirements.txt": {
+            "type": "file",
+            "size": 69,
+            "lastModified": "2025-08-15T06:55:03.292Z",
+            "contentHash": "11a3f701af4462050a3cfaac790fdcda806c21956ec7c5b5f1e5bde254e99883"
+          },
+          "zenaiassistant.py": {
+            "type": "file",
+            "size": 1791,
+            "lastModified": "2025-08-15T06:55:03.292Z",
+            "contentHash": "0e5667fd76f25f260e9b355cfbfdb3292c36377958afca76e364d86a20a5ebcb"
+          },
+          "zendexer.py": {
+            "type": "file",
+            "size": 1789,
+            "lastModified": "2025-08-15T06:55:03.292Z",
+            "contentHash": "38cf79c6624e2eb0e2ed4fabd7147a0e48fa3d9e62716f1bbfa3ca3b8571f2e5"
+          }
+        }
+      },
+      "prod": {
+        ".env.sample": {
+          "type": "file",
+          "size": 132,
+          "lastModified": "2025-08-15T06:55:03.292Z",
+          "contentHash": "eed3ddebed5c2e6bcc48c9e6ad658221affcb378aff2973e07e0923d1537403b"
+        },
+        ".gitlab-ci.yml": {
+          "type": "file",
+          "size": 1073,
+          "lastModified": "2025-08-15T06:55:03.292Z",
+          "contentHash": "48c2ffd03988141ab818da270139c4ca6d975a0f42849065d685390632105ec0"
+        },
+        "OPERATIONS_RUNBOOK.md": {
+          "type": "file",
+          "size": 10100,
+          "lastModified": "2025-08-15T06:55:03.292Z",
+          "contentHash": "2f6910d404ada46df7d6a676f0b713f0e5da2788e308360d396e352b35d50a16"
+        },
+        "README.md": {
+          "type": "file",
+          "size": 6095,
+          "lastModified": "2025-08-15T06:55:03.292Z",
+          "contentHash": "971ad95fb139471380fd52d271b1d9cb5ffb55e00dee1a973541c2e7cdd929a5"
+        },
+        "README_PARENTAL_PREDICTOR.md": {
+          "type": "file",
+          "size": 8579,
+          "lastModified": "2025-08-15T06:55:03.292Z",
+          "contentHash": "9b211a0a7895caf9ff0822c35f003bb7778bb2defe99352d572c336f1e9e2f55"
+        },
+        "TECHNICAL_ARCHITECTURE.md": {
+          "type": "file",
+          "size": 7614,
+          "lastModified": "2025-08-15T06:55:03.292Z",
+          "contentHash": "0bbe720705bcf3ce18581199fe6a046ecf60d3dd34e0c9f89669c46099edcd1c"
+        },
+        "requirements.txt": {
+          "type": "file",
+          "size": 875,
+          "lastModified": "2025-08-15T06:55:03.292Z",
+          "contentHash": "5a356b05782a94c75f3c4955d4baebe839648897145f5529668b66ff9a114e8d"
+        },
+        "zendexer.py": {
+          "type": "file",
+          "size": 173,
+          "lastModified": "2025-08-15T06:55:03.292Z",
+          "contentHash": "478cfa326a1deac9ada70a89351c9fa44a8a2e0b02731bc3f94287f59626c633"
+        },
+        "zendexer_Swarm_Prod.compose": {
+          "type": "file",
+          "size": 2985,
+          "lastModified": "2025-08-15T06:55:03.292Z",
+          "contentHash": "3145f38d9c26cac677dbdc275cebe936faad7b4c23f440cf5ce111b99c151ccc"
+        }
+      },
+      "rag.config.yaml": {
+        "type": "file",
+        "size": 291,
+        "lastModified": "2025-08-15T06:55:03.292Z",
+        "contentHash": "fb8ed417bd48f2488fb97a2a5f79c56d4729dd7c1348edbbfdeff4ca2c9ebbcc"
+      },
+      "simple_test.py": {
+        "type": "file",
+        "size": 9890,
+        "lastModified": "2025-08-15T06:55:03.292Z",
+        "contentHash": "20ed61b5c5ada8a586ef63dd7750bfdb3592e41c2807f4249f399ece72ce6e71"
+      },
+      "smollm2_predictor.py": {
+        "type": "file",
+        "size": 11279,
+        "lastModified": "2025-08-15T06:55:03.292Z",
+        "contentHash": "fef1f76e2982ca333178507c0560bbac9fc3975bd56dbfe43380298142ac44a6"
+      },
+      "test_local.sh": {
+        "type": "file",
+        "size": 1169,
+        "lastModified": "2025-08-15T06:55:03.293Z",
+        "contentHash": "489e0e24115d63d9d198a83debf8197145a6b7266df97910ad3aa281ab5f01f4"
+      },
+      "wearables": {
+        "DATASET_INTEGRATION_SUMMARY.md": {
+          "type": "file",
+          "size": 5342,
+          "lastModified": "2025-08-15T06:55:03.314Z",
+          "contentHash": "019e9d60593d6ef80df2df59dd075b80d3374d9b0695a5239eaa0c55a54254cc"
+        },
+        "MHEALTH_QUICKSTART.md": {
+          "type": "file",
+          "size": 3767,
+          "lastModified": "2025-08-15T06:55:03.314Z",
+          "contentHash": "5e4dfba461ffa6f1ab2651cf1322228d32785ce4d9ecba4eb2627a3b5873949d"
+        },
+        "README.md": {
+          "type": "file",
+          "size": 1450,
+          "lastModified": "2025-08-15T06:55:03.314Z",
+          "contentHash": "fcf24bbbc822e99604f7d8507469d1db3ad68db7023955a186159393e11c6cc4"
+        },
+        "TFLITE_ARCHITECTURE.md": {
+          "type": "file",
+          "size": 6314,
+          "lastModified": "2025-08-15T06:55:03.314Z",
+          "contentHash": "3f0643fedcd5bda262a90659eea4ec3828168b3c4432150ff32f8cc2faee277a"
+        },
+        "deployment": {
+          "README.md": {
+            "type": "file",
+            "size": 1260,
+            "lastModified": "2025-08-15T06:55:03.314Z",
+            "contentHash": "bd401b4768e3621f5dd5c18780799c03544d6a80ed1775a2f7a2871de30fd605"
+          }
+        },
+        "edge_model.py": {
+          "type": "file",
+          "size": 6930,
+          "lastModified": "2025-08-15T06:55:03.314Z",
+          "contentHash": "18ef1b900e4efd00ac7e610ebf261f55d17de496447b7f9fd2f78b3e22aa48e0"
+        },
+        "evaluation": {
+          "README.md": {
+            "type": "file",
+            "size": 924,
+            "lastModified": "2025-08-15T06:55:03.314Z",
+            "contentHash": "ab4799ecb23cdf5b4b1bbb8d990a18dbeaa17735785985848b9383197d85e64a"
+          }
+        },
+        "models": {
+          "README.md": {
+            "type": "file",
+            "size": 1111,
+            "lastModified": "2025-08-15T06:55:03.314Z",
+            "contentHash": "218c96ef69e813ca49fc2759e069d382fc39afd910124098c29bf2a4c6daa99d"
+          }
+        },
+        "requirements.txt": {
+          "type": "file",
+          "size": 404,
+          "lastModified": "2025-08-15T06:55:03.314Z",
+          "contentHash": "0467b09f58ae8bc7ac1af6849495858b6add2167753e458992ea94544b2337e2"
+        },
+        "setup_training.sh": {
+          "type": "file",
+          "size": 1493,
+          "lastModified": "2025-08-15T06:55:03.314Z",
+          "contentHash": "0dfda989a320ae5675169f588af9e9a765752fc0a3e69e58975865e9acac700f"
+        },
+        "training": {
+          "preprocess_mhealth.py": {
+            "type": "file",
+            "size": 12579,
+            "lastModified": "2025-08-15T06:55:03.315Z",
+            "contentHash": "b5ab4369d43bc1bdc6066085e7b09485297360d39a7728e4f3fc88c756e677f7"
+          },
+          "preprocess_uci_har.py": {
+            "type": "file",
+            "size": 12997,
+            "lastModified": "2025-08-15T06:55:03.315Z",
+            "contentHash": "67dc5ab1a34974692d9b38395e1493f31a849030ec25859440e6c00889631c29"
+          },
+          "process_datasets.py": {
+            "type": "file",
+            "size": 16526,
+            "lastModified": "2025-08-15T06:55:03.315Z",
+            "contentHash": "7170b37df3c1330d7e0d991f82d09c40364a3523e8f1df5a3c766ad269930790"
+          },
+          "requirements.txt": {
+            "type": "file",
+            "size": 478,
+            "lastModified": "2025-08-15T06:55:03.315Z",
+            "contentHash": "32091ba11a9f27f7970b06e76b049d825cd23085f35a12390c73d071485cfe62"
+          },
+          "train_enhanced_model.py": {
+            "type": "file",
+            "size": 12931,
+            "lastModified": "2025-08-15T06:55:03.315Z",
+            "contentHash": "359978825bc32de039423c6d9ca63f943bebcb80104955282b741a7fec91a372"
+          },
+          "train_model.py": {
+            "type": "file",
+            "size": 9055,
+            "lastModified": "2025-08-15T06:55:03.315Z",
+            "contentHash": "fd8e279d8df13dfa30d28f92d88dc4b8c6bb6af0ae1d9e854bd7aeb808d2593b"
+          }
+        }
+      },
+      "zen.config.yaml": {
+        "type": "file",
+        "size": 424,
+        "lastModified": "2025-08-15T06:55:03.315Z",
+        "contentHash": "65c935247685cf1e5de7c8c8328a0d4793455ab31291b0ce3bf1ef675f42c199"
+      },
+      "zen_no_vector.config.yaml": {
+        "type": "file",
+        "size": 0,
+        "lastModified": "2025-08-15T06:55:03.315Z",
+        "contentHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "zendexer_Swarm_Dev.compose": {
+        "type": "file",
+        "size": 3842,
+        "lastModified": "2025-08-15T06:55:03.315Z",
+        "contentHash": "93de25573b999cf3a1054764b9ba37a16e0916793a659a44c289a6f1e5dfffc9"
+      }
+    }
+  },
+  "ai-workspace": {
+    ".devcontainer": {
+      "Dockerfile": {
+        "type": "file",
+        "size": 1318,
+        "lastModified": "2025-08-15T06:55:03.315Z",
+        "contentHash": "693beecc995ae6062c5125534b0c712cdf799fd9df357422e9bcb90faa89de1f"
+      },
+      "devcontainer.json": {
+        "type": "file",
+        "size": 971,
+        "lastModified": "2025-08-15T06:55:03.315Z",
+        "contentHash": "13428a055958f000e0625055bab9623233265f06031c7f2601006ed4c4b8f420"
+      }
+    },
+    "README.md": {
+      "type": "file",
+      "size": 2354,
+      "lastModified": "2025-08-15T06:55:03.315Z",
+      "contentHash": "87d76100ab74bcd06b0c809283d3b6952db66db046e65e07d26f9a5efe516dca"
+    },
+    "requirements.txt": {
+      "type": "file",
+      "size": 415,
+      "lastModified": "2025-08-15T06:55:03.315Z",
+      "contentHash": "7571cbc898f9c1884dac33b9b943d7384c968a50cbe34cf4a14de1344b0a5baf"
+    }
+  },
+  "android": {
+    ".gitignore": {
+      "type": "file",
+      "size": 129,
+      "lastModified": "2025-08-15T06:55:03.315Z",
+      "contentHash": "03263c9a1436e264a87c6e0547007488dc980efb2326724b5a85c0835bac34a7"
+    },
+    "README.md": {
+      "type": "file",
+      "size": 9143,
+      "lastModified": "2025-08-15T06:55:03.315Z",
+      "contentHash": "5719db8596977be872e9fd7567857e3ff132d47bc688eb667978497c9faca6c8"
+    },
+    "app": {
+      "build.gradle": {
+        "type": "file",
+        "size": 7756,
+        "lastModified": "2025-08-15T06:55:03.316Z",
+        "contentHash": "6c6d7599bf658587d567a14786e74792781a9f5e969bc943d773b852e45ed680"
+      },
+      "debug.keystore": {
+        "type": "file",
+        "size": 2257,
+        "lastModified": "2025-08-15T06:55:03.316Z",
+        "contentHash": "221e0a3106aa4c3ccc154e0a418b55020b3f9ea6e84f92e8749cd9e2f39f5e58"
+      },
+      "proguard-rules.pro": {
+        "type": "file",
+        "size": 562,
+        "lastModified": "2025-08-15T06:55:03.316Z",
+        "contentHash": "8bd4d7b69a1d78e8322b459b5e8d48234adce7481df04da34c0140d52ffb367a"
+      },
+      "src": {
+        "debug": {
+          "AndroidManifest.xml": {
+            "type": "file",
+            "size": 374,
+            "lastModified": "2025-08-15T06:55:03.316Z",
+            "contentHash": "fb1795032c764d975376e1612ab7022058eca2268a45efbe731a47a5d3ac0f60"
+          }
+        },
+        "main": {
+          "AndroidManifest.xml": {
+            "type": "file",
+            "size": 2441,
+            "lastModified": "2025-08-15T06:55:03.316Z",
+            "contentHash": "f7991fe55f6654ddca1df67311b4472cb14012e75d311e09cb6e692606bbe862"
+          },
+          "java": {
+            "com": {
+              "cgbowen": {
+                "ZenGlow": {
+                  "MainActivity.kt": {
+                    "type": "file",
+                    "size": 2454,
+                    "lastModified": "2025-08-15T06:55:03.316Z",
+                    "contentHash": "2733e3f2275ecc5f831ae0163871466e35d9c9c174e0aaa65c9fb2ee1bbb9b43"
+                  },
+                  "MainApplication.kt": {
+                    "type": "file",
+                    "size": 2117,
+                    "lastModified": "2025-08-15T06:55:03.316Z",
+                    "contentHash": "d70d48e7790814c2b10b89c018bfec672d7abd7785393bfa45cb8063a6f742c3"
+                  }
+                }
+              },
+              "zenglow": {
+                "heartrate": {
+                  "GalaxyWatchService.java": {
+                    "type": "file",
+                    "size": 12770,
+                    "lastModified": "2025-08-15T06:55:03.316Z",
+                    "contentHash": "095cd32f5ad918da2d2532b5164097006c09ee27974d5a576136b2fbf174208e"
+                  },
+                  "HealthDataExportService.java": {
+                    "type": "file",
+                    "size": 17078,
+                    "lastModified": "2025-08-15T06:55:03.316Z",
+                    "contentHash": "2e145c1a588fce70690801087bec70c27920c5658623b307197d6ffc6314e908"
+                  },
+                  "HeartRateActivity.java": {
+                    "type": "file",
+                    "size": 15592,
+                    "lastModified": "2025-08-15T06:55:03.316Z",
+                    "contentHash": "2281c05ed765e1099a9126a3155185cdde576184bbe0635fa8c9daf04dabbbb5"
+                  },
+                  "HeartRateMonitorService.java": {
+                    "type": "file",
+                    "size": 9956,
+                    "lastModified": "2025-08-15T06:55:03.316Z",
+                    "contentHash": "06928ff277dbf8429f19aec8987b87c2536c0d9cee9cd5d4188aa43ce58bec2c"
+                  },
+                  "SamsungHealthService.java": {
+                    "type": "file",
+                    "size": 11512,
+                    "lastModified": "2025-08-15T06:55:03.316Z",
+                    "contentHash": "91b7a3c10ece6ac2094202e027d0c6e767549c09083b58c5c7b0ab4fef708782"
+                  },
+                  "WatchConnectivityReceiver.java": {
+                    "type": "file",
+                    "size": 1100,
+                    "lastModified": "2025-08-15T06:55:03.316Z",
+                    "contentHash": "ee3abcb4afc3dc4704a8db1a7b194aac1222bbcd640241a46ea6ca4fca1d9cb8"
+                  }
+                }
+              }
+            }
+          },
+          "res": {
+            "drawable": {
+              "ic_launcher_background.xml": {
+                "type": "file",
+                "size": 245,
+                "lastModified": "2025-08-15T06:55:03.383Z",
+                "contentHash": "51fca95679d075ddbe2b9fe7ad2efb5ef545c5770a9ad6cafe8bf610c18c67be"
+              },
+              "rn_edit_text_material.xml": {
+                "type": "file",
+                "size": 1917,
+                "lastModified": "2025-08-15T06:55:03.383Z",
+                "contentHash": "738e3aaad53180caba1419a6d5db8465a0742662fe59a4bbaf05f1061cbc3390"
+              },
+              "zen_button_primary.xml": {
+                "type": "file",
+                "size": 542,
+                "lastModified": "2025-08-15T06:55:03.383Z",
+                "contentHash": "fc5fe863dc08bbb2c669a5a3975090ab4abd95c6ab3ab9626bf2ba5917ae5441"
+              },
+              "zen_button_secondary.xml": {
+                "type": "file",
+                "size": 698,
+                "lastModified": "2025-08-15T06:55:03.383Z",
+                "contentHash": "c66bdb436daa7f257649f50f8a6953a771f3d708e01b04b80e6b03422c5e72a1"
+              },
+              "zen_info_background.xml": {
+                "type": "file",
+                "size": 296,
+                "lastModified": "2025-08-15T06:55:03.383Z",
+                "contentHash": "30a4dc8d86a2d47ba8aec25f70bc8eabf323f942d6cd93369f411ccfdc365f42"
+              }
+            },
+            "drawable-hdpi": {
+              "splashscreen_logo.png": {
+                "type": "file",
+                "size": 20754,
+                "lastModified": "2025-08-15T06:55:07.098Z",
+                "contentHash": "721c895579cb08ec4c9a0fe7dadafe9a97c33ef758d3578ad5e8b540de59f974"
+              }
+            },
+            "drawable-mdpi": {
+              "splashscreen_logo.png": {
+                "type": "file",
+                "size": 12863,
+                "lastModified": "2025-08-15T06:55:08.064Z",
+                "contentHash": "f84b9b17a4a1c7d7dd840cd272c07a6c3fd66d5a9826b64bb53facb6f176bc24"
+              }
+            },
+            "drawable-xhdpi": {
+              "splashscreen_logo.png": {
+                "type": "file",
+                "size": 29081,
+                "lastModified": "2025-08-15T06:55:06.521Z",
+                "contentHash": "e1c5250e339add5ed7849cb0859d052edb9781abb91db049e68ae3a4059247d7"
+              }
+            },
+            "drawable-xxhdpi": {
+              "splashscreen_logo.png": {
+                "type": "file",
+                "size": 47123,
+                "lastModified": "2025-08-15T06:55:07.881Z",
+                "contentHash": "23d97ccb41a821ee345b2c5bb0c9bdab730a751a9227925acbf0af021dc38a9b"
+              }
+            },
+            "drawable-xxxhdpi": {
+              "splashscreen_logo.png": {
+                "type": "file",
+                "size": 66529,
+                "lastModified": "2025-08-15T06:55:05.848Z",
+                "contentHash": "be9fac5c4cda48c41dce592288c486524bba3e4ca7fa00c0a04a46928154b5bf"
+              }
+            },
+            "layout": {
+              "activity_heart_rate.xml": {
+                "type": "file",
+                "size": 5983,
+                "lastModified": "2025-08-15T06:55:03.383Z",
+                "contentHash": "74bf45da601865cf991594fa1dfd25c40370c0ba120bb9b14becbda067946409"
+              }
+            },
+            "mipmap-anydpi-v26": {
+              "ic_launcher.xml": {
+                "type": "file",
+                "size": 257,
+                "lastModified": "2025-08-15T06:55:03.383Z",
+                "contentHash": "03d70962a0beea2bb6ab1a838b015d90da6c33adb045ff85f7b198aca70df08d"
+              },
+              "ic_launcher_round.xml": {
+                "type": "file",
+                "size": 257,
+                "lastModified": "2025-08-15T06:55:03.383Z",
+                "contentHash": "03d70962a0beea2bb6ab1a838b015d90da6c33adb045ff85f7b198aca70df08d"
+              }
+            },
+            "mipmap-hdpi": {
+              "ic_launcher.webp": {
+                "type": "file",
+                "size": 3300,
+                "lastModified": "2025-08-15T06:55:03.383Z",
+                "contentHash": "997ec3cf7e20672652ddc22d7e020795f9a1a4aa218f9bbfc42ce1f986bf360b"
+              },
+              "ic_launcher_foreground.webp": {
+                "type": "file",
+                "size": 8031,
+                "lastModified": "2025-08-15T06:55:03.383Z",
+                "contentHash": "c7ca6d3aecc9b36c483a0020729112f67b6997b4c285b6ad09ee7a8c9db7f77f"
+              },
+              "ic_launcher_round.webp": {
+                "type": "file",
+                "size": 4103,
+                "lastModified": "2025-08-15T06:55:03.384Z",
+                "contentHash": "3b90d4b3e6278af42da49158cb36c51b0ad91a584d6960ac47b689b88c0d0aba"
+              }
+            },
+            "mipmap-mdpi": {
+              "ic_launcher.webp": {
+                "type": "file",
+                "size": 2048,
+                "lastModified": "2025-08-15T06:55:03.384Z",
+                "contentHash": "ea4ac0801976e1ebf30477e65c6e10a4d29a061cbc2c9fbb7b749c898ab6f925"
+              },
+              "ic_launcher_foreground.webp": {
+                "type": "file",
+                "size": 5079,
+                "lastModified": "2025-08-15T06:55:03.384Z",
+                "contentHash": "713c72f0f1cdd45bbe5e14f772c1f35f01a02f175f9a92541334877534dfc3a8"
+              },
+              "ic_launcher_round.webp": {
+                "type": "file",
+                "size": 2613,
+                "lastModified": "2025-08-15T06:55:03.384Z",
+                "contentHash": "ea16d6a9052b8472990874678acad33f4d5ba64a29192488bd6e670572bc061e"
+              }
+            },
+            "mipmap-xhdpi": {
+              "ic_launcher.webp": {
+                "type": "file",
+                "size": 4535,
+                "lastModified": "2025-08-15T06:55:03.384Z",
+                "contentHash": "525ee845bc8902102913877b9032597bd30394849b8af3a3f6c48373a6d5ab81"
+              },
+              "ic_launcher_foreground.webp": {
+                "type": "file",
+                "size": 11145,
+                "lastModified": "2025-08-15T06:55:03.384Z",
+                "contentHash": "a8350d52d9d8a6b8df5a94632f16da88f916e6d7eacd7680e7c699ca1c2002ee"
+              },
+              "ic_launcher_round.webp": {
+                "type": "file",
+                "size": 5673,
+                "lastModified": "2025-08-15T06:55:03.384Z",
+                "contentHash": "b5a0911b2f0ad875c577f6a086ec751c903c79e55a08015780157d715a038077"
+              }
+            },
+            "mipmap-xxhdpi": {
+              "ic_launcher.webp": {
+                "type": "file",
+                "size": 7345,
+                "lastModified": "2025-08-15T06:55:03.384Z",
+                "contentHash": "b5899f38a0e208287d7c1cb70926ef4dec64367257ed97a53ceca72905c44d27"
+              },
+              "ic_launcher_foreground.webp": {
+                "type": "file",
+                "size": 18064,
+                "lastModified": "2025-08-15T06:55:03.384Z",
+                "contentHash": "02b58244daee99e61d1d9f25d540ac267d4d7b6e5a404b779f02bc3e4dfc879e"
+              },
+              "ic_launcher_round.webp": {
+                "type": "file",
+                "size": 9091,
+                "lastModified": "2025-08-15T06:55:03.384Z",
+                "contentHash": "d2c196b2c5273756a6243bf92d7d13f0d3aeba0ef1467d02c9bcce205f380b6a"
+              }
+            },
+            "mipmap-xxxhdpi": {
+              "ic_launcher.webp": {
+                "type": "file",
+                "size": 10108,
+                "lastModified": "2025-08-15T06:55:03.384Z",
+                "contentHash": "af4b32d61f6ace1d17cb86fb67d66c66ea6a60d9c0bf43a577983a1d718cef83"
+              },
+              "ic_launcher_foreground.webp": {
+                "type": "file",
+                "size": 25030,
+                "lastModified": "2025-08-15T06:55:03.385Z",
+                "contentHash": "219356041f8e82c19dc5a311f085938e5c429d052fef46aa45371bba5020d2c3"
+              },
+              "ic_launcher_round.webp": {
+                "type": "file",
+                "size": 12469,
+                "lastModified": "2025-08-15T06:55:03.385Z",
+                "contentHash": "bd6d20117904bcd9e92dd738ecdf9aa5a4db9bd9a45b0f14d5e6cd05f9f3b5bd"
+              }
+            },
+            "values": {
+              "colors.xml": {
+                "type": "file",
+                "size": 221,
+                "lastModified": "2025-08-15T06:55:03.385Z",
+                "contentHash": "ad379220235b404f677ca592fb8b3c0e8c7b509ebcd2b463addf19e98d33f44f"
+              },
+              "strings.xml": {
+                "type": "file",
+                "size": 301,
+                "lastModified": "2025-08-15T06:55:03.385Z",
+                "contentHash": "d1b91b20156b1c3627e01ea4e5f0333229870fd9aa52df58d3e892ac5c708667"
+              },
+              "styles.xml": {
+                "type": "file",
+                "size": 637,
+                "lastModified": "2025-08-15T06:55:03.385Z",
+                "contentHash": "cf2c4da3949f473a4b5a0c2f87e8e9895efcf12e0a56c42148ff3381515c7ff0"
+              }
+            },
+            "values-night": {
+              "colors.xml": {
+                "type": "file",
+                "size": 12,
+                "lastModified": "2025-08-15T06:55:03.385Z",
+                "contentHash": "c30a9f37e6b34372e1db8c812d64a18719acf7c52c11ff2f7e5e5ed5e05c2072"
+              }
+            }
+          }
+        }
+      }
+    },
+    "build.gradle": {
+      "type": "file",
+      "size": 919,
+      "lastModified": "2025-08-15T06:55:03.385Z",
+      "contentHash": "30e5346d1ef144e8fa585af43cc5278f2dc499a8b2a0b490d9f5baae4b924a68"
+    },
+    "gradle": {
+      "wrapper": {
+        "gradle-wrapper.jar": {
+          "type": "file",
+          "size": 43583,
+          "lastModified": "2025-08-15T06:55:03.385Z",
+          "contentHash": "2db75c40782f5e8ba1fc278a5574bab070adccb2d21ca5a6e5ed840888448046"
+        },
+        "gradle-wrapper.properties": {
+          "type": "file",
+          "size": 251,
+          "lastModified": "2025-08-15T06:55:03.385Z",
+          "contentHash": "cdab1ffb439219b1db125e3c99a86cf2424f8762b9b3faa404ed061e3635ecde"
+        }
+      }
+    },
+    "gradle.properties": {
+      "type": "file",
+      "size": 2427,
+      "lastModified": "2025-08-15T06:55:03.385Z",
+      "contentHash": "a00bfb347d5f205cdf862b8f3c419dbe06bc8675ba62b23c3bebc89e0fec801a"
+    },
+    "gradlew": {
+      "type": "file",
+      "size": 8763,
+      "lastModified": "2025-08-15T06:55:03.385Z",
+      "contentHash": "c07475b363508dbe7cf7d1ded1b31f6d44bb97d98d069a455ab862b1fb9b25f0"
+    },
+    "gradlew.bat": {
+      "type": "file",
+      "size": 2966,
+      "lastModified": "2025-08-15T06:55:03.385Z",
+      "contentHash": "57931b17dd228e5c24dac90e815d0bf82477e831a4618dfab4136f5446b42a9f"
+    },
+    "settings.gradle": {
+      "type": "file",
+      "size": 1260,
+      "lastModified": "2025-08-15T06:55:03.385Z",
+      "contentHash": "255fd7f83d5390e7b6c6a5df98d2aa51fb67480ffe420706a2e8fa326d2ae2a3"
+    }
+  },
+  "api-stubs": {
+    "mood-checkin.ts": {
+      "type": "file",
+      "size": 589,
+      "lastModified": "2025-08-15T06:55:03.385Z",
+      "contentHash": "561d0485329810e2dcc6ce0a31fa7729fd303a88b433988e418186e710b6f354"
+    },
+    "notifications.ts": {
+      "type": "file",
+      "size": 534,
+      "lastModified": "2025-08-15T06:55:03.385Z",
+      "contentHash": "97f7d4a51b804ee15c5911f8fcc61ce04ebdc4e8af75203ffe3ef789bb697c90"
+    },
+    "parent-dashboard.ts": {
+      "type": "file",
+      "size": 1207,
+      "lastModified": "2025-08-15T06:55:03.386Z",
+      "contentHash": "10eca98705fcb70c4ed4c16f5a440e0525edda6aa1560a8d0a19432225603376"
+    }
+  },
+  "app": {
+    "(tabs)": {
+      "_layout.tsx": {
+        "type": "file",
+        "size": 246,
+        "lastModified": "2025-08-15T06:55:03.386Z",
+        "contentHash": "6edd3d094402a9e1f36890d53cd753bccf10918610c1b561752d4f9054e86814"
+      },
+      "child.tsx": {
+        "type": "file",
+        "size": 13734,
+        "lastModified": "2025-08-15T06:55:03.386Z",
+        "contentHash": "0dbc034d9c8d7cdeb4109d925ce824d2f063c4250191d4a11f1a5f89df6bfd7f"
+      },
+      "explore.tsx": {
+        "type": "file",
+        "size": 4637,
+        "lastModified": "2025-08-15T06:55:03.386Z",
+        "contentHash": "6a532c65c7464b30a5b5bbe428eddeee1fa2679d4dd48e913170646f64f84571"
+      },
+      "index.tsx": {
+        "type": "file",
+        "size": 1333,
+        "lastModified": "2025-08-15T06:55:03.386Z",
+        "contentHash": "5d1fe6b38795650111b8a022fe2b67186553f14c3c1171e6d51bcdfd6c1f27be"
+      },
+      "parent.tsx": {
+        "type": "file",
+        "size": 10270,
+        "lastModified": "2025-08-15T06:55:03.386Z",
+        "contentHash": "d5973da6f3c45851afde94726f98e7ef32b944e41f50c860a0139d17bd5dd0ca"
+      },
+      "routine.tsx": {
+        "type": "file",
+        "size": 921,
+        "lastModified": "2025-08-15T06:55:03.386Z",
+        "contentHash": "4509f5788bffd50130cd50fc3f568f33c357352e5b09df3dd5b4bbb3562961e3"
+      }
+    },
+    "+not-found.tsx": {
+      "type": "file",
+      "size": 795,
+      "lastModified": "2025-08-15T06:55:03.386Z",
+      "contentHash": "ec71aa960694eb519bf5d3bb42e8a6863456fbe86ade94d3693d67e1c7ecc213"
+    },
+    "ParentDashboardScreen.tsx": {
+      "type": "file",
+      "size": 1721,
+      "lastModified": "2025-08-15T06:55:03.386Z",
+      "contentHash": "be24a39ac22735e39d52d04b86ce99b13601056321f31526d18179a0461af2e8"
+    },
+    "RoutineBuilderScreen.tsx": {
+      "type": "file",
+      "size": 301,
+      "lastModified": "2025-08-15T06:55:03.386Z",
+      "contentHash": "47a375ccd48bc4174f5dc19a47d5e27c3229b8fc125454bfd6f90eacfbb83c7f"
+    },
+    "_layout.tsx": {
+      "type": "file",
+      "size": 5123,
+      "lastModified": "2025-08-15T06:55:03.386Z",
+      "contentHash": "89dac75adee4ff8068f191793824222e646bab9bf23a03e65b54cd69ff8e956a"
+    }
+  },
+  "app.config.ts": {
+    "type": "file",
+    "size": 760,
+    "lastModified": "2025-08-15T06:55:03.386Z",
+    "contentHash": "50290081cb406dc04d2b7afbba046f727f109dfcee76ed6021c79de092c0df89"
+  },
+  "app.json": {
+    "type": "file",
+    "size": 1405,
+    "lastModified": "2025-08-15T06:55:03.386Z",
+    "contentHash": "2b4b4429af232d40795c3022fcdbbcaa3657bad2d6fc01d83fd4dfceb7d76a5e"
+  },
+  "assets": {
+    "fonts": {
+      "SpaceMono-Regular.ttf": {
+        "type": "file",
+        "size": 93252,
+        "lastModified": "2025-08-15T06:55:03.387Z",
+        "contentHash": "4c322514d265062aa3f7fbd81f5b79391ccb74268e6a20600061e0ce33234f41"
+      }
+    },
+    "images": {
+      "adaptive-icon.png": {
+        "type": "file",
+        "size": 17547,
+        "lastModified": "2025-08-15T06:55:08.267Z",
+        "contentHash": "5f4c0a732b6325bf4071d9124d2ae67e037cb24fcc9c482ef82bea742109a3b8"
+      },
+      "favicon.png": {
+        "type": "file",
+        "size": 1466,
+        "lastModified": "2025-08-15T06:55:08.529Z",
+        "contentHash": "24272cdaeff82cc5facdaccd982a6f05b60c4504704bbf94c19a6388659880bb"
+      },
+      "icon.png": {
+        "type": "file",
+        "size": 22380,
+        "lastModified": "2025-08-15T06:55:07.557Z",
+        "contentHash": "74c64047eb557b1341bba7a2831eedde9ddb705e6451a9ad9f5552bf558f13de"
+      },
+      "partial-react-logo.png": {
+        "type": "file",
+        "size": 5075,
+        "lastModified": "2025-08-15T06:55:07.752Z",
+        "contentHash": "015a72aeb24c1166243ebc185355c9488cc892fbf3aa82f9ae66819a10f3451c"
+      },
+      "react-logo.png": {
+        "type": "file",
+        "size": 6341,
+        "lastModified": "2025-08-15T06:55:07.823Z",
+        "contentHash": "224b7636b15e672801579b5b418077cbc2ca42f0146389062364356b0ecb5c5c"
+      },
+      "react-logo@2x.png": {
+        "type": "file",
+        "size": 14225,
+        "lastModified": "2025-08-15T06:55:07.728Z",
+        "contentHash": "fa600be9ad2f869c7a8dbaffc78bb15af741123e1319c948f0be51753a153cde"
+      },
+      "react-logo@3x.png": {
+        "type": "file",
+        "size": 21252,
+        "lastModified": "2025-08-15T06:55:07.493Z",
+        "contentHash": "cd84e02a5d542a3e71b7fa10a685c1b9fb51db4aff92aca6c0da6461ce17be16"
+      },
+      "splash-icon.png": {
+        "type": "file",
+        "size": 17547,
+        "lastModified": "2025-08-15T06:55:08.270Z",
+        "contentHash": "5f4c0a732b6325bf4071d9124d2ae67e037cb24fcc9c482ef82bea742109a3b8"
+      }
+    },
+    "sound-drop": {
+      "misc": {
+        "misc": {
+          "Collapsible.tsx": {
+            "type": "file",
+            "size": 57,
+            "lastModified": "2025-08-15T06:55:03.393Z",
+            "contentHash": "b5cecc78122d6cb09d740417a9ab93f43368be4d5630c7fa8beb7eaa9357e4a1"
+          },
+          "ExternalLink.tsx": {
+            "type": "file",
+            "size": 58,
+            "lastModified": "2025-08-15T06:55:03.393Z",
+            "contentHash": "de6ee4427fc9e1476f10b193cad90faa85baf2f3e91b963430552c6d9fdc17f4"
+          },
+          "FaceComponents.tsx": {
+            "type": "file",
+            "size": 68,
+            "lastModified": "2025-08-15T06:55:03.393Z",
+            "contentHash": "56bb1720391542adc92e191613bb6c2322a7ae72b5f645b64f606e55a4f40dc4"
+          },
+          "HapticTab.tsx": {
+            "type": "file",
+            "size": 55,
+            "lastModified": "2025-08-15T06:55:03.393Z",
+            "contentHash": "094e91c57eb7683bcd11feb56108aeb8a9f1ef68766566cbea027cd87eb32ab5"
+          },
+          "ParallaxScrollView.tsx": {
+            "type": "file",
+            "size": 64,
+            "lastModified": "2025-08-15T06:55:03.393Z",
+            "contentHash": "8dee798eacf7d59d5578399242eff665bda04966961d706ad6fbbcdf6ef08cc8"
+          },
+          "RoutineBuilder.tsx": {
+            "type": "file",
+            "size": 60,
+            "lastModified": "2025-08-15T06:55:03.393Z",
+            "contentHash": "058643749cc3788c5cdaeb62a16c8bb93d71bf24496d09c76998d915ac263467"
+          },
+          "ThemedView.tsx": {
+            "type": "file",
+            "size": 56,
+            "lastModified": "2025-08-15T06:55:03.393Z",
+            "contentHash": "65968462ce3ab7b4aed70d3669efc7b137f986039552bf554e588e69995cfaa1"
+          },
+          "ZenMoonAvatar.tsx": {
+            "type": "file",
+            "size": 67,
+            "lastModified": "2025-08-15T06:55:03.393Z",
+            "contentHash": "3ef1db1303ba34aab26efd526e29788c8d5152d94b6d52c24ea5e75bb8b77355"
+          },
+          "ZenSoundProvider.tsx": {
+            "type": "file",
+            "size": 68,
+            "lastModified": "2025-08-15T06:55:03.393Z",
+            "contentHash": "988a2266dd8427253aa499e1bffcafae7f7ba511597fc2c45b0d018cf44aebed"
+          },
+          "parent": {
+            "ParentDashboard.tsx": {
+              "type": "file",
+              "size": 28546,
+              "lastModified": "2025-08-15T06:55:03.394Z",
+              "contentHash": "b891323bfb72dd6825a728d549565f8b7f56136faf5d9a1929396ebbdd3477cc"
+            },
+            "components": {
+              "ChildSelector.tsx": {
+                "type": "file",
+                "size": 5536,
+                "lastModified": "2025-08-15T06:55:03.394Z",
+                "contentHash": "f38702702ef6bbdc09228e4a3f67904b178ff5242955263cc54f1a5c6d8dda33"
+              },
+              "EmotionalDashboard.tsx": {
+                "type": "file",
+                "size": 9439,
+                "lastModified": "2025-08-15T06:55:03.394Z",
+                "contentHash": "022f58cf6a0eb8885a242ffdc1caf4091c6dafeb37c1872cce31165271f2699b"
+              }
+            },
+            "handlers": {
+              "useParentDashboardHandlers.ts": {
+                "type": "file",
+                "size": 8233,
+                "lastModified": "2025-08-15T06:55:03.394Z",
+                "contentHash": "87dfea0a065187874d8b02b8bfff136427e97ffaa05f0eec452f1266af2c2b83"
+              }
+            },
+            "hooks": {
+              "useParentDashboardData.ts": {
+                "type": "file",
+                "size": 7376,
+                "lastModified": "2025-08-15T06:55:03.394Z",
+                "contentHash": "1ca3e788c35c48f14047ea81f561d89705e2e09a2d6a2fadd388f532030ee473"
+              },
+              "useParentDashboardState.ts": {
+                "type": "file",
+                "size": 8358,
+                "lastModified": "2025-08-15T06:55:03.394Z",
+                "contentHash": "1e7e31e934dda996f663b9fcce6fb2eb88c89925b9c2136cd2345e67720253f7"
+              }
+            },
+            "index.ts": {
+              "type": "file",
+              "size": 62,
+              "lastModified": "2025-08-15T06:55:03.394Z",
+              "contentHash": "9335adc9d395f635ac2fcb9d8ba2e8f03ccb9b5f1010b301a47c4542dca71ccf"
+            },
+            "views": {
+              "DailyView.tsx": {
+                "type": "file",
+                "size": 2409,
+                "lastModified": "2025-08-15T06:55:03.394Z",
+                "contentHash": "00ad9720979a4a5e55f6ede5caa26f218ee74e77294490522db41fc0cc0701f5"
+              },
+              "TrendsView.tsx": {
+                "type": "file",
+                "size": 2939,
+                "lastModified": "2025-08-15T06:55:03.394Z",
+                "contentHash": "92b8ef7eede881481bc8d4b5705bf67771079ec43f5965b31fea33da5cf7bac1"
+              },
+              "WeeklyView.tsx": {
+                "type": "file",
+                "size": 2359,
+                "lastModified": "2025-08-15T06:55:03.394Z",
+                "contentHash": "03ba6d753be03cb3db53fa8eac2051d1637a2fb527834765793c7219b4899b90"
+              },
+              "ZenScoreView.tsx": {
+                "type": "file",
+                "size": 2907,
+                "lastModified": "2025-08-15T06:55:03.394Z",
+                "contentHash": "ee8fddef01d353f8503ad99e851fad4b763be564270fa2120c91d8f7ef2e87ce"
+              },
+              "__test__": {
+                "ZenScoreView.test.tsx": {
+                  "type": "file",
+                  "size": 1051,
+                  "lastModified": "2025-08-15T06:55:03.394Z",
+                  "contentHash": "b881b63307c9698fa47f15713185b434c50aaea557f92c8e053c9f781103a1bd"
+                },
+                "zenScoreTestData.ts": {
+                  "type": "file",
+                  "size": 1660,
+                  "lastModified": "2025-08-15T06:55:03.394Z",
+                  "contentHash": "cbe9b276e80209b7932ae250919b7cacd128760b3c07cfb6598229f58f9eedf1"
+                }
+              }
+            }
+          }
+        },
+        "misc.": {
+          "AUDIO_GUIDE.md": {
+            "type": "file",
+            "size": 6843,
+            "lastModified": "2025-08-15T06:55:03.391Z",
+            "contentHash": "bc2d7a5d1718a5652361b72763565803b62ad8729aa72053fb859388ae4af842"
+          },
+          "ChildCardStack.tsx": {
+            "type": "file",
+            "size": 770,
+            "lastModified": "2025-08-15T06:55:03.391Z",
+            "contentHash": "1a81bc983e8333004ab58f7f9345f2c4525b19cca0788314335aa4ba6b27eb70"
+          },
+          "DashboardScreen.tsx": {
+            "type": "file",
+            "size": 547,
+            "lastModified": "2025-08-15T06:55:03.391Z",
+            "contentHash": "6a49f4a47fb810caab60e515d4377bd48a90772ee13d0f9c2a0cfd494811ed4c"
+          },
+          "FaceComponents.tsx": {
+            "type": "file",
+            "size": 7190,
+            "lastModified": "2025-08-15T06:55:03.391Z",
+            "contentHash": "4635ea12f4945990be88008b91db060b02602343c9fb47f4e6ba016278f62e1a"
+          },
+          "README.md": {
+            "type": "file",
+            "size": 914,
+            "lastModified": "2025-08-15T06:55:03.391Z",
+            "contentHash": "acace4e43a3a177c1c03d576726b6d007ed5bca161bc630a0baf10a610967a25"
+          },
+          "XPProgressRing.tsx": {
+            "type": "file",
+            "size": 437,
+            "lastModified": "2025-08-15T06:55:03.391Z",
+            "contentHash": "b10923da46b9f5272ead43f5f5de8989ca2c4ca86c1edece81e574f58e453acc"
+          },
+          "ZenMoon.code-workspace": {
+            "type": "file",
+            "size": 243,
+            "lastModified": "2025-08-15T06:55:03.391Z",
+            "contentHash": "74ee59a9f256bd5f7737e1b459c4867ab8c8eb147b398209994e915a790d62eb"
+          },
+          "architecture.yml": {
+            "type": "file",
+            "size": 1942,
+            "lastModified": "2025-08-15T06:55:03.391Z",
+            "contentHash": "23e0fd89e0b4787ce9622087a6cfc10cc48e6c061d4248ccc911722b809b8fbb"
+          },
+          "components": {
+            "AvatarFloating.tsx": {
+              "type": "file",
+              "size": 553,
+              "lastModified": "2025-08-15T06:55:03.391Z",
+              "contentHash": "2e6ad8ad388776fa8a27b8c8ce164d4596ec13b6b39bbe17a04cdfd356bf6b6c"
+            },
+            "Card3D.tsx": {
+              "type": "file",
+              "size": 337,
+              "lastModified": "2025-08-15T06:55:03.391Z",
+              "contentHash": "fbd7442d8a83a2dfdea67ad52356ed69d90a53a30489ec255d204bf082bacc8a"
+            },
+            "DailyView.tsx": {
+              "type": "file",
+              "size": 0,
+              "lastModified": "2025-08-15T06:55:03.391Z",
+              "contentHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "EmotionalDashboard.tsx": {
+              "type": "file",
+              "size": 0,
+              "lastModified": "2025-08-15T06:55:03.391Z",
+              "contentHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "EmotionalMoodRing.tsx": {
+              "type": "file",
+              "size": 0,
+              "lastModified": "2025-08-15T06:55:03.391Z",
+              "contentHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "MoodOverlay.tsx": {
+              "type": "file",
+              "size": 663,
+              "lastModified": "2025-08-15T06:55:03.391Z",
+              "contentHash": "2ff382bc75d1d712249fd792775d81c717455757495b1558aeb75e2b89bbf6a4"
+            },
+            "ParentDashboard.tsx": {
+              "type": "file",
+              "size": 0,
+              "lastModified": "2025-08-15T06:55:03.391Z",
+              "contentHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "README.md": {
+              "type": "file",
+              "size": 1658,
+              "lastModified": "2025-08-15T06:55:03.391Z",
+              "contentHash": "8947a39364c92bca5ff33595d5c25f47e627e1f6e1affaffc101bbf8b49c16a9"
+            },
+            "TrendsView.tsx": {
+              "type": "file",
+              "size": 0,
+              "lastModified": "2025-08-15T06:55:03.391Z",
+              "contentHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "WeeklyView.tsx": {
+              "type": "file",
+              "size": 0,
+              "lastModified": "2025-08-15T06:55:03.391Z",
+              "contentHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "XPProgressRing.tsx": {
+              "type": "file",
+              "size": 437,
+              "lastModified": "2025-08-15T06:55:03.391Z",
+              "contentHash": "b10923da46b9f5272ead43f5f5de8989ca2c4ca86c1edece81e574f58e453acc"
+            },
+            "ZenGlowAssistant.tsx": {
+              "type": "file",
+              "size": 365,
+              "lastModified": "2025-08-15T06:55:03.391Z",
+              "contentHash": "e0da3d9f46173f18e61147168a3fcc7dec38b59fbe5842f4362c2f146b73d8a0"
+            },
+            "ZenMoonAvatar.tsx": {
+              "type": "file",
+              "size": 0,
+              "lastModified": "2025-08-15T06:55:03.391Z",
+              "contentHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "ZenScoreView.tsx": {
+              "type": "file",
+              "size": 0,
+              "lastModified": "2025-08-15T06:55:03.391Z",
+              "contentHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "import React from 'react';.txt": {
+              "type": "file",
+              "size": 202,
+              "lastModified": "2025-08-15T06:55:03.391Z",
+              "contentHash": "c7ffb8f80db4584a3c486197148272358c5ef287d09acbd25e16a0255695995f"
+            },
+            "useParentDashboardData.ts": {
+              "type": "file",
+              "size": 0,
+              "lastModified": "2025-08-15T06:55:03.391Z",
+              "contentHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "useParentDashboardHandlers.ts": {
+              "type": "file",
+              "size": 0,
+              "lastModified": "2025-08-15T06:55:03.391Z",
+              "contentHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          },
+          "design-system.yml": {
+            "type": "file",
+            "size": 1359,
+            "lastModified": "2025-08-15T06:55:03.391Z",
+            "contentHash": "b826aab3caffcde5673b367d33e5c4398aa6c62eb7a0438a6e676083b29c9fb0"
+          },
+          "emotionalSystem.ts": {
+            "type": "file",
+            "size": 0,
+            "lastModified": "2025-08-15T06:55:03.391Z",
+            "contentHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "environmentUtils.test.ts": {
+            "type": "file",
+            "size": 854,
+            "lastModified": "2025-08-15T06:55:03.391Z",
+            "contentHash": "a2956eb0ede8f086b2f919726ceb68f63619cb134e70320d78427b676c4d3cd3"
+          },
+          "environmentUtils.ts": {
+            "type": "file",
+            "size": 416,
+            "lastModified": "2025-08-15T06:55:03.392Z",
+            "contentHash": "79601abf93a6e0d67133a1b6724923f137e69aaaba2bdfb7538e524e4df80669"
+          },
+          "fastapi-gateway": {
+            "Dockerfile": {
+              "type": "file",
+              "size": 774,
+              "lastModified": "2025-08-15T06:55:03.392Z",
+              "contentHash": "7b090e31ce3b14e8248bd515d249f75a58eeb94021d9e98ac0919d631590ea1e"
+            },
+            "main.py": {
+              "type": "file",
+              "size": 1595,
+              "lastModified": "2025-08-15T06:55:03.392Z",
+              "contentHash": "bcaba461ef11fd114f335416b7353c12e8cb9beaab0671490958e8369b3d66f5"
+            },
+            "requirements.txt": {
+              "type": "file",
+              "size": 43,
+              "lastModified": "2025-08-15T06:55:03.392Z",
+              "contentHash": "baaa504340500bd03d01ba07cf174aec73b2496fbbc6706fdd844f4e8ac90f72"
+            }
+          },
+          "features.yml": {
+            "type": "file",
+            "size": 2024,
+            "lastModified": "2025-08-15T06:55:03.392Z",
+            "contentHash": "b11a56c4a98d3dee65aed93c92f821cf5da2d5d4b6864a28326698c101e1d7c4"
+          },
+          "hooks": {
+            "useAvatarPosition.ts": {
+              "type": "file",
+              "size": 844,
+              "lastModified": "2025-08-15T06:55:03.392Z",
+              "contentHash": "9f17d38f28d0d903f0c50af5141dd3a2ab1a4ef7123186690f0f9099aea570c7"
+            },
+            "useMoodColor.ts": {
+              "type": "file",
+              "size": 795,
+              "lastModified": "2025-08-15T06:55:03.392Z",
+              "contentHash": "9fc0a8f1ee80ee09f8665f8d72d3c5be5e098b56f28fad69fdcc6e69870a901b"
+            }
+          },
+          "lib": {
+            "moodUtils.ts": {
+              "type": "file",
+              "size": 867,
+              "lastModified": "2025-08-15T06:55:03.392Z",
+              "contentHash": "2112e9e98ef3816a9d0dc95e2e3e48a1a456ccd3404e82d161c687f35b0fb197"
+            }
+          },
+          "moodCheckinUtils.test.ts": {
+            "type": "file",
+            "size": 752,
+            "lastModified": "2025-08-15T06:55:03.392Z",
+            "contentHash": "a91046358acedf467c4e3c8cf39b5d10a5b58298f8dd71405f2ef3d9e985f083"
+          },
+          "moodCheckinUtils.ts": {
+            "type": "file",
+            "size": 339,
+            "lastModified": "2025-08-15T06:55:03.392Z",
+            "contentHash": "407b467fb1bd67afd11f9206096e226edd0392a04194e429e5787c033c62c273"
+          },
+          "moodUtils.ts": {
+            "type": "file",
+            "size": 867,
+            "lastModified": "2025-08-15T06:55:03.392Z",
+            "contentHash": "2112e9e98ef3816a9d0dc95e2e3e48a1a456ccd3404e82d161c687f35b0fb197"
+          },
+          "package.json": {
+            "type": "file",
+            "size": 144,
+            "lastModified": "2025-08-15T06:55:03.392Z",
+            "contentHash": "5895a7197c7ea3c767ddd8f7c7776b2e2ca3b23b2973a58459344c3db742566a"
+          },
+          "parentDashboardUtils.ts": {
+            "type": "file",
+            "size": 0,
+            "lastModified": "2025-08-15T06:55:03.392Z",
+            "contentHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "requirements.txt": {
+            "type": "file",
+            "size": 52,
+            "lastModified": "2025-08-15T06:55:03.392Z",
+            "contentHash": "9d489742bc5f9a829ce37a9992af2ce55109c697052ca907aed465d980673675"
+          },
+          "styles": {
+            "glassStyles.ts": {
+              "type": "file",
+              "size": 525,
+              "lastModified": "2025-08-15T06:55:03.392Z",
+              "contentHash": "d22fe984d90aeff8bebe947ad24124398fd3c22c42008b56070d198ca3b909cd"
+            }
+          },
+          "supabase": {
+            ".gitignore": {
+              "type": "file",
+              "size": 72,
+              "lastModified": "2025-08-15T06:55:03.392Z",
+              "contentHash": "507699eb91144818edf61d3a079212cacf31d8db520eae428e3b48fcf0d6919c"
+            },
+            "migrations": {
+              "20240715120000_create_media_embeddings_table.sql": {
+                "type": "file",
+                "size": 1560,
+                "lastModified": "2025-08-15T06:55:03.392Z",
+                "contentHash": "2aabfaf4806f7ed5dd2f9c158a13f4d3e9936e5af19441e143effc477c0971b8"
+              },
+              "20250713000001_initial_schema.sql": {
+                "type": "file",
+                "size": 15853,
+                "lastModified": "2025-08-15T06:55:03.392Z",
+                "contentHash": "d960c187c611de0013b3ef6e0d343c1bb04b9960bb5b774db1de76c11ece1df3"
+              },
+              "20250714000001_parent_dashboard_schema.sql": {
+                "type": "file",
+                "size": 13838,
+                "lastModified": "2025-08-15T06:55:03.392Z",
+                "contentHash": "9b6c1d161b15bed8bd6de9c962b530cb5bcf54936c786157b4782c22c7e675e4"
+              },
+              "20250715000001_parent_dashboard_metrics.sql": {
+                "type": "file",
+                "size": 11350,
+                "lastModified": "2025-08-15T06:55:03.392Z",
+                "contentHash": "480d06f08792bdb7cf0e7fc512ce2cb51f44b3cde18b20d493ad4f1674e0901f"
+              }
+            },
+            "rechargetime.jsx.meta.yml": {
+              "type": "file",
+              "size": 470,
+              "lastModified": "2025-08-15T06:55:03.393Z",
+              "contentHash": "28b2a312cb69916705d3304ed9b8d2084c4ff59b6e2e7b6ae208cafef8173079"
+            },
+            "seed_more_data.sql": {
+              "type": "file",
+              "size": 2212,
+              "lastModified": "2025-08-15T06:55:03.393Z",
+              "contentHash": "75badde7d2558d947de9f94248aabc43f05a9f7ed892adf69105f9d306f3ddc2"
+            },
+            "seed_test_data.sql": {
+              "type": "file",
+              "size": 1625,
+              "lastModified": "2025-08-15T06:55:03.393Z",
+              "contentHash": "9cbc4c2745f4df37d7bf9d3152f7063a72fbaa68baf88c6b09e82315a8856c6a"
+            }
+          },
+          "types": {
+            "README.md": {
+              "type": "file",
+              "size": 823,
+              "lastModified": "2025-08-15T06:55:03.393Z",
+              "contentHash": "313a6c857563bc41da668e15927ad158b6e272088b03c4b17fba059e62a1e039"
+            },
+            "environment.ts": {
+              "type": "file",
+              "size": 157,
+              "lastModified": "2025-08-15T06:55:03.393Z",
+              "contentHash": "4c42d98bb86c26fd22339cfa2a30025281f12a258c5b26b560340d6c167f936c"
+            },
+            "messaging.ts": {
+              "type": "file",
+              "size": 0,
+              "lastModified": "2025-08-15T06:55:03.393Z",
+              "contentHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "moodCheckin.ts": {
+              "type": "file",
+              "size": 244,
+              "lastModified": "2025-08-15T06:55:03.393Z",
+              "contentHash": "090701310fe60d24c9647688b274f2e0f1e95ab9c20fc5b37ab5d9f8498dbea4"
+            },
+            "parentDashboard.ts": {
+              "type": "file",
+              "size": 0,
+              "lastModified": "2025-08-15T06:55:03.393Z",
+              "contentHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "usage.ts": {
+              "type": "file",
+              "size": 316,
+              "lastModified": "2025-08-15T06:55:03.393Z",
+              "contentHash": "bbbd6cc58bbd53935bcad5f81e6bead4e5568d3f309de26dc34f92468287fa1d"
+            },
+            "wearables.ts": {
+              "type": "file",
+              "size": 414,
+              "lastModified": "2025-08-15T06:55:03.393Z",
+              "contentHash": "e30357396050eeba25aa4a6a26122dd86a6176bb0ee346e724d213973c38c602"
+            }
+          },
+          "usageUtils.test.ts": {
+            "type": "file",
+            "size": 708,
+            "lastModified": "2025-08-15T06:55:03.393Z",
+            "contentHash": "fb3ec1b49b8133d89149ab7f73b6c0c79249eca6832cd6726f19b59033496af1"
+          },
+          "usageUtils.ts": {
+            "type": "file",
+            "size": 394,
+            "lastModified": "2025-08-15T06:55:03.393Z",
+            "contentHash": "fca2549589a0a492251bd799f73e49f8fecf33564104e3e54bfcfc9171502ab0"
+          },
+          "useAvatarPosition.ts": {
+            "type": "file",
+            "size": 844,
+            "lastModified": "2025-08-15T06:55:03.393Z",
+            "contentHash": "9f17d38f28d0d903f0c50af5141dd3a2ab1a4ef7123186690f0f9099aea570c7"
+          },
+          "useMoodColor.ts": {
+            "type": "file",
+            "size": 795,
+            "lastModified": "2025-08-15T06:55:03.393Z",
+            "contentHash": "9fc0a8f1ee80ee09f8665f8d72d3c5be5e098b56f28fad69fdcc6e69870a901b"
+          },
+          "views": {
+            "ParentDashboard": {
+              "ChildCardStack.tsx": {
+                "type": "file",
+                "size": 770,
+                "lastModified": "2025-08-15T06:55:03.393Z",
+                "contentHash": "1a81bc983e8333004ab58f7f9345f2c4525b19cca0788314335aa4ba6b27eb70"
+              },
+              "DashboardScreen.tsx": {
+                "type": "file",
+                "size": 547,
+                "lastModified": "2025-08-15T06:55:03.393Z",
+                "contentHash": "6a49f4a47fb810caab60e515d4377bd48a90772ee13d0f9c2a0cfd494811ed4c"
+              },
+              "XPProgressRing.tsx": {
+                "type": "file",
+                "size": 437,
+                "lastModified": "2025-08-15T06:55:03.393Z",
+                "contentHash": "b10923da46b9f5272ead43f5f5de8989ca2c4ca86c1edece81e574f58e453acc"
+              }
+            }
+          },
+          "wearableUtils.test.ts": {
+            "type": "file",
+            "size": 904,
+            "lastModified": "2025-08-15T06:55:03.393Z",
+            "contentHash": "0f7c148447d8a67ad73fdc9b8b9a2eec019c687b4f82be8d98c1039f15ff2122"
+          },
+          "wearableUtils.ts": {
+            "type": "file",
+            "size": 423,
+            "lastModified": "2025-08-15T06:55:03.393Z",
+            "contentHash": "a6046bc7b5692653030ac5e3d2dc52a1cad5b297915b65ad74114e382b43a262"
+          }
+        }
+      }
+    },
+    "sounds": {
+      "ui": {
+        "README.md": {
+          "type": "file",
+          "size": 0,
+          "lastModified": "2025-08-15T06:55:03.394Z",
+          "contentHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    }
+  },
+  "babel.config.js": {
+    "type": "file",
+    "size": 217,
+    "lastModified": "2025-08-15T06:55:03.394Z",
+    "contentHash": "de9a6c132b352ef9e547ad2133faaa5edc99a1a7c56514d916da651c0863ff64"
+  },
+  "components": {
+    "Audio": {
+      "AudioBootstrapper.tsx": {
+        "type": "file",
+        "size": 1289,
+        "lastModified": "2025-08-15T06:55:03.464Z",
+        "contentHash": "2a5d5fe789f2785a45b0348f1bcbfa3b3fd57101ed4798ee5c21a766a598beb3"
+      },
+      "ZenSoundProvider.tsx": {
+        "type": "file",
+        "size": 13478,
+        "lastModified": "2025-08-15T06:55:03.464Z",
+        "contentHash": "0a07a7021e31f224afc9ad0c1111fad567203a2a3c55f2bc57da77a3606e9e4a"
+      },
+      "localSoundMap.ts": {
+        "type": "file",
+        "size": 502,
+        "lastModified": "2025-08-15T06:55:03.464Z",
+        "contentHash": "9730a6c71e2011441c6c2067700f8a368e1fceae12ca4b974cbc137993d94360"
+      }
+    },
+    "Collapsible.tsx": {
+      "type": "file",
+      "size": 1334,
+      "lastModified": "2025-08-15T06:55:03.464Z",
+      "contentHash": "229bb01a30b6867c350c9cfd8f322749fcf72afe7b459d03ddc36d68c7fc1dd1"
+    },
+    "Companion": {
+      "CompanionAnimationsSimple.tsx": {
+        "type": "file",
+        "size": 8277,
+        "lastModified": "2025-08-15T06:55:03.464Z",
+        "contentHash": "2de51614e62cd54f70c4aa3abc212b920a3be84321ad71d484ab66826690be92"
+      },
+      "CompanionExampleScreen.tsx": {
+        "type": "file",
+        "size": 5844,
+        "lastModified": "2025-08-15T06:55:03.464Z",
+        "contentHash": "1cb6fc0cb0257b9e144b92cb4d79d4d4f037c524291ea029c29336611492e7a2"
+      },
+      "ZenGlowCompanion.tsx": {
+        "type": "file",
+        "size": 6825,
+        "lastModified": "2025-08-15T06:55:03.464Z",
+        "contentHash": "d5490412f3f1316c4a7f8c6e730ffbbb115c07fdaad5d0762e189e51d5460f60"
+      }
+    },
+    "ExternalLink.tsx": {
+      "type": "file",
+      "size": 713,
+      "lastModified": "2025-08-15T06:55:03.464Z",
+      "contentHash": "4a0eca30571a7d351a1f362330718510e3073b6490306769ef9d12a2a6910ca3"
+    },
+    "HapticTab.tsx": {
+      "type": "file",
+      "size": 564,
+      "lastModified": "2025-08-15T06:55:03.464Z",
+      "contentHash": "eeb1860d6e4edb647e1ebeb116ff81393ec50e2d721560c1fe2d686716a518f8"
+    },
+    "HelloWave.tsx": {
+      "type": "file",
+      "size": 929,
+      "lastModified": "2025-08-15T06:55:03.464Z",
+      "contentHash": "fa26918edb89cfcb231344d7fcd64d946f95b8c28f128bea2753f488cbea3ecb"
+    },
+    "ParallaxScrollView.tsx": {
+      "type": "file",
+      "size": 2139,
+      "lastModified": "2025-08-15T06:55:03.464Z",
+      "contentHash": "855e500b9df2e509854050433958e69b1b162b0e380a97029b00fb8872149801"
+    },
+    "RoutineBuilder.tsx": {
+      "type": "file",
+      "size": 533,
+      "lastModified": "2025-08-15T06:55:03.464Z",
+      "contentHash": "28b91070a295395bbb302b4391a8f5d58f52db69e9d5b8f9a9e303a2c4efedfe"
+    },
+    "ThemedText.tsx": {
+      "type": "file",
+      "size": 1284,
+      "lastModified": "2025-08-15T06:55:03.464Z",
+      "contentHash": "cd190d108fbcfea8aeb866c3e02eb3c4b0fbcccece438ac5a16479f67b4f71df"
+    },
+    "ThemedView.tsx": {
+      "type": "file",
+      "size": 469,
+      "lastModified": "2025-08-15T06:55:03.464Z",
+      "contentHash": "3bf249f8a01922d34d5e5d84612904f4d14adaf92a07eebf16194ccd4973df21"
+    },
+    "ZenMoon": {
+      "EnhancedZenMoonAvatar.tsx": {
+        "type": "file",
+        "size": 6867,
+        "lastModified": "2025-08-15T06:55:03.464Z",
+        "contentHash": "ff985f7c39cdcecc71349355fdbc94c0c18d26a1c2c4e1b51e387cca31579781"
+      },
+      "FaceComponents.tsx": {
+        "type": "file",
+        "size": 7275,
+        "lastModified": "2025-08-15T06:55:03.464Z",
+        "contentHash": "2eda574395037e379d947597ec46a8473232a69d0f88607310770a177d7a3265"
+      },
+      "ZenMoonAvatar.tsx": {
+        "type": "file",
+        "size": 6762,
+        "lastModified": "2025-08-15T06:55:03.464Z",
+        "contentHash": "5486952a031952ac04fab21bf1ccf2ec3e751e2af29506a7b02f39f718bfbace"
+      },
+      "ZenMoonFaceFloating.tsx": {
+        "type": "file",
+        "size": 8525,
+        "lastModified": "2025-08-15T06:55:03.465Z",
+        "contentHash": "0d6b1c748d0310fb1f6bd8dcc82cfe6f6d87f8f096f24ea7d46ab99ffd995084"
+      }
+    },
+    "ui": {
+      "IconSymbol.ios.tsx": {
+        "type": "file",
+        "size": 598,
+        "lastModified": "2025-08-15T06:55:03.465Z",
+        "contentHash": "c4e56fc2c481f0964d06ff0c9dda51eeba1ca7f6f554336dfdceb4a75c80eb2c"
+      },
+      "IconSymbol.tsx": {
+        "type": "file",
+        "size": 1502,
+        "lastModified": "2025-08-15T06:55:03.465Z",
+        "contentHash": "e7e46c6f5ab429242fd884a20db480591a8dae00026d0fbf005d5250a63c3830"
+      },
+      "TabBarBackground.ios.tsx": {
+        "type": "file",
+        "size": 547,
+        "lastModified": "2025-08-15T06:55:03.465Z",
+        "contentHash": "83a565460175f66b2f5df5c44958e6d4f54f72963a743d996dd0a1331d5bc0ab"
+      },
+      "TabBarBackground.tsx": {
+        "type": "file",
+        "size": 159,
+        "lastModified": "2025-08-15T06:55:03.465Z",
+        "contentHash": "924ee506c20225e23935fd9df94fa26c683fef46df5acbeaa39f4209907c04a9"
+      }
+    }
+  },
+  "config": {
+    ".eslintrc.json": {
+      "type": "file",
+      "size": 996,
+      "lastModified": "2025-08-15T06:55:03.465Z",
+      "contentHash": "6a7b726dd895ec4dd629be9b8f7831fe1bfb65be25d7b7b83bfb3c0b418f7cfd"
+    },
+    ".prettierrc.json": {
+      "type": "file",
+      "size": 206,
+      "lastModified": "2025-08-15T06:55:03.465Z",
+      "contentHash": "9441cfde6ab2155907d8f7d5a01eae79e003b09f00bb53d2ceea5fa88b701942"
+    }
+  },
+  "configs": {
+    "docker-daemon.json": {
+      "type": "file",
+      "size": 838,
+      "lastModified": "2025-08-15T06:55:03.465Z",
+      "contentHash": "e69ab11af6b7a9107d269b1d993e108fc7fec3761974704dcb32c45f722c7fd4"
+    }
+  },
+  "constants": {
+    "Colors.ts": {
+      "type": "file",
+      "size": 750,
+      "lastModified": "2025-08-15T06:55:03.465Z",
+      "contentHash": "3f1c5c32c6eaa9f43e65e4e9eb4712a39898fb34c251efd371db5c37a032a9b8"
+    }
+  },
+  "contexts": {
+    "UIElementContext.tsx": {
+      "type": "file",
+      "size": 3623,
+      "lastModified": "2025-08-15T06:55:03.465Z",
+      "contentHash": "88990fc3339652ac1f236c81d7d58fcba4933faf23a5fc544427f05c0ce46d2d"
+    }
+  },
+  "create_match_function.sql": {
+    "type": "file",
+    "size": 924,
+    "lastModified": "2025-08-15T06:55:03.477Z",
+    "contentHash": "64c2976b4844d0bf1310e0a85bbf5b7abe352e2bac4dd21ac18913281ee92491"
+  },
+  "cspell.json": {
+    "type": "file",
+    "size": 302,
+    "lastModified": "2025-08-15T06:55:03.477Z",
+    "contentHash": "d3b2330a661e78f8286e7669129b9a71ac52e1f7dd8ca80374cf68edc3dda015"
+  },
+  "docker-compose.ai.yml": {
+    "type": "file",
+    "size": 1101,
+    "lastModified": "2025-08-15T06:55:03.477Z",
+    "contentHash": "4d8353e9c396f8bd8e250d7b070a4ebfa2eb4f769eb67e65087707a4f363842e"
+  },
+  "docker-compose.yml": {
+    "type": "file",
+    "size": 1789,
+    "lastModified": "2025-08-15T06:55:03.478Z",
+    "contentHash": "ebc3577de5a184375ff97cf977516174b7d510e5769c4fddc70b136f9d33a8d4"
+  },
+  "docs": {
+    "EnhancedCompanionGuide.md": {
+      "type": "file",
+      "size": 10044,
+      "lastModified": "2025-08-15T06:55:03.478Z",
+      "contentHash": "799a675a7ccf3b1f150ae5195a1e84371bc63588d337bfce49a23eacdd407dcd"
+    },
+    "parent-dashboard-metrics.md": {
+      "type": "file",
+      "size": 6461,
+      "lastModified": "2025-08-15T06:55:03.478Z",
+      "contentHash": "e3dbd266375a4d749be3a3f184d68eea2ac17f35f4285d692ae9d39e8a5e360d"
+    },
+    "rag": {
+      "hardening.md": {
+        "type": "file",
+        "size": 31942,
+        "lastModified": "2025-08-15T06:55:03.478Z",
+        "contentHash": "978a6cc5629a23724f7c377c5e3afe9628da9fd9123421f67b1c324b75be78ed"
+      }
+    }
+  },
+  "eas.json": {
+    "type": "file",
+    "size": 657,
+    "lastModified": "2025-08-15T06:55:03.478Z",
+    "contentHash": "a46a8980849cadfcb04c5e720c16953b03046651204463d4f796e7b5d9e719ac"
+  },
+  "eslint.config.cjs": {
+    "type": "file",
+    "size": 3154,
+    "lastModified": "2025-08-15T06:55:03.478Z",
+    "contentHash": "37b65738c2764219b6cda16564fa93088d4dc2a9e10058fa16a8a4befe081123"
+  },
+  "eslint.config.js": {
+    "type": "file",
+    "size": 237,
+    "lastModified": "2025-08-15T06:55:03.478Z",
+    "contentHash": "3b0c823fd936f964905db962e66e92e24773b7085c0c82750a4d4f0b1808c41c"
+  },
+  "examples": {
+    "SecureConnectionExample.tsx": {
+      "type": "file",
+      "size": 9759,
+      "lastModified": "2025-08-15T06:55:03.478Z",
+      "contentHash": "72cee26abdcacc4d1d0babd60ce2d0bf99b3797599bbf466eb2ae23542d8a7b3"
+    }
+  },
+  "expo-env.d.ts": {
+    "type": "file",
+    "size": 110,
+    "lastModified": "2025-08-15T06:55:03.478Z",
+    "contentHash": "6fc02634da46d3edc5a88eec9173ba6bf709726be3cba83c73ebd8e859d5c147"
+  },
+  "file structure zenglow": {
+    "type": "file",
+    "size": 1233,
+    "lastModified": "2025-08-15T06:55:03.478Z",
+    "contentHash": "bb221ad86ad112860b3d013ccc3027ef21ff41851699bcf310b1f3a71e6b13f1"
+  },
+  "gradle_debug": {
+    "type": "file",
+    "size": 1243,
+    "lastModified": "2025-08-15T06:55:03.478Z",
+    "contentHash": "a6fe0a12bbbca1c5198e3b6177fbc3022e637a714c888831fac247ebb658d31f"
+  },
+  "hooks": {
+    "useAppPerformance.ts": {
+      "type": "file",
+      "size": 423,
+      "lastModified": "2025-08-15T06:55:03.478Z",
+      "contentHash": "e1768f00cbc4a5f5d7bfedb3cea6220a2ca6ba3bfa81cc86134b33eb99f6a885"
+    },
+    "useColorScheme.ts": {
+      "type": "file",
+      "size": 47,
+      "lastModified": "2025-08-15T06:55:03.478Z",
+      "contentHash": "33beb965500ae5fdfe5c8699805a6be94c8c126a751fbe2ed7bcae87df394882"
+    },
+    "useColorScheme.web.ts": {
+      "type": "file",
+      "size": 480,
+      "lastModified": "2025-08-15T06:55:03.478Z",
+      "contentHash": "84f19b5c1a8e941ab9868d2e83f6e61db11d3d9bf4fa91fac979bcd0fdc8019b"
+    },
+    "useCompanionAI.ts": {
+      "type": "file",
+      "size": 8554,
+      "lastModified": "2025-08-15T06:55:03.478Z",
+      "contentHash": "e5292844b62e31f894a4a4198abd75add8571ee96fd2b0646e20111ea6c87517"
+    },
+    "useMemoryPressure.ts": {
+      "type": "file",
+      "size": 490,
+      "lastModified": "2025-08-15T06:55:03.478Z",
+      "contentHash": "74063bfcd04296f9df7de4e3a134a8657231c6779ddcfc43e9f72af2a4d54ce1"
+    },
+    "useThemeColor.ts": {
+      "type": "file",
+      "size": 532,
+      "lastModified": "2025-08-15T06:55:03.478Z",
+      "contentHash": "92ca9ba141aad99b1280564f1c1b2f1e874d2a544c7307d22daba185fc1fc381"
+    },
+    "useWarmSounds.ts": {
+      "type": "file",
+      "size": 451,
+      "lastModified": "2025-08-15T06:55:03.478Z",
+      "contentHash": "3d9252dd15b31669fae985a50326f90b8d73f31714fd9c951e33bfa1b0e526ef"
+    },
+    "useZenMoon.ts": {
+      "type": "file",
+      "size": 6468,
+      "lastModified": "2025-08-15T06:55:03.479Z",
+      "contentHash": "fa2aae40e03841fbae511244931a65f92fc02a57e47a8927ac2022278c2c8f4f"
+    }
+  },
+  "import CardStack, { Card } from 'react-native-card": {
+    "type": "file",
+    "size": 3306,
+    "lastModified": "2025-08-15T06:55:03.479Z",
+    "contentHash": "13fe511cbb95ea8e6c46ef0db560d5719253b75d408d8c5fdbbbe172c5a2c290"
+  },
+  "jest.config.js": {
+    "type": "file",
+    "size": 2875,
+    "lastModified": "2025-08-15T06:55:03.479Z",
+    "contentHash": "411a0e3fa6b54e9052b59cfef15b6c26817e917be1cd76206e83e7054dce7c1d"
+  },
+  "jest.setup.js": {
+    "type": "file",
+    "size": 4897,
+    "lastModified": "2025-08-15T06:55:03.479Z",
+    "contentHash": "73de4fc490f92446ae96b64dff7ef82605c7c098904fe91876a504cc5de35397"
+  },
+  "metro.config.js": {
+    "type": "file",
+    "size": 458,
+    "lastModified": "2025-08-15T06:55:03.804Z",
+    "contentHash": "d7801a751310463be541e2dae36988c01a8853aa6b6a2b2a1376092fb14cc86e"
+  },
+  "nginx": {
+    "Dockerfile": {
+      "type": "file",
+      "size": 3922,
+      "lastModified": "2025-08-15T06:55:03.804Z",
+      "contentHash": "315fc0024d6bf0ee280f4c23fd8589eb7e79928d3be992ec07540b45b9d4267d"
+    },
+    "nginx.conf": {
+      "type": "file",
+      "size": 4225,
+      "lastModified": "2025-08-15T06:55:03.804Z",
+      "contentHash": "1d23676e4f9207c96ea320177acf172ba2a2184bcfa3d0b46a1897978af09396"
+    }
+  },
+  "package-lock.json": {
+    "type": "file",
+    "size": 661111,
+    "lastModified": "2025-08-15T06:55:03.806Z",
+    "contentHash": "1a6aab01f6741376dbf97b88a2a3093c99dee3a9603e71893d6b8277921f1c6a"
+  },
+  "package.json": {
+    "type": "file",
+    "size": 3245,
+    "lastModified": "2025-08-15T07:03:29.985Z",
+    "contentHash": "8c423252fa20d0ea6dcd703338909e03cc8e4f7ad3ba4e80636d1db7d448e3ff"
+  },
+  "plugin-workflow-guide.yaml": {
+    "type": "file",
+    "size": 1692,
+    "lastModified": "2025-08-15T06:55:03.806Z",
+    "contentHash": "94a13e60d42ebbbcaddccd5430eeb53c03b2c4db2984b7e7c76123c28f6deeec"
+  },
+  "prof-VGtvpUPA": {
+    "type": "file",
+    "size": 177,
+    "lastModified": "2025-08-15T06:55:03.806Z",
+    "contentHash": "7d235f62726a775783089f771f59416c7f108e075cc68c41d1806b1047080110"
+  },
+  "requirements.txt": {
+    "type": "file",
+    "size": 176,
+    "lastModified": "2025-08-15T06:55:03.933Z",
+    "contentHash": "3a89d09aa683510f435ba483176acbe709f1c0ae3ef8947111a7a57fcb1570a1"
+  },
+  "schemas": {
+    "new": {
+      "emotion.schema.v1.0.0.json": {
+        "type": "file",
+        "size": 858,
+        "lastModified": "2025-08-15T06:55:03.933Z",
+        "contentHash": "229d8be463660077622e5220f01374ae5a0f5f7c4ee90d62247e58c5de8c4f08"
+      }
+    },
+    "old": {
+      "emotion.schema.v1.0.0.json": {
+        "type": "file",
+        "size": 471,
+        "lastModified": "2025-08-15T06:55:03.933Z",
+        "contentHash": "368a8d0ad1355e39e6cdcfe0912887a8bb479f3c7c9037e9f2248978b3d2bfd6"
+      }
+    },
+    "parent-child-sync-fixed.schema.json": {
+      "type": "file",
+      "size": 4657,
+      "lastModified": "2025-08-15T06:55:03.933Z",
+      "contentHash": "e9e4234a327feb5da33df1d2b0179d7c470a91d8305ce401f2318428c029de8b"
+    },
+    "parent-child-sync.schema.json": {
+      "type": "file",
+      "size": 8869,
+      "lastModified": "2025-08-15T06:55:03.933Z",
+      "contentHash": "da79aa33ad88bf747cbbb59384b8daa3096a6484366c10cf4ea8a73bc5bcec66"
+    }
+  },
+  "scripts": {
+    "analyze-structure.sh": {
+      "type": "file",
+      "size": 3257,
+      "lastModified": "2025-08-15T06:55:03.933Z",
+      "contentHash": "bf265a019333b38c18875924d37bcd2491b4d57591c94d610e86216eaeddd48b"
+    },
+    "check-deps.mjs": {
+      "type": "file",
+      "size": 2988,
+      "lastModified": "2025-08-15T06:55:03.933Z",
+      "contentHash": "2ac161276c494c41fcdc6e86c355410852565e0fb9f970afd88832a3a3e5c07c"
+    },
+    "compare-key-files.sh": {
+      "type": "file",
+      "size": 3801,
+      "lastModified": "2025-08-15T06:55:03.933Z",
+      "contentHash": "c8345b6ec1e6d3376046e478a5199cc97a66d7abc0c2bbcb6886f2a22284da4a"
+    },
+    "demo-parent-dashboard.js": {
+      "type": "file",
+      "size": 6103,
+      "lastModified": "2025-08-15T06:55:03.933Z",
+      "contentHash": "d71c278778df13cbc87da183c7903d159a0aac4b592c94342d20a658bb197143"
+    },
+    "find-unused-files.sh": {
+      "type": "file",
+      "size": 2781,
+      "lastModified": "2025-08-15T06:55:03.933Z",
+      "contentHash": "5c5fc0aaba816228cb515b89a7fafc825b9af5e01eec427f53ac101346548824"
+    },
+    "fix-nested-structure.sh": {
+      "type": "file",
+      "size": 1261,
+      "lastModified": "2025-08-15T06:55:03.933Z",
+      "contentHash": "0021013c22b11b17330f8a70049afb73e7bfc2b101fb94952835c375fe87ac5e"
+    },
+    "generate-project-index.js": {
+      "type": "file",
+      "size": 6678,
+      "lastModified": "2025-08-15T07:06:37.590Z",
+      "contentHash": "0155f335e8782339027d525f392d19c4cc54dad32555a8d0358c7601f36774b7"
+    },
+    "pre-commit.sample": {
+      "type": "file",
+      "size": 1286,
+      "lastModified": "2025-08-15T06:55:03.933Z",
+      "contentHash": "35a5fa07e2244933f96c569fd558eed590aaa8864ff71447bd5d9d1c6ad96ae3"
+    },
+    "reset-project.js": {
+      "type": "file",
+      "size": 3610,
+      "lastModified": "2025-08-15T06:55:03.934Z",
+      "contentHash": "95111cffd6d4005cb17e05a5750e46e9182f2b128fb8dbdbf3c0805c2fec7f6d"
+    },
+    "safety-check.sh": {
+      "type": "file",
+      "size": 6630,
+      "lastModified": "2025-08-15T06:55:03.934Z",
+      "contentHash": "c9561fe42a8712094b252e1c65cb0b645dedf3b14673a53f43ceedd1efd7c956"
+    }
+  },
+  "setup-nginx-proxy.sh": {
+    "type": "file",
+    "size": 2984,
+    "lastModified": "2025-08-15T06:55:03.934Z",
+    "contentHash": "0456008af9d364a7a97bc8e3311c1153d9aac66f802b82dd7ce64587ff2105dd"
+  },
+  "src": {
+    "app.py": {
+      "type": "file",
+      "size": 4814,
+      "lastModified": "2025-08-15T06:55:03.934Z",
+      "contentHash": "ad8f6a11e8dd8da533a4d5b8891413e1c890c516e3234a9ef780590790220d07"
+    },
+    "components": {
+      "AvatarFloating.tsx": {
+        "type": "file",
+        "size": 553,
+        "lastModified": "2025-08-15T06:55:03.934Z",
+        "contentHash": "2e6ad8ad388776fa8a27b8c8ce164d4596ec13b6b39bbe17a04cdfd356bf6b6c"
+      }
+    },
+    "hooks": {
+      "useAudio.js": {
+        "type": "file",
+        "size": 4359,
+        "lastModified": "2025-08-15T06:55:03.934Z",
+        "contentHash": "5ddb6aca1ea9aac5e986f138d275a0e02f429affe3e2b9b4522276bf50c8f7ff"
+      },
+      "useAvatarPosition.ts": {
+        "type": "file",
+        "size": 844,
+        "lastModified": "2025-08-15T06:55:03.934Z",
+        "contentHash": "9f17d38f28d0d903f0c50af5141dd3a2ab1a4ef7123186690f0f9099aea570c7"
+      },
+      "usePredictiveInsights.ts": {
+        "type": "file",
+        "size": 5319,
+        "lastModified": "2025-08-15T06:55:03.934Z",
+        "contentHash": "b25e265014b1d854e7a8596bda4ddfe843ed7d8e29d6d0314ea0de00f3c7342a"
+      }
+    },
+    "lib": {
+      "moodUtils.ts": {
+        "type": "file",
+        "size": 867,
+        "lastModified": "2025-08-15T06:55:03.934Z",
+        "contentHash": "2112e9e98ef3816a9d0dc95e2e3e48a1a456ccd3404e82d161c687f35b0fb197"
+      }
+    },
+    "sensors": {
+      "flushScheduler.ts": {
+        "type": "file",
+        "size": 6652,
+        "lastModified": "2025-08-15T06:55:03.934Z",
+        "contentHash": "0cfc5417276476e7ee8e087bb4b5e1ad62f2618f529f1990b1e7f60dc72e961b"
+      },
+      "index.ts": {
+        "type": "file",
+        "size": 3142,
+        "lastModified": "2025-08-15T06:55:03.934Z",
+        "contentHash": "0de0e5b15d38293a1160fd1a3d8bbdf97842ad1b5a0e27eb2e8d25120ac1a88d"
+      },
+      "storage": {
+        "db.ts": {
+          "type": "file",
+          "size": 4996,
+          "lastModified": "2025-08-15T06:55:03.934Z",
+          "contentHash": "c83df62f87376049f294b35f3b19de7d0dc1dbbca5c57d62661486349186e463"
+        }
+      },
+      "transport.ts": {
+        "type": "file",
+        "size": 3869,
+        "lastModified": "2025-08-15T06:55:03.934Z",
+        "contentHash": "9d2f52921a52e0b95217b48a8e490a450636027396973322ec8e5fb331e49357"
+      }
+    },
+    "services": {
+      "parentDashboardApi.ts": {
+        "type": "file",
+        "size": 14570,
+        "lastModified": "2025-08-15T06:55:03.934Z",
+        "contentHash": "d82941b00fb6122402b4b37841842bebd399daf4e393b2271d0e553a27c0fc24"
+      }
+    },
+    "sum.js": {
+      "type": "file",
+      "size": 226,
+      "lastModified": "2025-08-15T06:55:03.934Z",
+      "contentHash": "69fb93b7584c48558fc1d8c884689d63147151d5aa42293e586c5ec20ba9a3b2"
+    },
+    "utils": {
+      "SecureConnectionManager.ts": {
+        "type": "file",
+        "size": 14900,
+        "lastModified": "2025-08-15T06:55:03.935Z",
+        "contentHash": "b3df40b18504c656dd5501b0fbc9b79401ab01ec12c41ba7cade52f323295226"
+      },
+      "SecureDataStorage.ts": {
+        "type": "file",
+        "size": 13083,
+        "lastModified": "2025-08-15T06:55:03.935Z",
+        "contentHash": "2455bd5dc4485d3e1933ba2e8db3199677074f60aafa4ac5d9e0aac68c388efe"
+      },
+      "SecureGlobalManager.ts": {
+        "type": "file",
+        "size": 12731,
+        "lastModified": "2025-08-15T06:55:03.935Z",
+        "contentHash": "8dade279df889d002987d3c526151f87d653b25d2da40fc6dab39bd5f20639f7"
+      },
+      "SecurityConfig.ts": {
+        "type": "file",
+        "size": 7136,
+        "lastModified": "2025-08-15T06:55:03.935Z",
+        "contentHash": "4519604fc688ca190807af3bbbe8b47f2b01fb089c0051495005fca9a78bb9ab"
+      },
+      "childSafety.js": {
+        "type": "file",
+        "size": 10908,
+        "lastModified": "2025-08-15T06:55:03.935Z",
+        "contentHash": "6729640453d3aa160a838464251f83e2114ad50a90016e23abb9ae3bc472dd87"
+      },
+      "errorHandler.ts": {
+        "type": "file",
+        "size": 473,
+        "lastModified": "2025-08-15T06:55:03.935Z",
+        "contentHash": "61d14fd8014854139d483fcc719fa0079c79c97198ba4077387f9794ce8593d8"
+      },
+      "zenScore.js": {
+        "type": "file",
+        "size": 5227,
+        "lastModified": "2025-08-15T06:55:03.935Z",
+        "contentHash": "025bda949d1766a2ba18f5e9411718e336cd6589f038acfbf842e32c49713977"
+      }
+    }
+  },
+  "supabase": {
+    ".temp": {
+      "cli-latest": {
+        "type": "file",
+        "size": 7,
+        "lastModified": "2025-08-15T06:55:03.970Z",
+        "contentHash": "7de9f05193104a1578babd503dff5457336a6da502bbe64dc170636a9a90eba1"
+      },
+      "gotrue-version": {
+        "type": "file",
+        "size": 8,
+        "lastModified": "2025-08-15T06:55:03.970Z",
+        "contentHash": "4b39020adb1c29ad8d815465afe6e2b04193cabc6bc3159a1a70bb3fa42ec910"
+      },
+      "pooler-url": {
+        "type": "file",
+        "size": 108,
+        "lastModified": "2025-08-15T06:55:03.970Z",
+        "contentHash": "61490fcc9ff189b1aaa4d8331713daab5d3206e68a2cc46249a7997fe2de6970"
+      },
+      "postgres-version": {
+        "type": "file",
+        "size": 10,
+        "lastModified": "2025-08-15T06:55:03.970Z",
+        "contentHash": "09735ec939f7d2352ab8490d18fdd5bacbfc512740c432f805489836c9137e82"
+      },
+      "project-ref": {
+        "type": "file",
+        "size": 20,
+        "lastModified": "2025-08-15T06:55:03.970Z",
+        "contentHash": "5b2abd83d14638b81a309758ce6e01d33c958eef4a836da52df6b7c85541646c"
+      },
+      "storage-version": {
+        "type": "file",
+        "size": 15,
+        "lastModified": "2025-08-15T06:55:03.970Z",
+        "contentHash": "c537ab765ec32d9eb6a2d5dc09f2e0891857c3b752f9442ce7ba099e636813b2"
+      }
+    }
+  },
+  "testData": {
+    "fixtures.js": {
+      "type": "file",
+      "size": 6368,
+      "lastModified": "2025-08-15T06:55:03.970Z",
+      "contentHash": "ef279920db0160325b65283680429cf7fc6cb2b6d770c1e34fc7288ea1c749a2"
+    }
+  },
+  "tsconfig.json": {
+    "type": "file",
+    "size": 330,
+    "lastModified": "2025-08-15T06:55:03.970Z",
+    "contentHash": "a6a8e581246516aae73d995537b1675c8473c6ec8eec80b0e4ad7a7ce47cc155"
+  },
+  "types": {
+    "audio.ts": {
+      "type": "file",
+      "size": 1279,
+      "lastModified": "2025-08-15T06:55:03.970Z",
+      "contentHash": "9b06a43ab4769e94dc224b00e60b57053eba70ca8091625c3a02087c380f93df"
+    },
+    "companion.ts": {
+      "type": "file",
+      "size": 4097,
+      "lastModified": "2025-08-15T06:55:03.971Z",
+      "contentHash": "071fdff69c1d21ffd33e06334d954dac312036562fee9fe7ab975849450984b4"
+    },
+    "navigation.ts": {
+      "type": "file",
+      "size": 870,
+      "lastModified": "2025-08-15T06:55:03.971Z",
+      "contentHash": "b4aac7f17a7b997970bc313c9d52960a67859f67734a75cb917a91c8418fe11c"
+    },
+    "parentDashboard.ts": {
+      "type": "file",
+      "size": 3329,
+      "lastModified": "2025-08-15T06:55:03.971Z",
+      "contentHash": "0bf258a07ad09f27d4001b93733140c351e2ea4cf5ebf0b9593377b0824a2d7a"
+    },
+    "supabase.ts": {
+      "type": "file",
+      "size": 10394,
+      "lastModified": "2025-08-15T06:55:03.971Z",
+      "contentHash": "d7c90890e3a5937d697fbfbb344554a88c8465383f6857e8382883bd45039c3e"
+    },
+    "zenMoonTypes.ts": {
+      "type": "file",
+      "size": 1251,
+      "lastModified": "2025-08-15T06:55:03.971Z",
+      "contentHash": "9222a65b539690a26466ad2c4ba2cb0cc6ec1227cc6c00c7ed5279898cfc6e21"
+    }
+  },
+  "types.ts": {
+    "type": "file",
+    "size": 0,
+    "lastModified": "2025-08-15T06:55:03.970Z",
+    "contentHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "utils": {
+    "CompanionAccessibility.ts": {
+      "type": "file",
+      "size": 6920,
+      "lastModified": "2025-08-15T06:55:03.971Z",
+      "contentHash": "cce89ee41bc4742e95853c0ac2b6360ae55f231372797562b37d6539f18bed2c"
+    },
+    "CompanionPersonality.ts": {
+      "type": "file",
+      "size": 10124,
+      "lastModified": "2025-08-15T06:55:03.971Z",
+      "contentHash": "a49604a26188f5354685910374ab20248eb65efeff1c928fc89dd51778e3664d"
+    },
+    "README.md": {
+      "type": "file",
+      "size": 1720,
+      "lastModified": "2025-08-15T06:55:03.971Z",
+      "contentHash": "3a31745c82c57266b034cd6bd914d3a9c6e2fe1fa81b946ee75d664e31e517ec"
+    },
+    "audio": {
+      "RemoteAudioCache.ts": {
+        "type": "file",
+        "size": 1578,
+        "lastModified": "2025-08-15T06:55:03.971Z",
+        "contentHash": "1bfb6a0786a8fa333f72b304bcd4ea62885c6abc377c65b1c55fb459a1af594c"
+      },
+      "SupabaseAudio.ts": {
+        "type": "file",
+        "size": 1454,
+        "lastModified": "2025-08-15T06:55:03.971Z",
+        "contentHash": "6d9242f32a51c40a40af0848d3e7e51fe88513173918aee8d04470922ec14e81"
+      }
+    },
+    "cli.js": {
+      "type": "file",
+      "size": 825,
+      "lastModified": "2025-08-15T06:55:03.971Z",
+      "contentHash": "4fab813d48797b7c3366fcd5a7846d70697fcea7b4b2ccc8d673fe2f1c1b3c10"
+    },
+    "corsConfig.json": {
+      "type": "file",
+      "size": 313,
+      "lastModified": "2025-08-15T06:55:03.971Z",
+      "contentHash": "38649ae214f14d93fcdb966ed2368010710e58009a37d025c5326fe083e30474"
+    },
+    "corsHandler.d.ts": {
+      "type": "file",
+      "size": 104,
+      "lastModified": "2025-08-15T06:55:03.971Z",
+      "contentHash": "c63b06f8ee2eddf573d1cf6a955a660b4e3fac08b16f94b48a5dcf1cae1c0673"
+    },
+    "corsHandler.js": {
+      "type": "file",
+      "size": 552,
+      "lastModified": "2025-08-15T06:55:03.971Z",
+      "contentHash": "2cd6afe023f31ebe8e5114d6b1ec6f6afa9e1d34921badddfe276fa4ff485611"
+    },
+    "env.ts": {
+      "type": "file",
+      "size": 406,
+      "lastModified": "2025-08-15T06:55:03.971Z",
+      "contentHash": "966f4be0070267d77c291e003e3dac6b48c32194e236c8f4997b11026df20920"
+    },
+    "package-lock.json": {
+      "type": "file",
+      "size": 56502,
+      "lastModified": "2025-08-15T06:55:03.973Z",
+      "contentHash": "642897ccb13df91415be664bcea25dc86bf938306370eb620ecc647ff5ef222b"
+    },
+    "package.json": {
+      "type": "file",
+      "size": 544,
+      "lastModified": "2025-08-15T06:55:03.973Z",
+      "contentHash": "afad7be03b8268b490833fb44683678466a68f0fabe8a6a76c678dca2bf1528d"
+    },
+    "secretFetcher.cjs": {
+      "type": "file",
+      "size": 824,
+      "lastModified": "2025-08-15T06:55:03.973Z",
+      "contentHash": "ae87ffd1ee758cf27ab310b72c150e21f02466e3edec4e374d9d7d27298c2285"
+    },
+    "secretFetcher.js": {
+      "type": "file",
+      "size": 1223,
+      "lastModified": "2025-08-15T06:55:03.973Z",
+      "contentHash": "9dfbe549a583438e20ef0cdd397311b863e8d869b295b26f7338638881d51e07"
+    },
+    "secretFetcher.ts": {
+      "type": "file",
+      "size": 674,
+      "lastModified": "2025-08-15T06:55:03.973Z",
+      "contentHash": "d2c3952328f328f392d0c55b7494a834b09a052bb40da71924dc72aa79edef3d"
+    },
+    "secretsFetcherSummary.md": {
+      "type": "file",
+      "size": 1692,
+      "lastModified": "2025-08-15T06:55:03.973Z",
+      "contentHash": "e5c41584948332732e0d89816c107e28a2d961fb5bd411d395c3c744b528481b"
+    },
+    "secureServer.js": {
+      "type": "file",
+      "size": 6469,
+      "lastModified": "2025-08-15T06:55:03.973Z",
+      "contentHash": "4201ec0db4288a1d3ed1ca8ec51291ee000448f86bb9038263c8619c1ab974da"
+    },
+    "secureServer.ts": {
+      "type": "file",
+      "size": 0,
+      "lastModified": "2025-08-15T06:55:03.973Z",
+      "contentHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "supabaseClient.ts": {
+      "type": "file",
+      "size": 3281,
+      "lastModified": "2025-08-15T06:55:03.973Z",
+      "contentHash": "9dbf0795771065ad8d20c7ad7dc21c07669febae5ffdf9036712d5367c911c99"
+    },
+    "testEnv.js": {
+      "type": "file",
+      "size": 424,
+      "lastModified": "2025-08-15T06:55:03.973Z",
+      "contentHash": "3821f98decf96e0c75924a4812d8fdefde5d782b430574b2a16918eb7d79ecb2"
+    },
+    "tsconfig.json": {
+      "type": "file",
+      "size": 457,
+      "lastModified": "2025-08-15T06:55:03.973Z",
+      "contentHash": "6f30067c9498e06bd9c567aad1c7fc40aa6af1bcf6421397d5dbefe14f6485dc"
+    }
+  }
+}

@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 🛡️ Security Vulnerability Report
+    url: https://github.com/cgb808/ZenGlow/security/advisories/new
+    about: Report security vulnerabilities privately through GitHub Security Advisories
+  - name: 💬 General Discussion
+    url: https://github.com/cgb808/ZenGlow/discussions
+    about: Ask questions and discuss ZenGlow with the community
+  - name: 📚 Documentation
+    url: https://github.com/cgb808/ZenGlow/blob/main/Docs/README.md
+    about: Browse the comprehensive documentation

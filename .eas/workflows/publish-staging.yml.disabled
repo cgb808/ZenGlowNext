@@ -1,0 +1,13 @@
+name: Publish staging update
+
+on:
+  push:
+    branches: ['develop', 'staging']
+
+jobs:
+  update:
+    name: Staging Update
+    type: update
+    params:
+      channel: 'staging'
+      message: 'Staging update from ${{ github.ref_name }}: ${{ github.event.head_commit.message }}'

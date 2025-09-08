@@ -1,0 +1,39 @@
+# Base training / experimentation stack (lean; extend per-project)
+# Core
+numpy
+pandas
+scikit-learn
+scipy
+
+# Deep learning (choose what you need; keep versions flexible initially)
+torch
+transformers
+accelerate
+
+# TensorFlow for TinyLSTM mobile models
+tensorflow>=2.10.0
+tensorflow-lite-support
+
+# Data & experiments
+jupyterlab
+ipykernel
+matplotlib
+seaborn
+python-dotenv
+
+# Lint/format
+black
+isort
+
+# Optional RAG / embeddings
+sentence-transformers
+faiss-cpu
+
+# Optional model conversion
+onnxruntime
+
+# Causal Inference (heavyweight libs - install when needed)
+# dowhy>=0.11.0  # Microsoft's causal inference library
+# causalml>=0.15.0  # Advanced causal ML methods
+# Note: Uncomment above when ready for full causal analysis
+# These libraries have heavy dependencies and are guarded in imports

@@ -1,0 +1,25 @@
+file:
+  path: src/views/rechargetime.jsx
+  name: rechargetime.jsx
+  extension: .jsx
+  size: 556
+  modified: '2025-07-12T10:03:30.735Z'
+  lines: 18
+analysis:
+  imports: 2
+  exports: 1
+  components: 1
+  dependencies:
+    - react
+    - react-native
+  hasTests: false
+  hasStories: false
+  hasDocumentation: false
+  complexity: 1
+metadata:
+  purpose: No description available
+  used_by: []
+  dependencies_internal: []
+  dependencies_external:
+    - react
+    - react-native

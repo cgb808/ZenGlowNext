@@ -1,10 +1,7 @@
 """
 WebSocket metrics streaming endpoint for real-time dashboard monitoring.
 """
-
-from __future__ import annotations
-
-import asyncio
+    }
 import json
 import time
 from typing import Any, Dict, List
@@ -85,18 +82,3 @@ def websocket_status() -> Dict[str, Any]:
         "update_interval_seconds": 5,
     }
 """Metrics streaming router stub.
-
-Exports `metrics_router` (HTTP) used for potential WebSocket metrics streaming
-in `app.main`. Real-time push not implemented yet; provides simple ping.
-"""
-
-from __future__ import annotations
-
-from fastapi import APIRouter
-
-metrics_router = APIRouter(prefix="/metrics")
-
-
-@metrics_router.get("/ws_ping")
-async def metrics_ws_ping() -> dict[str, str]:  # pragma: no cover - trivial
-    return {"ok": "true"}

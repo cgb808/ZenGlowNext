@@ -1,0 +1,34 @@
+{
+  "name": "ZenGlow AI Training",
+  "dockerComposeFile": ["../docker-compose.ai.yml"],
+  "service": "ai-train",
+  "workspaceFolder": "/workspace/ai-workspace",
+  "remoteUser": "vscode",
+  "forwardPorts": [8888, 6006, 8080, 54324],
+  "containerEnv": {
+    "FORCE_COLOR": "1"
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-python.black-formatter",
+        "ms-toolsai.jupyter",
+        "ms-toolsai.jupyter-keymap",
+        "ms-toolsai.jupyter-renderers",
+        "github.copilot",
+        "github.copilot-chat",
+        "ms-azuretools.vscode-docker",
+        "redhat.vscode-yaml",
+        "eamodio.gitlens"
+      ],
+      "settings": {
+        "python.formatting.provider": "black",
+        "editor.formatOnSave": true,
+        "git.ignoreLimitWarning": true
+      }
+    }
+  },
+  "postCreateCommand": "pip install -r requirements.txt || true",
+  "updateContentCommand": "pip install -r requirements.txt || true"
+}

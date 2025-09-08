@@ -37,7 +37,6 @@ Related Docs:
 | Invalid retrieval mode | Startup exits config guard | Choose one of `pgvector|weaviate|supabase_rpc|disabled`. |
 | Deprecated /model/embed call | 410 Gone | Point clients to remote embed service at `EMBED_BASE_URL`. Enable legacy fallback only with `LEGACY_EMBED=1` + `DEV_LOCAL_EMBED=1` (temporary). |
 | Health passes but queries slow | p95 high in logs | Check DB indexing & embedding service latency; inspect `/metrics` counters and add indexing where needed. |
-| Unexpected GPU warnings | Logs mention CUDA / NVML on non‑NVIDIA host | Leave GPU probing disabled (default) or unset `ENABLE_GPU_PROBE`; set `ENABLE_GPU_PROBE=1` only on machines with NVIDIA GPUs + GPUtil installed. |
 
 ### Environment Validation
 
@@ -46,16 +45,6 @@ Startup config guard fails fast when `STRICT_ENV=true`. To allow degraded startu
 ### Metrics
 
 Prometheus-style counters available at `/metrics` (minimal scaffold). Future histograms will extend this endpoint without breaking current format.
-
-#### GPU Metrics (Opt-In)
-
-By default the system avoids any GPU / CUDA library probing to keep startup silent on AMD / integrated graphics hosts. To include lightweight GPU utilization and memory stats in `/metrics/sys` set:
-
-```
-ENABLE_GPU_PROBE=1
-```
-
-Requirements (optional): install `GPUtil` in the environment; absence simply yields an empty `gpus` list. When disabled or unavailable, `"gpus": []` is returned.
 
 ### Retention & Maintenance Placeholders
 

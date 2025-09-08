@@ -1,0 +1,9 @@
+{
+  "name": "zenmoon-src",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {},
+  "devDependencies": {
+    "typescript": "^5.0.0"
+  }
+}

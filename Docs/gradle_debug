@@ -1,0 +1,43 @@
+Checklist
+
+Verbose Gradle logs in terminal
+Full stacktraces
+Remote “step-through” debugging of the Gradle daemon (optional)
+App logs (adb) alongside Gradle output
+Commands (bash)
+
+From project root, go into Android folder:
+
+cd android
+Run builds with rich logs and stacktraces:
+
+./gradlew assembleDebug --info --stacktrace --console=rich
+Install and run on device/emulator:
+
+./gradlew :app:installDebug
+adb shell am start -n com.cgbowen.ZenGlow/.MainActivity
+Tail app logcat (filter to your app):
+
+adb logcat | grep -i zenglow
+Check/stop Gradle daemons:
+
+./gradlew --status
+./gradlew --stop
+Remote debug Gradle (step-through) [optional]
+
+Run a task with Gradle debug enabled (defaults to JDWP on port 5005 and waits to attach):
+
+./gradlew assembleDebug -Dorg.gradle.debug=true
+Customize port/attach behavior (optional flags):
+
+./gradlew assembleDebug -Dorg.gradle.debug=true -Dorg.gradle.debug.port=5006 -Dorg.gradle.debug.server=true -Dorg.gradle.debug.suspend=true
+Attach a debugger:
+
+With an IDE (recommended) attach to localhost:5005 (or your chosen port)
+Or from terminal with jdb:
+jdb -attach 127.0.0.1:5005
+Persist logging level (optional)
+
+In gradle.properties add:
+org.gradle.logging.level=info
+Or: org.gradle.logging.level=debug

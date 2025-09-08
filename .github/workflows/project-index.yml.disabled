@@ -1,0 +1,54 @@
+---
+name: Project Index Generation
+
+on:
+  push:
+    branches:
+      - master
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  generate-project-index:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Generate project index
+        run: npm run generate-project-index
+        
+      - name: Check for changes
+        id: check-changes
+        run: |
+          git diff --exit-code project-index.json project-index.md || echo "changes=true" >> $GITHUB_OUTPUT
+          
+      - name: Fail if files are out of sync
+        if: steps.check-changes.outputs.changes == 'true'
+        run: |
+          echo "❌ Project index files are out of sync!"
+          echo "The generated project-index.json and/or project-index.md differ from committed versions."
+          echo ""
+          echo "To fix this, run locally:"
+          echo "  npm run generate-project-index"
+          echo "Then commit the updated files."
+          echo ""
+          echo "Changes detected:"
+          git diff project-index.json project-index.md
+          exit 1
+          
+      - name: Success message
+        if: steps.check-changes.outputs.changes != 'true'
+        run: echo "✅ Project index files are up to date!"

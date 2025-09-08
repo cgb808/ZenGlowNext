@@ -1,0 +1,134 @@
+---
+# ============================
+# ✅ ZenIndexer v4.0 Full Stack
+# Includes:
+# - Dockerfile for AI service
+# - Docker Compose for Docker Swarm
+# - GitHub Actions for CI indexing
+# - .zenignore for path filtering
+# - RAG Feeder CLI (with batch mode)
+# ============================
+
+# --- Dockerfile.ai ---
+FROM python:3.11-slim AS builder
+WORKDIR /app
+RUN apt-get update && apt-get install -y build-essential gcc curl && rm -rf /var/lib/apt/lists/*
+COPY requirements.txt .
+RUN python -m venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
+RUN pip install --no-cache-dir --upgrade pip && pip install --no-cache-dir -r requirements.txt
+
+FROM python:3.11-slim
+WORKDIR /app
+COPY --from=builder /opt/venv /opt/venv
+COPY ai_service/ ./
+RUN useradd --create-home --shell /bin/bash aiservice
+USER aiservice
+ENV PATH="/opt/venv/bin:$PATH"
+ENV PYTHONUNBUFFERED=1
+EXPOSE 8000
+HEALTHCHECK --interval=60s --timeout=10s --start-period=60s --retries=3 \
+  CMD curl -f http://localhost:8000/health || exit 1
+CMD ["gunicorn", "main:app", "--bind", "0.0.0.0:8000", "--worker-class", "uvicorn.workers.UvicornWorker", "--workers", "5"]
+
+# --- docker-compose.yml (Swarm-ready) ---
+version: '3.8'
+services:
+  ai-service:
+    build:
+      context: /mnt/c/Users/CGBowen/Documents/GitHub/ZenIndexer
+      dockerfile: Dockerfile.ai
+    container_name: zenindexer-ai-service
+    ports:
+      - "8000:8000"
+    volumes:
+      - /mnt/c/Users/CGBowen/Documents/GitHub/ZenIndexer:/app
+      - /root/models:/app/models:ro
+    environment:
+      - LLM_MODEL_PATH=/app/models/mistral-7b-instruct-v0.1.Q4_K_M.gguf
+      - VECTOR_DB_PATH=/app/vector_db
+      - EMBEDDING_MODEL=all-MiniLM-L6-v2
+      - MAX_CHUNK_SIZE=8000
+      - SIMILARITY_THRESHOLD=0.8
+      - BATCH_SIZE=10
+    networks:
+      - zenindexer-network
+    deploy:
+      mode: replicated
+      replicas: 1
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 4G
+        reservations:
+          cpus: '1.0'
+          memory: 2G
+      restart_policy:
+        condition: on-failure
+volumes:
+  chroma_db_data:
+    driver: local
+networks:
+  zenindexer-network:
+    driver: bridge
+
+# --- .zenignore ---
+node_modules
+.git
+build
+dist
+*.log
+*.tmp
+coverage
+__snapshots__
+__tests__
+
+# --- .github/workflows/rag-sync.yml ---
+name: RAG Feeder Sync
+on:
+  push:
+    branches: [ main, dev ]
+  pull_request:
+    branches: [ main ]
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    env:
+      AI_SERVICE_URL: ${{ secrets.AI_SERVICE_URL }}
+      NODE_ENV: ci
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 20
+      - run: npm ci
+      - run: node zenindexer.js --once
+
+# --- zen.config.yaml (CI friendly) ---
+version: "4.0-rag"
+watch_paths:
+  - ./src
+  - ./components
+  - ./docs
+registry_path: .zen/registry.yaml
+exclude_paths:
+  - node_modules
+  - .git
+  - dist
+  - build
+ai_service:
+  enabled: true
+  index_endpoint: $AI_SERVICE_URL/index
+  retry_attempts: 3
+  circuit_breaker:
+    failure_threshold: 3
+    timeout_ms: 30000
+monitoring:
+  log_level: info
+content_processing:
+  default_chunk_size: 1000
+  default_chunk_overlap: 200
+
+# === ZenIndexer Feeder Add-On ===
+# Ensure `zenindexer.js` supports `--once` mode to scan and exit.
+# Already implemented in your last version.

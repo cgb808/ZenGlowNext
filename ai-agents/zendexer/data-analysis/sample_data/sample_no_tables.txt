@@ -1,0 +1,17 @@
+This is a regular document with no tabular structure.
+
+It contains multiple paragraphs of normal text that should not be 
+detected as tables by the OCR processing system.
+
+Here's another paragraph with some numbers like 123 and 456, but 
+they're not arranged in any tabular format.
+
+The purpose of this file is to test that the system gracefully 
+handles text without tables and doesn't create false positives.
+
+Some more text here to make it realistic.
+- Bullet point one
+- Bullet point two  
+- Bullet point three
+
+End of document.

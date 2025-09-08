@@ -5,3 +5,7 @@ plotly>=5.14.0
 seaborn>=0.12.0
 scikit-learn>=1.3.0
 jupyter>=1.0.0
+
+# OCR Table Extraction dependencies
+# Note: These are built-in Python modules, no additional dependencies needed
+# json, csv, re, os, pathlib are all built-in

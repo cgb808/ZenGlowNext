@@ -1,0 +1,42 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://zenglow.app/schemas/emotion.schema.v1.1.0.json",
+  "title": "ZenGlow Emotion Schema v1.1.0",
+  "type": "object",
+  "properties": {
+    "tag": {
+      "type": "string",
+      "enum": [
+        "calm",
+        "curious",
+        "growth",
+        "peaceful",
+        "empathetic",
+        "nurturing",
+        "connected",
+        "energetic",
+        "neutral"
+      ]
+    },
+    "intensity": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "pulsePattern": {
+      "type": "string",
+      "description": "Animation pattern for this emotion"
+    },
+    "triggers": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Events that trigger this emotion"
+    }
+  },
+  "required": [
+    "tag",
+    "intensity"
+  ]
+}

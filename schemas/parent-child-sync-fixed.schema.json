@@ -1,0 +1,159 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://zenglow.app/schemas/parent-child-connection.json",
+  "title": "Parent-Child Connection Schema",
+  "description": "Schema for secure parent-child meditation app connectivity",
+  "type": "object",
+  "$defs": {
+    "ConnectionCode": {
+      "type": "string",
+      "pattern": "^[A-Z0-9]{12}$",
+      "description": "12-character alphanumeric connection code"
+    },
+    "SessionId": {
+      "type": "string",
+      "pattern": "^session_[0-9]+_[a-z0-9]+$",
+      "description": "Unique session identifier"
+    },
+    "UserId": {
+      "type": "string",
+      "pattern": "^(parent|child)_[0-9]+$",
+      "description": "User identifier with role prefix"
+    },
+    "MoodLevel": {
+      "type": "string",
+      "enum": [
+        "very-sad",
+        "sad", 
+        "neutral",
+        "happy",
+        "very-happy",
+        "excited",
+        "calm",
+        "anxious",
+        "frustrated"
+      ]
+    },
+    "SessionType": {
+      "type": "string",
+      "enum": [
+        "parallel-practice",
+        "guided-together", 
+        "independent-monitored",
+        "bedtime-routine"
+      ]
+    }
+  },
+  "properties": {
+    "ParentChildConnection": {
+      "type": "object",
+      "required": ["parentId", "childId", "connectionCode", "isActive", "connectedAt"],
+      "properties": {
+        "parentId": { "$ref": "#/$defs/UserId" },
+        "childId": { "$ref": "#/$defs/UserId" },
+        "connectionCode": { "$ref": "#/$defs/ConnectionCode" },
+        "isActive": { "type": "boolean" },
+        "connectedAt": { 
+          "type": "string", 
+          "format": "date-time" 
+        },
+        "lastHeartbeat": { 
+          "type": "string", 
+          "format": "date-time" 
+        },
+        "sharedSettings": {
+          "type": "object",
+          "properties": {
+            "allowParentGuidance": { "type": "boolean" },
+            "shareProgress": { "type": "boolean" },
+            "enableEncouragement": { "type": "boolean" },
+            "sessionSyncMode": { "$ref": "#/$defs/SessionType" }
+          },
+          "required": ["allowParentGuidance", "shareProgress", "enableEncouragement"]
+        }
+      }
+    },
+    "SharedMeditationSession": {
+      "type": "object",
+      "required": ["sessionId", "parentId", "childId", "sessionType", "startTime", "isActive"],
+      "properties": {
+        "sessionId": { "$ref": "#/$defs/SessionId" },
+        "parentId": { "$ref": "#/$defs/UserId" },
+        "childId": { "$ref": "#/$defs/UserId" },
+        "sessionType": { "$ref": "#/$defs/SessionType" },
+        "startTime": { 
+          "type": "string", 
+          "format": "date-time" 
+        },
+        "endTime": { 
+          "type": "string", 
+          "format": "date-time" 
+        },
+        "plannedDuration": {
+          "type": "number",
+          "minimum": 1,
+          "maximum": 120,
+          "description": "Duration in minutes"
+        },
+        "isActive": { "type": "boolean" },
+        "childProgress": {
+          "type": "object",
+          "required": ["currentStep", "completionPercentage", "breathingSync", "engagementLevel", "lastUpdate"],
+          "properties": {
+            "currentStep": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "completionPercentage": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100
+            },
+            "breathingSync": { "type": "boolean" },
+            "engagementLevel": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "lastUpdate": { 
+              "type": "string", 
+              "format": "date-time" 
+            }
+          }
+        }
+      }
+    },
+    "SecureMessage": {
+      "type": "object",
+      "required": ["messageId", "fromParent", "content", "timestamp", "messageType"],
+      "properties": {
+        "messageId": {
+          "type": "string",
+          "pattern": "^msg_[0-9]+_[a-z0-9]+$"
+        },
+        "fromParent": { "type": "boolean" },
+        "content": {
+          "type": "string",
+          "maxLength": 200,
+          "description": "Message content - sanitized for security"
+        },
+        "timestamp": { 
+          "type": "string", 
+          "format": "date-time" 
+        },
+        "messageType": {
+          "type": "string",
+          "enum": [
+            "encouragement",
+            "guidance", 
+            "check-in",
+            "celebration",
+            "reminder"
+          ]
+        },
+        "acknowledged": { "type": "boolean" },
+        "encrypted": { "type": "boolean" }
+      }
+    }
+  }
+}

@@ -209,65 +209,6 @@ def list_artifacts(
     limit: int = 100,
     svc: BaseFamilyService = Depends(get_family_service),
     user: str = Depends(get_family_user),
-):
-    return {"items": []}
-"""FastAPI router exposing family context operations with DI."""
-
-from __future__ import annotations
-
-from typing import Any, Optional
-
-from fastapi import APIRouter, Depends, HTTPException
-from pydantic import BaseModel
-
-from .context import ensure_seed
-from .deps import get_family_service, get_family_user
-from .service import BaseFamilyService
-
-router = APIRouter(prefix="/family", tags=["family"])
-
-ensure_seed()
-
-
-class PersonIn(BaseModel):
-    id: str
-    name: str
-    age: int
-    roles: Optional[list[str]] = None
-    meta: Optional[dict[str, Any]] = None
-
-
-class PersonOut(BaseModel):
-    id: str
-    name: str
-    age: int
-    grade_band: str
-    roles: list[str]
-    meta: dict[str, Any]
-
-
-@router.get("/people", response_model=list[PersonOut])
-def list_people(
-    svc: BaseFamilyService = Depends(get_family_service), user: str = Depends(get_family_user)
-):
-    return [PersonOut(**p) for p in svc.list_people(user_id=user) if p]
-
-
-@router.post("/people", response_model=PersonOut)
-def upsert_person(
-    body: PersonIn,
-    svc: BaseFamilyService = Depends(get_family_service),
-    user: str = Depends(get_family_user),
-):
-    p = svc.upsert_person(
-        {
-            "id": body.id,
-            "name": body.name,
-            "age": body.age,
-            "roles": body.roles or [],
-            "meta": body.meta or {},
-        },
-        user_id=user,
     )
     return PersonOut(**p)
 

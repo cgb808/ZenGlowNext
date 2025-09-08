@@ -1,0 +1,10 @@
+# Indexer Configuration
+watch_paths:
+  - src/
+  - components/
+  - hooks/
+  - utils/
+  - types/
+  - Docs/
+sidecar_extension: .sidecar.yaml
+registry_file: .indexer/registry.yaml

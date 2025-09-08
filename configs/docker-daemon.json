@@ -1,0 +1,32 @@
+{
+  "_comment": "Docker Optimization Configuration for ZenGlow Development",
+  "data-root": "/data/docker",
+  "storage-driver": "overlay2",
+  "storage-opts": ["overlay2.override_kernel_check=true"],
+  "log-driver": "json-file",
+  "log-opts": {
+    "max-size": "10m",
+    "max-file": "3"
+  },
+  "default-ulimits": {
+    "nofile": { "Name": "nofile", "Soft": 64000, "Hard": 64000 }
+  },
+  "features": { "buildkit": true },
+  "experimental": true,
+  "metrics-addr": "127.0.0.1:9323",
+  "live-restore": true,
+  "userland-proxy": false,
+  "default-address-pools": [
+    { "base": "10.20.0.0/16", "size": 24 },
+    { "base": "10.30.0.0/16", "size": 24 }
+  ],
+  "dns": ["8.8.8.8", "8.8.4.4"],
+  "registry-mirrors": [],
+  "insecure-registries": [],
+  "builder": {
+    "gc": {
+      "enabled": true,
+      "defaultKeepStorage": "10GB"
+    }
+  }
+}

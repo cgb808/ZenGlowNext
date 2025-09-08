@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="20dp"
+    android:background="@color/zen_background"
+    android:gravity="center">
+
+    <!-- App Header -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ZenGlow Heart Rate Monitor"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="@color/zen_primary"
+        android:layout_marginBottom="30dp"
+        android:gravity="center" />
+
+    <!-- Heart Rate Display Card -->
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:elevation="8dp"
+        app:cardCornerRadius="15dp"
+        app:cardBackgroundColor="@color/zen_card_background"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="25dp"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Heart Rate"
+                android:textSize="16sp"
+                android:textColor="@color/zen_text_secondary"
+                android:layout_marginBottom="10dp" />
+
+            <TextView
+                android:id="@+id/heart_rate_display"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="--"
+                android:textSize="48sp"
+                android:textStyle="bold"
+                android:textColor="@color/zen_heart_rate"
+                android:layout_marginBottom="5dp" />
+
+            <TextView
+                android:id="@+id/on_body_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Not monitoring"
+                android:textSize="14sp"
+                android:textColor="@color/zen_text_secondary" />
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <!-- Status Card -->
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:elevation="4dp"
+        app:cardCornerRadius="10dp"
+        app:cardBackgroundColor="@color/zen_card_background">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Status"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/zen_primary"
+                android:layout_marginBottom="10dp" />
+
+            <TextView
+                android:id="@+id/status_display"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ready to monitor"
+                android:textSize="14sp"
+                android:textColor="@color/zen_text_primary" />
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <!-- Control Buttons -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/toggle_monitoring_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:text="Start Monitoring"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:background="@drawable/zen_button_primary"
+            android:padding="15dp"
+            android:elevation="4dp" />
+
+        <Button
+            android:id="@+id/export_data_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Export Health Data"
+            android:textSize="14sp"
+            android:textColor="@color/zen_primary"
+            android:background="@drawable/zen_button_secondary"
+            android:padding="12dp" />
+
+    </LinearLayout>
+
+    <!-- Device Information -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="30dp"
+        android:padding="15dp"
+        android:background="@drawable/zen_info_background">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Compatible Devices"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:textColor="@color/zen_text_secondary"
+            android:layout_marginBottom="5dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="• Built-in heart rate sensor\n• Samsung Galaxy Watch series\n• Galaxy Watch Active series\n• Galaxy Watch4/5/6 series"
+            android:textSize="11sp"
+            android:textColor="@color/zen_text_secondary"
+            android:lineSpacingExtra="2dp" />
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -18,7 +18,7 @@ import os
 import threading
 import time
 from collections import OrderedDict
-from typing import Any, Optional
+from typing import Any, Callable
 
 import msgpack  # type: ignore
 from fastapi import Request
@@ -66,7 +66,7 @@ def _key(method: str, path: str, payload: Any) -> str:
     return h.hexdigest()
 
 
-def get_or_set(method: str, path: str, payload: Any, builder: callable) -> _Entry:
+def get_or_set(method: str, path: str, payload: Any, builder: Callable[[], Any]) -> _Entry:
     if _disabled:
         data = builder()
         return _Entry(data, msgpack.packb(data, use_bin_type=True))
@@ -91,7 +91,7 @@ def get_or_set(method: str, path: str, payload: Any, builder: callable) -> _Entr
     return new_ent
 
 
-def respond_cached(request: Request, method: str, path: str, payload: Any, builder: callable) -> Response:
+def respond_cached(request: Request, method: str, path: str, payload: Any, builder: Callable[[], Any]) -> Response:
     ent = get_or_set(method, path, payload, builder)
     accept = request.headers.get("accept", "")
     if "application/msgpack" in accept.lower():
@@ -103,6 +103,9 @@ def cache_stats() -> dict[str, Any]:
     if _disabled:
         return {"disabled": True, "size": 0, "max": _max, "ttl_sec": _ttl}
     with _lock:
-    base = {"disabled": False, "size": len(_store), "max": _max, "ttl_sec": _ttl}
-    base.update(cache_metrics.snapshot(prefix_filter="response_"))
-    return base
+        base: dict[str, Any] = {"disabled": False, "size": len(_store), "max": _max, "ttl_sec": _ttl}
+        try:
+            base.update(cache_metrics.snapshot(prefix_filter="response_"))
+        except Exception:
+            pass
+        return base

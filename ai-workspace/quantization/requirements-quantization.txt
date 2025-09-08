@@ -1,0 +1,22 @@
+# Model Quantization Dependencies for Codespace
+# Core quantization libraries
+torch>=2.0.0
+transformers>=4.35.0
+accelerate>=0.24.0
+bitsandbytes>=0.41.0
+peft>=0.6.0
+
+# GGUF support
+llama-cpp-python>=0.2.0
+ctransformers>=0.2.0
+
+# Utilities
+numpy
+pandas
+psutil
+GPUtil
+
+# Development and testing
+pytest
+jupyter
+ipykernel

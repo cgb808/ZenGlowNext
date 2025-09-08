@@ -1,0 +1,13 @@
+{
+  "folders": [
+    {
+      "path": "../..",
+    },
+  ],
+  "settings": {
+    "docwriter.progress.trackClasses": true,
+    "docwriter.progress.trackTypes": true,
+    "docwriter.custom.author": "CGB808",
+    "diffEditor.codeLens": true,
+  },
+}

@@ -1,0 +1,60 @@
+architecture:
+  patterns:
+    - Clean Architecture
+    - Component-Based Design
+    - Emotional-First UX
+    - Neurodivergent-Friendly Patterns
+  structure:
+    src:
+      components:
+        parent: Parent Dashboard UI components
+        emotional: ZenMoon and emotional interaction components
+      hooks:
+        purpose: Custom React hooks for state management
+        key_hooks:
+          - 'usePredictiveInsights: AI-like emotional pattern analysis'
+      services:
+        purpose: External API and system integrations
+        key_services:
+          - 'parentDashboardApi: Mock data layer (Supabase ready)'
+          - 'emotionalAudio: Hum-based audio feedback system'
+      types:
+        purpose: TypeScript type definitions
+        key_types:
+          - 'parentDashboard: Complete emotional system types'
+          - 'NEW: MessageType, ReactionType, Conversation interfaces'
+          - 'NEW: CollaborativeTask, AchievementDef types'
+      utils:
+        purpose: Utility functions and helpers
+        key_utils:
+          - 'emotionalSystem: ZenMoon state management'
+          - 'parentDashboardUtils: Data formatting helpers'
+          - 'NEW: getMoodStyles: Mental health score to visual mapping'
+          - 'NEW: getEmotionMoodStyles: Emotion to glow effect mapping'
+    supabase:
+      migrations: Database schema versions
+      key_schemas:
+        - 20250714000001_parent_dashboard_schema.sql
+dependencies:
+  react_native:
+    expo: ^53.0.19
+    react: 18.2.0
+    react_native: 0.74.5
+  navigation:
+    react_navigation_native: ^6.1.7
+    react_navigation_native_stack: ^6.9.14
+  database:
+    supabase_js: ^2.50.5
+    async_storage: ^1.24.0
+  audio:
+    expo_av: ~14.0.7
+  development:
+    typescript: ^5.3.0
+    eslint: ^8.57.0
+    prettier: ^3.2.5
+    husky: ^9.0.11
+  ci_cd:
+    mcp_jenkins: ^0.3.6
+    python_jenkins: ^1.8.2
+    beautifulsoup4: ^4.13.4
+description: Technical architecture and dependency information

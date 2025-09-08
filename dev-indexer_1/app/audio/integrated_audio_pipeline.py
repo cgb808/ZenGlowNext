@@ -54,3 +54,10 @@ class WhisperCPPTranscriber:
 
         # Verify setup
         if not os.path.exists(self.binary_path):
+            # Minimal stub: avoid crashing on import if binary missing.
+            # Real implementation should raise or download model.
+            logger.warning("whisper.cpp binary not found at %s", self.binary_path)
+            # Keep instance usable in dev by flagging unavailable state
+            self.unavailable = True
+        else:
+            self.unavailable = False

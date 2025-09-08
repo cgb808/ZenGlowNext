@@ -1,13 +1,6 @@
-# yaml-language-server: $schema=https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json
-
 networks:
   zenglow-network:
     driver: bridge
-
-volumes:
-  timescale_db_data:
-  supabase_db_data:
-  supabase_storage_data:
 
 services:
   app:
@@ -16,21 +9,12 @@ services:
       dockerfile: .devcontainer/Dockerfile
     volumes:
       - .:/workspace:cached
-    command: /usr/local/bin/start-xrdp.sh
+    # Overrides default command so things don't shut down after the process ends.
+    command: sleep infinity
     depends_on:
       - timescaledb-local
       - weaviate
       - redis
-    ports:
-      - "3389:3389"
-    healthcheck:
-      test: ["CMD-SHELL", "ss -tnl | grep -q ':3389' || exit 1"]
-      interval: 30s
-      timeout: 5s
-      retries: 5
-    labels:
-      com.zenglow.stack: core
-      com.zenglow.role: dev-gui
     networks:
       - zenglow-network
 
@@ -43,35 +27,24 @@ services:
       POSTGRES_DB: zenglow
       POSTGRES_USER: zenglow
     ports:
-      - "54322:5432"
+      - '54322:5432'
     volumes:
       - timescale_db_data:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U zenglow -d zenglow"]
-      interval: 15s
-      timeout: 5s
-      retries: 5
     networks:
       - zenglow-network
 
   weaviate:
     image: semitechnologies/weaviate:1.23.7
     container_name: weaviate
-    restart: unless-stopped
+    restart: on-failure:0
     ports:
-      - "8080:8080"
+      - '8080:8080'
     environment:
       QUERY_DEFAULTS_LIMIT: 25
-      AUTHENTICATION_ANONYMOUS_ACCESS_ENABLED: "true"
-      DEFAULT_VECTORIZER_MODULE: "none"
-      ENABLE_MODULES: ""
-      PERSISTENCE_DATA_PATH: "/var/lib/weaviate"
-    healthcheck:
-      test:
-        ["CMD", "wget", "-qO-", "http://localhost:8080/v1/.well-known/ready"]
-      interval: 20s
-      timeout: 5s
-      retries: 10
+      AUTHENTICATION_ANONYMOUS_ACCESS_ENABLED: 'true'
+      DEFAULT_VECTORIZER_MODULE: 'none'
+      ENABLE_MODULES: ''
+      PERSISTENCE_DATA_PATH: '/var/lib/weaviate'
     networks:
       - zenglow-network
 
@@ -80,12 +53,7 @@ services:
     container_name: redis
     restart: unless-stopped
     ports:
-      - "6379:6379"
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+      - '6379:6379'
     networks:
       - zenglow-network
 
@@ -96,19 +64,16 @@ services:
     container_name: zenglow-nginx
     restart: unless-stopped
     ports:
-      - "80:80"
-      - "443:443"
+      - '80:80'
+      - '443:443'
     volumes:
       - ./nginx/logs:/var/log/nginx
       - ./nginx/sample-images:/data/images:ro
       - ./app:/var/www/zenglow:ro
     depends_on:
-      app:
-        condition: service_healthy
-      weaviate:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
+      - app
+      - weaviate
+      - redis
     networks:
       - zenglow-network
 
@@ -119,18 +84,13 @@ services:
     restart: unless-stopped
     environment:
       POSTGRES_PASSWORD: examplepassword
-      POSTGRES_DB: postgres
-      POSTGRES_USER: postgres
-      SUPABASE_INTERNAL_IMAGE: "1"
+      POSTGRES_DB: zenglow
+      POSTGRES_USER: zenglow
+      SUPABASE_INTERNAL_IMAGE: '1'
     ports:
-      - "54321:5432"
+      - '54321:5432'
     volumes:
       - supabase_db_data:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d postgres"]
-      interval: 15s
-      timeout: 5s
-      retries: 5
     networks:
       - zenglow-network
 
@@ -139,10 +99,10 @@ services:
     container_name: supabase-kong
     restart: unless-stopped
     ports:
-      - "8000:8000/tcp"
-      - "8443:8443/tcp"
+      - '8000:8000/tcp'
+      - '8443:8443/tcp'
     environment:
-      KONG_DATABASE: "off"
+      KONG_DATABASE: 'off'
       KONG_DECLARATIVE_CONFIG: /kong.yml
       KONG_DNS_ORDER: LAST,A,CNAME
       KONG_PLUGINS: request-transformer,cors,key-auth,acl,basic-auth
@@ -164,17 +124,17 @@ services:
       GOTRUE_API_PORT: 9999
       API_EXTERNAL_URL: http://localhost:8000
       GOTRUE_DB_DRIVER: postgres
-      GOTRUE_DB_DATABASE_URL: postgres://postgres:examplepassword@supabase-db:5432/postgres?search_path=auth
+      GOTRUE_DB_DATABASE_URL: postgres://zenglow:examplepassword@supabase-db:5432/zenglow?search_path=auth
       GOTRUE_SITE_URL: http://localhost:3000
-      GOTRUE_URI_ALLOW_LIST: "*"
-      GOTRUE_DISABLE_SIGNUP: "false"
+      GOTRUE_URI_ALLOW_LIST: '*'
+      GOTRUE_DISABLE_SIGNUP: 'false'
       GOTRUE_JWT_ADMIN_ROLES: service_role
       GOTRUE_JWT_AUD: authenticated
       GOTRUE_JWT_DEFAULT_GROUP_NAME: authenticated
       GOTRUE_JWT_EXP: 3600
-      GOTRUE_JWT_SECRET: ${SUPABASE_JWT_SECRET:-dev_supabase_jwt_secret_please_change_32_chars_min}
-      GOTRUE_EXTERNAL_EMAIL_ENABLED: "true"
-      GOTRUE_MAILER_AUTOCONFIRM: "true"
+      GOTRUE_JWT_SECRET: your-super-secret-jwt-token-with-at-least-32-characters-long
+      GOTRUE_EXTERNAL_EMAIL_ENABLED: 'true'
+      GOTRUE_MAILER_AUTOCONFIRM: 'true'
       GOTRUE_SMTP_ADMIN_EMAIL: admin@example.com
       GOTRUE_SMTP_HOST: supabase-inbucket
       GOTRUE_SMTP_PORT: 2500
@@ -182,7 +142,7 @@ services:
       GOTRUE_SMTP_PASS: fake_mail_password
       GOTRUE_SMTP_SENDER_NAME: fake_sender
     ports:
-      - "9999:9999"
+      - '9999:9999'
     depends_on:
       - supabase-db
     networks:
@@ -193,15 +153,15 @@ services:
     container_name: supabase-rest
     restart: unless-stopped
     environment:
-      PGRST_DB_URI: postgres://postgres:examplepassword@supabase-db:5432/postgres
+      PGRST_DB_URI: postgres://authenticator:examplepassword@supabase-db:5432/zenglow
       PGRST_DB_SCHEMAS: public,storage,graphql_public
       PGRST_DB_ANON_ROLE: anon
-      PGRST_JWT_SECRET: ${SUPABASE_JWT_SECRET:-dev_supabase_jwt_secret_please_change_32_chars_min}
-      PGRST_DB_USE_LEGACY_GUCS: "false"
-      PGRST_APP_SETTINGS_JWT_SECRET: ${SUPABASE_JWT_SECRET:-dev_supabase_jwt_secret_please_change_32_chars_min}
+      PGRST_JWT_SECRET: your-super-secret-jwt-token-with-at-least-32-characters-long
+      PGRST_DB_USE_LEGACY_GUCS: 'false'
+      PGRST_APP_SETTINGS_JWT_SECRET: your-super-secret-jwt-token-with-at-least-32-characters-long
       PGRST_APP_SETTINGS_JWT_EXP: 3600
     ports:
-      - "3000:3000"
+      - '3000:3000'
     depends_on:
       - supabase-db
     networks:
@@ -217,18 +177,18 @@ services:
       DB_PORT: 5432
       DB_USER: supabase_realtime_admin
       DB_PASSWORD: examplepassword
-      DB_NAME: postgres
-      DB_AFTER_CONNECT_QUERY: "SET search_path TO _realtime"
+      DB_NAME: zenglow
+      DB_AFTER_CONNECT_QUERY: 'SET search_path TO _realtime'
       DB_ENC_KEY: supabaserealtime
-      API_JWT_SECRET: ${SUPABASE_JWT_SECRET:-dev_supabase_jwt_secret_please_change_32_chars_min}
+      API_JWT_SECRET: your-super-secret-jwt-token-with-at-least-32-characters-long
       FLY_ALLOC_ID: fly123
       FLY_APP_NAME: realtime
       SECRET_KEY_BASE: UpNVntn3cDxHJpq99YMc1T1AQgQpc8kfYTuRgBiYa15BLrx8etQoXz3gZv1/u2oq
       ERL_AFLAGS: -proto_dist inet_tcp
-      ENABLE_TAILSCALE: "false"
-      DNS_NODES: ""
+      ENABLE_TAILSCALE: 'false'
+      DNS_NODES: "''"
     ports:
-      - "4000:4000"
+      - '4000:4000'
     depends_on:
       - supabase-db
     networks:
@@ -239,21 +199,21 @@ services:
     container_name: supabase-storage
     restart: unless-stopped
     environment:
-      ANON_KEY: ${SUPABASE_ANON_KEY:-your_local_supabase_anon_key}
-      SERVICE_KEY: ${SUPABASE_SERVICE_ROLE_KEY:-your_local_service_role_key}
+      ANON_KEY: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6ImFub24iLCJleHAiOjE5ODM4MTI5OTZ9.CRXP1A7WOeoJeXxjNni43kdQwgnWNReilDMblYTn_I0
+      SERVICE_KEY: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS1kZW1vIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImV4cCI6MTk4MzgxMjk5Nn0.EGIM96RAZx35lJzdJsyH-qQwv8Hdp7fsn3W0YpN81IU
       POSTGREST_URL: http://supabase-rest:3000
-      PGRST_JWT_SECRET: ${SUPABASE_JWT_SECRET:-dev_supabase_jwt_secret_please_change_32_chars_min}
-      DATABASE_URL: postgres://postgres:examplepassword@supabase-db:5432/postgres
+      PGRST_JWT_SECRET: your-super-secret-jwt-token-with-at-least-32-characters-long
+      DATABASE_URL: postgres://supabase_storage_admin:examplepassword@supabase-db:5432/zenglow
       FILE_SIZE_LIMIT: 52428800
       STORAGE_BACKEND: file
       FILE_STORAGE_BACKEND_PATH: /var/lib/storage
       TENANT_ID: stub
       REGION: stub
       GLOBAL_S3_BUCKET: stub
-      ENABLE_IMAGE_TRANSFORMATION: "true"
+      ENABLE_IMAGE_TRANSFORMATION: 'true'
       IMGPROXY_URL: http://supabase-imgproxy:5001
     ports:
-      - "5000:5000"
+      - '5000:5000'
     volumes:
       - supabase_storage_data:/var/lib/storage
     depends_on:
@@ -269,12 +229,12 @@ services:
     environment:
       IMGPROXY_BIND: 0.0.0.0:5001
       IMGPROXY_LOCAL_FILESYSTEM_ROOT: /
-      IMGPROXY_USE_ETAG: "true"
-      IMGPROXY_ENABLE_WEBP_DETECTION: "true"
+      IMGPROXY_USE_ETAG: 'true'
+      IMGPROXY_ENABLE_WEBP_DETECTION: 'true'
     volumes:
       - supabase_storage_data:/var/lib/storage:ro
     ports:
-      - "5001:5001"
+      - '5001:5001'
     networks:
       - zenglow-network
 
@@ -283,11 +243,16 @@ services:
     container_name: supabase-inbucket
     restart: unless-stopped
     ports:
-      - "2500:2500"
-      - "9000:9000"
+      - '2500:2500' # SMTP
+      - '9000:9000' # Web UI
     environment:
       INBUCKET_WEB_ADDR: 0.0.0.0:9000
       INBUCKET_POP3_ADDR: 0.0.0.0:1100
       INBUCKET_SMTP_ADDR: 0.0.0.0:2500
     networks:
       - zenglow-network
+
+volumes:
+  timescale_db_data:
+  supabase_db_data:
+  supabase_storage_data:

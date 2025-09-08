@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://zenglow.app/schemas/emotion.schema.v1.0.0.json",
+  "title": "ZenGlow Emotion Schema v1.0.0",
+  "type": "object",
+  "properties": {
+    "tag": {
+      "type": "string",
+      "enum": [
+        "calm",
+        "curious",
+        "growth",
+        "peaceful"
+      ]
+    },
+    "intensity": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    }
+  },
+  "required": [
+    "tag"
+  ]
+}

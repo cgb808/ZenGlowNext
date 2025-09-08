@@ -49,18 +49,4 @@ python scripts/schema_export_sanitized.py --include-pii --out schema_full.json
 - Encrypted column set (PG crypto) plus masking views.
 - Policy to reject INSERT/UPDATE missing classification comment.
 
-### New Baseline Schema (Staging)
-See `sql/pii_secure_schema.sql` for initial staging tables:
-- `pii_identity_profiles`: structured identity attributes (no encryption yet).
-- `pii_access_log`: metadata-only audit trail (no raw PII replication).
-
-Current posture: NORMAL (no RLS, no encryption). Hardening steps (deferred):
-1. Add RLS policies keyed by session variable `app.current_user` and role mapping.
-2. Introduce masking view `v_pii_identity_profiles_masked` exposing redacted columns.
-3. Add pgcrypto (or external KMS) for selected columns (email, phone, address lines).
-4. Enforce classification via trigger validating COMMENT presence for any PII column.
-5. Scheduled job to summarize audit log (counts per actor / subject) for anomaly detection.
-
-Do NOT store freeform unstructured PII in `meta`; funnel through explicit columns or separate encrypted blob store.
-
 Keep markers factual and minimal.

@@ -1,21 +1,163 @@
+# Learn more https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files
+
+# Environment / secrets
+.env
+.env.local
+.env.*.local
+
+# Node
+node_modules
+npm-debug.log*
+
+# Expo / React Native
+.expo
+.expo-shared
+
+# VS Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# Native
+.kotlin/
+*.orig.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+
+# Metro
+.metro-health-check*
+
+# debug
+npm-debug.*
+yarn-debug.*
+yarn-error.*
+
+# macOS
+.DS_Store
+*.pem
+
+# local env files
+.env*.local
+
+# typescript
+*.tsbuildinfo
+
+# Security and temporary files
+/tmp/
+*.log
+.security_test_*
+*.security_backup
+
+app-example
+
+# Large model/data artifacts (added to keep repo lean)
+ai-agents/Phi-3-mini-4k-instruct-q4.gguf
+ai-agents/zendexer/wearables/data/
+ai-agents/zendexer/wearables/training/venv/
+ai-agents/zendexer/wearables/models/*.keras
+ai-agents/zendexer/wearables/models/*.tflite
+ai-agents/zendexer/wearables/models/*.pkl
+nginx-1.29.1.tar.gz
+temp/
+ai-agents/zendexer/data-analysis/analysis_env/
+
+# Keep directory structure for training scripts while ignoring heavy data/models
+ai-agents/zendexer/wearables/data/**
+!ai-agents/zendexer/wearables/data/.gitkeep
+ai-agents/zendexer/wearables/models/**
+!ai-agents/zendexer/wearables/models/README.md
+ai-agents/zendexer/vector-store/**
+!ai-agents/zendexer/vector-store/README.md
+
+# Recommendation system model artifacts (future ML models)
+models/recommendation/
+
+# === Added (repo cleanup: large / generated / env artifacts) ===
+# Python virtual environments
+**/venv/
+**/analysis_env/
+
+# Vector store / embeddings
+ai-agents/zendexer/vector-store/
+
+# Large generated indexes / caches
+# Note: project-index.json and project-index.md are tracked for CI verification
+project-index-*.json
+
+# Tool binaries / caches
+ktlint
+.ktlint/
+
+# Model & ML artifacts
+*.pb
+*.pbtxt
+*.tflite
+*.h5
+saved_model/
+checkpoint
+
+# Python cache
 __pycache__/
 *.py[cod]
-.mypy_cache/
-.pytest_cache/
-.venv/
-venv/
-env/
-node_modules/
-dist/
-build/
+*$py.class
+
+# Archives / exports
+*.tar.gz
+*.li
+
+# Coverage reports
+coverage/
+
+# Supabase dumps
+supabase*.sql
+
+# Logs
 *.log
-.vscode/
-.idea/
-.DS_Store
-.env
-.env.*
-!.env.example
-pgdata/
-redis-data/
-backups/
-logs/
+
+# Local override env file explicitly (already partly covered above)
+.env.local
+
+# --- Added (migrated from dev-indexer_1/.gitignore during dedupe) ---
+chroma_data/
+postgres*/
+zenassistant_decompiled.py
+# ------------------------------------------------------------------
+
+# ==============================================================
+
+# AI training workspace transient artifacts
+ai-workspace/data/
+ai-workspace/models/
+!ai-workspace/models/tinylstm/
+ai-workspace/models/tinylstm/*.tflite
+ai-workspace/models/tinylstm/model_info.txt
+ai-workspace/notebooks/.ipynb_checkpoints/
+
+# Quantization test results and temporary files
+*quantization_results.json
+*gguf_results.json
+*quantization_demo_results.json
+ai-workspace/quantization/quantization_env/
+
+<<<<<<< HEAD
+# Python cache files
+__pycache__/
+*.py[cod]
+*$py.class
+=======
+# MCP workspace memory store (JSONL, embeddings, caches)
+.mcp/
+
+dev-indexer_1/pgdata/
+>>>>>>> b240e5e3b (chore(ignore): exclude local pgdata directory)
+
+# Ignore large accidental artifacts
+dev-indexer_1/pgdata/
+*.tmp
+ktlint
+

@@ -1,0 +1,660 @@
+# Project Index
+
+Generated project file structure and metadata.
+
+- **.devcontainer/**
+  - **Dockerfile** (1.4 KB, modified: 8/15/2025)
+  - **devcontainer.json** (2.9 KB, modified: 8/15/2025)
+- **.eas/**
+  - **workflows/**
+    - **publish-production.yml** (246 B, modified: 8/15/2025)
+    - **publish-staging.yml** (276 B, modified: 8/15/2025)
+    - **publish-update.yml** (293 B, modified: 8/15/2025)
+- **.github/**
+  - **workflows/**
+    - **codacy.yml** (1 B, modified: 8/15/2025)
+    - **main.yml** (1 B, modified: 8/15/2025)
+    - **project-index.yml** (1.5 KB, modified: 8/15/2025)
+    - **release-tag.yml** (1.3 KB, modified: 8/15/2025)
+  - **codacy github runner** (1 B, modified: 8/15/2025)
+  - **copilot-instructions.md** (1 B, modified: 8/15/2025)
+- **.idea/**
+  - **caches/**
+    - **deviceStreaming.xml** (39.2 KB, modified: 8/15/2025)
+  - **.gitignore** (47 B, modified: 8/15/2025)
+  - **ZenGlow.iml** (336 B, modified: 8/15/2025)
+  - **misc.xml** (172 B, modified: 8/15/2025)
+  - **modules.xml** (266 B, modified: 8/15/2025)
+  - **vcs.xml** (167 B, modified: 8/15/2025)
+- **.indexer/**
+  - **README.md** (992 B, modified: 8/15/2025)
+  - **fileIcons.js** (1.3 KB, modified: 8/15/2025)
+  - **indexer.config.yaml** (176 B, modified: 8/15/2025)
+  - **indexer.js** (6.9 KB, modified: 8/15/2025)
+  - **registry.yaml** (1.3 MB, modified: 8/15/2025)
+- **.vscode/**
+  - **launch.json** (509 B, modified: 8/15/2025)
+  - **settings.json** (1.5 KB, modified: 8/15/2025)
+  - **tasks.json** (274 B, modified: 8/15/2025)
+- **Docs/**
+  - **api/**
+    - **API_DOCUMENTATION.md** (3.5 KB, modified: 8/15/2025)
+  - **backend/**
+    - **FLASK_BACKEND_ARCHITECTURE.md** (8.4 KB, modified: 8/15/2025)
+  - **project/**
+    - **PROJECT_OUTLINE.md** (3.1 KB, modified: 8/15/2025)
+    - **SELF_IMPROVING_PIPELINE_OVERVIEW.md** (24.6 KB, modified: 8/15/2025)
+    - **architecture.yml** (1.9 KB, modified: 8/15/2025)
+    - **dependencies.yml** (2.4 KB, modified: 8/15/2025)
+    - **design-system.yml** (1.3 KB, modified: 8/15/2025)
+    - **features.yml** (2 KB, modified: 8/15/2025)
+  - **ADVANCED_AI_IMPLEMENTATION_PLAN.md** (16.2 KB, modified: 8/15/2025)
+  - **ANDROID_CLIENT_EXAMPLE.md** (2.3 KB, modified: 8/15/2025)
+  - **ANDROID_FLASK_INTEGRATION_EXAMPLE.md** (1.7 KB, modified: 8/15/2025)
+  - **API_DOCUMENTATION.md** (3.7 KB, modified: 8/15/2025)
+  - **AUDIO_GUIDE.md** (8.8 KB, modified: 8/15/2025)
+  - **BGE_EMBEDDING_MODEL_INFO.md** (112 B, modified: 8/15/2025)
+  - **BLUETOOTH_LOW_ENERGY_GUIDE.md** (5.1 KB, modified: 8/15/2025)
+  - **CHANGELOG.md** (0 B, modified: 8/15/2025)
+  - **COMPLETE_AI_ECOSYSTEM.md** (3.5 KB, modified: 8/15/2025)
+  - **DARTS_AND_STATSFORECAST_PREDICTIVE_MODELS.md** (1.5 KB, modified: 8/15/2025)
+  - **ENV_SETUP.md** (848 B, modified: 8/15/2025)
+  - **EnhancedZenMoonAvatar.md** (1.4 KB, modified: 8/15/2025)
+  - **EnhancedZenMoonShowcase.jsx** (31.2 KB, modified: 8/15/2025)
+  - **FLASK_BACKEND_ARCHITECTURE.md** (8.7 KB, modified: 8/15/2025)
+  - **FaceComponents.md** (508 B, modified: 8/15/2025)
+  - **GEMMA_7B_MODEL_INFO.md** (138 B, modified: 8/15/2025)
+  - **LITERT_ANDROID_GUIDE.md** (8.8 KB, modified: 8/15/2025)
+  - **NEURALPROPHET_PREDICTIVE_MODEL.md** (468 B, modified: 8/15/2025)
+  - **ON_DEVICE_MODELS_SUMMARY.md** (551 B, modified: 8/15/2025)
+  - **PROJECT_OVERVIEW.md** (3.1 KB, modified: 8/15/2025)
+  - **ParentChildTagalong_Implementation.md** (4.3 KB, modified: 8/15/2025)
+  - **ParentDashboard_README.md** (8 KB, modified: 8/15/2025)
+  - **README.md** (7.5 KB, modified: 8/15/2025)
+  - **SYSTEM_ARCHITECTURE_FLOWCHART.md** (9.9 KB, modified: 8/15/2025)
+  - **Security_Audit_Checklist.md** (9.4 KB, modified: 8/15/2025)
+  - **Security_Implementation_Guide.md** (6.4 KB, modified: 8/15/2025)
+  - **Security_Usage_Examples.md** (5.5 KB, modified: 8/15/2025)
+  - **SoundLibraryPlaceholders.md** (1.1 KB, modified: 8/15/2025)
+  - **TFLITE_MODEL_MAKER_GUIDE.md** (2.7 KB, modified: 8/15/2025)
+  - **TINYLSTM_TRAINING_AND_MOBILE_INTEGRATION.md** (11.4 KB, modified: 8/15/2025)
+  - **TROUBLESHOOTING_GUIDE.md** (505 B, modified: 8/15/2025)
+  - **UI_COMPANION_ARCHITECTURE.md** (1.5 KB, modified: 8/15/2025)
+  - **WEARABLE_SENSOR_INTEGRATION.md** (11 KB, modified: 8/15/2025)
+  - **ZenGlowCompanion.md** (3.1 KB, modified: 8/15/2025)
+  - **ZenMoonAvatar.md** (2.2 KB, modified: 8/15/2025)
+  - **ZenSoundProvider.md** (4.9 KB, modified: 8/15/2025)
+  - **dependencies.md** (1.6 KB, modified: 8/15/2025)
+  - **development-snippets.md** (6.7 KB, modified: 8/15/2025)
+  - **exerciseSchema.md** (753 B, modified: 8/15/2025)
+  - **focusExercises.md** (1.9 KB, modified: 8/15/2025)
+  - **gradle_debug** (1.2 KB, modified: 8/15/2025)
+  - **housekeeping-tasks.md** (1.6 KB, modified: 8/15/2025)
+  - **mobile-setup.md** (4.5 KB, modified: 8/15/2025)
+  - **supabase-setup.md** (4.8 KB, modified: 8/15/2025)
+  - **workspace-extensions-tools.md** (4 KB, modified: 8/15/2025)
+  - **workspace-incomplete-audit.md** (1.3 KB, modified: 8/15/2025)
+  - **wsl-graphics-guide.md** (3.5 KB, modified: 8/15/2025)
+  - **zfs-optimization.md** (5.1 KB, modified: 8/15/2025)
+- **__mocks__/**
+  - **js-polyfills.js** (21 B, modified: 8/15/2025)
+- **__tests__/**
+  - **components/**
+    - **ThemedText.test.tsx** (4.5 KB, modified: 8/15/2025)
+  - **hooks/**
+    - **useAudio.test.js** (8.3 KB, modified: 8/15/2025)
+  - **integration/**
+    - **coreSystemsIntegration.test.js** (10.9 KB, modified: 8/15/2025)
+  - **sensors/**
+    - **db.test.ts** (7.1 KB, modified: 8/15/2025)
+    - **flushScheduler.test.ts** (9.4 KB, modified: 8/15/2025)
+    - **integration.test.ts** (3.3 KB, modified: 8/15/2025)
+    - **transport.test.ts** (3.6 KB, modified: 8/15/2025)
+  - **services/**
+    - **parentDashboardApi.test.ts** (9.4 KB, modified: 8/15/2025)
+  - **utils/**
+    - **childSafety.test.js** (14.9 KB, modified: 8/15/2025)
+    - **zenScore.test.js** (8.5 KB, modified: 8/15/2025)
+  - **README.md** (7.3 KB, modified: 8/15/2025)
+  - **sampleTest.spec.js** (107 B, modified: 8/15/2025)
+  - **testUtils.js** (7.4 KB, modified: 8/15/2025)
+- **ai-agents/**
+  - **agents/**
+    - **sft_1.1Fa33Qum.5B.f16.gguf.part** (0 B, modified: 8/15/2025)
+    - **sft_1.5B.Q4_K_S.gguf** (0 B, modified: 8/15/2025)
+    - **sft_1.5B.Q6_K.gguf** (0 B, modified: 8/15/2025)
+    - **sft_1.5B.f16.gguf** (0 B, modified: 8/15/2025)
+    - **sft_1.vpCSADaw.5B.f16.gguf.part** (0 B, modified: 8/15/2025)
+    - **sft_1.zCnN7T7I.5B.Q6_K.gguf.part** (0 B, modified: 8/15/2025)
+  - **api/**
+    - **mood-checkin.ts** (0 B, modified: 8/15/2025)
+    - **notifications.ts** (0 B, modified: 8/15/2025)
+    - **parent-dashboard.ts** (0 B, modified: 8/15/2025)
+  - **bootstrap-info/**
+    - **database-backend-platform.yaml** (1.4 KB, modified: 8/15/2025)
+  - **fastapi-gateway/**
+    - **Dockerfile** (774 B, modified: 8/15/2025)
+    - **main.py** (1.6 KB, modified: 8/15/2025)
+    - **requirements.txt** (43 B, modified: 8/15/2025)
+  - **llama.cpp/**
+    - **AUTHORS** (0 B, modified: 8/15/2025)
+    - **CMakeLists.txt** (0 B, modified: 8/15/2025)
+    - **CMakePresets.json** (0 B, modified: 8/15/2025)
+    - **CODEOWNERS** (0 B, modified: 8/15/2025)
+    - **CONTRIBUTING.md** (0 B, modified: 8/15/2025)
+    - **LICENSE** (0 B, modified: 8/15/2025)
+    - **Makefile** (0 B, modified: 8/15/2025)
+    - **README.md** (0 B, modified: 8/15/2025)
+    - **SECURITY.md** (0 B, modified: 8/15/2025)
+    - **build-xcframework.sh** (0 B, modified: 8/15/2025)
+    - **convert_hf_to_gguf.py** (0 B, modified: 8/15/2025)
+    - **convert_hf_to_gguf_update.py** (0 B, modified: 8/15/2025)
+    - **convert_llama_ggml_to_gguf.py** (0 B, modified: 8/15/2025)
+    - **convert_lora_to_gguf.py** (0 B, modified: 8/15/2025)
+    - **flake.lock** (0 B, modified: 8/15/2025)
+    - **flake.nix** (0 B, modified: 8/15/2025)
+    - **mypy.ini** (0 B, modified: 8/15/2025)
+    - **poetry.lock** (0 B, modified: 8/15/2025)
+    - **pyproject.toml** (0 B, modified: 8/15/2025)
+    - **pyrightconfig.json** (0 B, modified: 8/15/2025)
+    - **requirements.txt** (0 B, modified: 8/15/2025)
+  - **physionet.org/**
+    - **robots.txt** (0 B, modified: 8/15/2025)
+  - **transmission-pipeline/**
+    - **INTEGRATION_COMPLETE.md** (0 B, modified: 8/15/2025)
+    - **README.md** (0 B, modified: 8/15/2025)
+    - **config.py** (0 B, modified: 8/15/2025)
+    - **dummy_export.xml** (0 B, modified: 8/15/2025)
+    - **streaming_bridge.py** (0 B, modified: 8/15/2025)
+    - **transmission_bridge.py** (0 B, modified: 8/15/2025)
+    - **transmission_coordinator.py** (0 B, modified: 8/15/2025)
+  - **zendexer/**
+    - **.github/**
+      - **workflows/**
+        - **rag-sync.yml** (649 B, modified: 8/15/2025)
+    - **data-analysis/**
+      - **fitbit_analysis.py** (7.5 KB, modified: 8/15/2025)
+      - **requirements.txt** (112 B, modified: 8/15/2025)
+    - **dev/**
+      - **.env.sample** (66 B, modified: 8/15/2025)
+      - **requirements.txt** (69 B, modified: 8/15/2025)
+      - **zendexer.py** (160 B, modified: 8/15/2025)
+      - **zendexer_Swarm_Dev.compose** (3.6 KB, modified: 8/15/2025)
+    - **memory/**
+      - **dev/**
+        - **requirements.txt** (69 B, modified: 8/15/2025)
+        - **zenaiassistant.py** (1.7 KB, modified: 8/15/2025)
+        - **zendexer.py** (1.7 KB, modified: 8/15/2025)
+      - **prod/**
+        - **requirements.txt** (69 B, modified: 8/15/2025)
+        - **zenaiassistant.py** (1.7 KB, modified: 8/15/2025)
+        - **zendexer.py** (1.7 KB, modified: 8/15/2025)
+    - **prod/**
+      - **.env.sample** (132 B, modified: 8/15/2025)
+      - **.gitlab-ci.yml** (1 KB, modified: 8/15/2025)
+      - **OPERATIONS_RUNBOOK.md** (9.9 KB, modified: 8/15/2025)
+      - **README.md** (6 KB, modified: 8/15/2025)
+      - **README_PARENTAL_PREDICTOR.md** (8.4 KB, modified: 8/15/2025)
+      - **TECHNICAL_ARCHITECTURE.md** (7.4 KB, modified: 8/15/2025)
+      - **requirements.txt** (875 B, modified: 8/15/2025)
+      - **zendexer.py** (173 B, modified: 8/15/2025)
+      - **zendexer_Swarm_Prod.compose** (2.9 KB, modified: 8/15/2025)
+    - **wearables/**
+      - **deployment/**
+        - **README.md** (1.2 KB, modified: 8/15/2025)
+      - **evaluation/**
+        - **README.md** (924 B, modified: 8/15/2025)
+      - **models/**
+        - **README.md** (1.1 KB, modified: 8/15/2025)
+      - **training/**
+        - **preprocess_mhealth.py** (12.3 KB, modified: 8/15/2025)
+        - **preprocess_uci_har.py** (12.7 KB, modified: 8/15/2025)
+        - **process_datasets.py** (16.1 KB, modified: 8/15/2025)
+        - **requirements.txt** (478 B, modified: 8/15/2025)
+        - **train_enhanced_model.py** (12.6 KB, modified: 8/15/2025)
+        - **train_model.py** (8.8 KB, modified: 8/15/2025)
+      - **DATASET_INTEGRATION_SUMMARY.md** (5.2 KB, modified: 8/15/2025)
+      - **MHEALTH_QUICKSTART.md** (3.7 KB, modified: 8/15/2025)
+      - **README.md** (1.4 KB, modified: 8/15/2025)
+      - **TFLITE_ARCHITECTURE.md** (6.2 KB, modified: 8/15/2025)
+      - **edge_model.py** (6.8 KB, modified: 8/15/2025)
+      - **requirements.txt** (404 B, modified: 8/15/2025)
+      - **setup_training.sh** (1.5 KB, modified: 8/15/2025)
+    - **.zenignore** (74 B, modified: 8/15/2025)
+    - **Dockerfile.ai** (804 B, modified: 8/15/2025)
+    - **INTEGRATION_STATUS.md** (3.8 KB, modified: 8/15/2025)
+    - **agent_dev.py** (235 B, modified: 8/15/2025)
+    - **agent_prod.py** (237 B, modified: 8/15/2025)
+    - **docker-compose.yml** (964 B, modified: 8/15/2025)
+    - **dummy_export.xml** (0 B, modified: 8/15/2025)
+    - **load_agent.py** (239 B, modified: 8/15/2025)
+    - **rag.config.yaml** (291 B, modified: 8/15/2025)
+    - **simple_test.py** (9.7 KB, modified: 8/15/2025)
+    - **smollm2_predictor.py** (11 KB, modified: 8/15/2025)
+    - **test_local.sh** (1.1 KB, modified: 8/15/2025)
+    - **zen.config.yaml** (424 B, modified: 8/15/2025)
+    - **zen_no_vector.config.yaml** (0 B, modified: 8/15/2025)
+    - **zendexer_Swarm_Dev.compose** (3.8 KB, modified: 8/15/2025)
+  - **README.md** (4.1 KB, modified: 8/15/2025)
+  - **sync-ai-agents.sh** (997 B, modified: 8/15/2025)
+- **ai-workspace/**
+  - **.devcontainer/**
+    - **Dockerfile** (1.3 KB, modified: 8/15/2025)
+    - **devcontainer.json** (971 B, modified: 8/15/2025)
+  - **README.md** (2.3 KB, modified: 8/15/2025)
+  - **requirements.txt** (415 B, modified: 8/15/2025)
+- **android/**
+  - **app/**
+    - **src/**
+      - **debug/**
+        - **AndroidManifest.xml** (374 B, modified: 8/15/2025)
+      - **main/**
+        - **java/**
+          - **com/**
+            - **cgbowen/**
+              - **ZenGlow/**
+                - **MainActivity.kt** (2.4 KB, modified: 8/15/2025)
+                - **MainApplication.kt** (2.1 KB, modified: 8/15/2025)
+            - **zenglow/**
+              - **heartrate/**
+                - **GalaxyWatchService.java** (12.5 KB, modified: 8/15/2025)
+                - **HealthDataExportService.java** (16.7 KB, modified: 8/15/2025)
+                - **HeartRateActivity.java** (15.2 KB, modified: 8/15/2025)
+                - **HeartRateMonitorService.java** (9.7 KB, modified: 8/15/2025)
+                - **SamsungHealthService.java** (11.2 KB, modified: 8/15/2025)
+                - **WatchConnectivityReceiver.java** (1.1 KB, modified: 8/15/2025)
+        - **res/**
+          - **drawable/**
+            - **ic_launcher_background.xml** (245 B, modified: 8/15/2025)
+            - **rn_edit_text_material.xml** (1.9 KB, modified: 8/15/2025)
+            - **zen_button_primary.xml** (542 B, modified: 8/15/2025)
+            - **zen_button_secondary.xml** (698 B, modified: 8/15/2025)
+            - **zen_info_background.xml** (296 B, modified: 8/15/2025)
+          - **drawable-hdpi/**
+            - **splashscreen_logo.png** (20.3 KB, modified: 8/15/2025)
+          - **drawable-mdpi/**
+            - **splashscreen_logo.png** (12.6 KB, modified: 8/15/2025)
+          - **drawable-xhdpi/**
+            - **splashscreen_logo.png** (28.4 KB, modified: 8/15/2025)
+          - **drawable-xxhdpi/**
+            - **splashscreen_logo.png** (46 KB, modified: 8/15/2025)
+          - **drawable-xxxhdpi/**
+            - **splashscreen_logo.png** (65 KB, modified: 8/15/2025)
+          - **layout/**
+            - **activity_heart_rate.xml** (5.8 KB, modified: 8/15/2025)
+          - **mipmap-anydpi-v26/**
+            - **ic_launcher.xml** (257 B, modified: 8/15/2025)
+            - **ic_launcher_round.xml** (257 B, modified: 8/15/2025)
+          - **mipmap-hdpi/**
+            - **ic_launcher.webp** (3.2 KB, modified: 8/15/2025)
+            - **ic_launcher_foreground.webp** (7.8 KB, modified: 8/15/2025)
+            - **ic_launcher_round.webp** (4 KB, modified: 8/15/2025)
+          - **mipmap-mdpi/**
+            - **ic_launcher.webp** (2 KB, modified: 8/15/2025)
+            - **ic_launcher_foreground.webp** (5 KB, modified: 8/15/2025)
+            - **ic_launcher_round.webp** (2.6 KB, modified: 8/15/2025)
+          - **mipmap-xhdpi/**
+            - **ic_launcher.webp** (4.4 KB, modified: 8/15/2025)
+            - **ic_launcher_foreground.webp** (10.9 KB, modified: 8/15/2025)
+            - **ic_launcher_round.webp** (5.5 KB, modified: 8/15/2025)
+          - **mipmap-xxhdpi/**
+            - **ic_launcher.webp** (7.2 KB, modified: 8/15/2025)
+            - **ic_launcher_foreground.webp** (17.6 KB, modified: 8/15/2025)
+            - **ic_launcher_round.webp** (8.9 KB, modified: 8/15/2025)
+          - **mipmap-xxxhdpi/**
+            - **ic_launcher.webp** (9.9 KB, modified: 8/15/2025)
+            - **ic_launcher_foreground.webp** (24.4 KB, modified: 8/15/2025)
+            - **ic_launcher_round.webp** (12.2 KB, modified: 8/15/2025)
+          - **values/**
+            - **colors.xml** (221 B, modified: 8/15/2025)
+            - **strings.xml** (301 B, modified: 8/15/2025)
+            - **styles.xml** (637 B, modified: 8/15/2025)
+          - **values-night/**
+            - **colors.xml** (12 B, modified: 8/15/2025)
+        - **AndroidManifest.xml** (2.4 KB, modified: 8/15/2025)
+    - **build.gradle** (7.6 KB, modified: 8/15/2025)
+    - **debug.keystore** (2.2 KB, modified: 8/15/2025)
+    - **proguard-rules.pro** (562 B, modified: 8/15/2025)
+  - **gradle/**
+    - **wrapper/**
+      - **gradle-wrapper.jar** (42.6 KB, modified: 8/15/2025)
+      - **gradle-wrapper.properties** (251 B, modified: 8/15/2025)
+  - **.gitignore** (129 B, modified: 8/15/2025)
+  - **README.md** (8.9 KB, modified: 8/15/2025)
+  - **build.gradle** (919 B, modified: 8/15/2025)
+  - **gradle.properties** (2.4 KB, modified: 8/15/2025)
+  - **gradlew** (8.6 KB, modified: 8/15/2025)
+  - **gradlew.bat** (2.9 KB, modified: 8/15/2025)
+  - **settings.gradle** (1.2 KB, modified: 8/15/2025)
+- **api-stubs/**
+  - **mood-checkin.ts** (589 B, modified: 8/15/2025)
+  - **notifications.ts** (534 B, modified: 8/15/2025)
+  - **parent-dashboard.ts** (1.2 KB, modified: 8/15/2025)
+- **app/**
+  - **(tabs)/**
+    - **_layout.tsx** (246 B, modified: 8/15/2025)
+    - **child.tsx** (13.4 KB, modified: 8/15/2025)
+    - **explore.tsx** (4.5 KB, modified: 8/15/2025)
+    - **index.tsx** (1.3 KB, modified: 8/15/2025)
+    - **parent.tsx** (10 KB, modified: 8/15/2025)
+    - **routine.tsx** (921 B, modified: 8/15/2025)
+  - **+not-found.tsx** (795 B, modified: 8/15/2025)
+  - **ParentDashboardScreen.tsx** (1.7 KB, modified: 8/15/2025)
+  - **RoutineBuilderScreen.tsx** (301 B, modified: 8/15/2025)
+  - **_layout.tsx** (5 KB, modified: 8/15/2025)
+- **assets/**
+  - **fonts/**
+    - **SpaceMono-Regular.ttf** (91.1 KB, modified: 8/15/2025)
+  - **images/**
+    - **adaptive-icon.png** (17.1 KB, modified: 8/15/2025)
+    - **favicon.png** (1.4 KB, modified: 8/15/2025)
+    - **icon.png** (21.9 KB, modified: 8/15/2025)
+    - **partial-react-logo.png** (5 KB, modified: 8/15/2025)
+    - **react-logo.png** (6.2 KB, modified: 8/15/2025)
+    - **react-logo@2x.png** (13.9 KB, modified: 8/15/2025)
+    - **react-logo@3x.png** (20.8 KB, modified: 8/15/2025)
+    - **splash-icon.png** (17.1 KB, modified: 8/15/2025)
+  - **sound-drop/**
+    - **misc/**
+      - **misc/**
+        - **parent/**
+          - **components/**
+            - **ChildSelector.tsx** (5.4 KB, modified: 8/15/2025)
+            - **EmotionalDashboard.tsx** (9.2 KB, modified: 8/15/2025)
+          - **handlers/**
+            - **useParentDashboardHandlers.ts** (8 KB, modified: 8/15/2025)
+          - **hooks/**
+            - **useParentDashboardData.ts** (7.2 KB, modified: 8/15/2025)
+            - **useParentDashboardState.ts** (8.2 KB, modified: 8/15/2025)
+          - **views/**
+            - **__test__/**
+              - **ZenScoreView.test.tsx** (1 KB, modified: 8/15/2025)
+              - **zenScoreTestData.ts** (1.6 KB, modified: 8/15/2025)
+            - **DailyView.tsx** (2.4 KB, modified: 8/15/2025)
+            - **TrendsView.tsx** (2.9 KB, modified: 8/15/2025)
+            - **WeeklyView.tsx** (2.3 KB, modified: 8/15/2025)
+            - **ZenScoreView.tsx** (2.8 KB, modified: 8/15/2025)
+          - **ParentDashboard.tsx** (27.9 KB, modified: 8/15/2025)
+          - **index.ts** (62 B, modified: 8/15/2025)
+        - **Collapsible.tsx** (57 B, modified: 8/15/2025)
+        - **ExternalLink.tsx** (58 B, modified: 8/15/2025)
+        - **FaceComponents.tsx** (68 B, modified: 8/15/2025)
+        - **HapticTab.tsx** (55 B, modified: 8/15/2025)
+        - **ParallaxScrollView.tsx** (64 B, modified: 8/15/2025)
+        - **RoutineBuilder.tsx** (60 B, modified: 8/15/2025)
+        - **ThemedView.tsx** (56 B, modified: 8/15/2025)
+        - **ZenMoonAvatar.tsx** (67 B, modified: 8/15/2025)
+        - **ZenSoundProvider.tsx** (68 B, modified: 8/15/2025)
+      - **misc./**
+        - **components/**
+          - **AvatarFloating.tsx** (553 B, modified: 8/15/2025)
+          - **Card3D.tsx** (337 B, modified: 8/15/2025)
+          - **DailyView.tsx** (0 B, modified: 8/15/2025)
+          - **EmotionalDashboard.tsx** (0 B, modified: 8/15/2025)
+          - **EmotionalMoodRing.tsx** (0 B, modified: 8/15/2025)
+          - **MoodOverlay.tsx** (663 B, modified: 8/15/2025)
+          - **ParentDashboard.tsx** (0 B, modified: 8/15/2025)
+          - **README.md** (1.6 KB, modified: 8/15/2025)
+          - **TrendsView.tsx** (0 B, modified: 8/15/2025)
+          - **WeeklyView.tsx** (0 B, modified: 8/15/2025)
+          - **XPProgressRing.tsx** (437 B, modified: 8/15/2025)
+          - **ZenGlowAssistant.tsx** (365 B, modified: 8/15/2025)
+          - **ZenMoonAvatar.tsx** (0 B, modified: 8/15/2025)
+          - **ZenScoreView.tsx** (0 B, modified: 8/15/2025)
+          - **import React from 'react';.txt** (202 B, modified: 8/15/2025)
+          - **useParentDashboardData.ts** (0 B, modified: 8/15/2025)
+          - **useParentDashboardHandlers.ts** (0 B, modified: 8/15/2025)
+        - **fastapi-gateway/**
+          - **Dockerfile** (774 B, modified: 8/15/2025)
+          - **main.py** (1.6 KB, modified: 8/15/2025)
+          - **requirements.txt** (43 B, modified: 8/15/2025)
+        - **hooks/**
+          - **useAvatarPosition.ts** (844 B, modified: 8/15/2025)
+          - **useMoodColor.ts** (795 B, modified: 8/15/2025)
+        - **lib/**
+          - **moodUtils.ts** (867 B, modified: 8/15/2025)
+        - **styles/**
+          - **glassStyles.ts** (525 B, modified: 8/15/2025)
+        - **supabase/**
+          - **migrations/**
+            - **20240715120000_create_media_embeddings_table.sql** (1.5 KB, modified: 8/15/2025)
+            - **20250713000001_initial_schema.sql** (15.5 KB, modified: 8/15/2025)
+            - **20250714000001_parent_dashboard_schema.sql** (13.5 KB, modified: 8/15/2025)
+            - **20250715000001_parent_dashboard_metrics.sql** (11.1 KB, modified: 8/15/2025)
+          - **.gitignore** (72 B, modified: 8/15/2025)
+          - **rechargetime.jsx.meta.yml** (470 B, modified: 8/15/2025)
+          - **seed_more_data.sql** (2.2 KB, modified: 8/15/2025)
+          - **seed_test_data.sql** (1.6 KB, modified: 8/15/2025)
+        - **types/**
+          - **README.md** (823 B, modified: 8/15/2025)
+          - **environment.ts** (157 B, modified: 8/15/2025)
+          - **messaging.ts** (0 B, modified: 8/15/2025)
+          - **moodCheckin.ts** (244 B, modified: 8/15/2025)
+          - **parentDashboard.ts** (0 B, modified: 8/15/2025)
+          - **usage.ts** (316 B, modified: 8/15/2025)
+          - **wearables.ts** (414 B, modified: 8/15/2025)
+        - **views/**
+          - **ParentDashboard/**
+            - **ChildCardStack.tsx** (770 B, modified: 8/15/2025)
+            - **DashboardScreen.tsx** (547 B, modified: 8/15/2025)
+            - **XPProgressRing.tsx** (437 B, modified: 8/15/2025)
+        - **AUDIO_GUIDE.md** (6.7 KB, modified: 8/15/2025)
+        - **ChildCardStack.tsx** (770 B, modified: 8/15/2025)
+        - **DashboardScreen.tsx** (547 B, modified: 8/15/2025)
+        - **FaceComponents.tsx** (7 KB, modified: 8/15/2025)
+        - **README.md** (914 B, modified: 8/15/2025)
+        - **XPProgressRing.tsx** (437 B, modified: 8/15/2025)
+        - **ZenMoon.code-workspace** (243 B, modified: 8/15/2025)
+        - **architecture.yml** (1.9 KB, modified: 8/15/2025)
+        - **design-system.yml** (1.3 KB, modified: 8/15/2025)
+        - **emotionalSystem.ts** (0 B, modified: 8/15/2025)
+        - **environmentUtils.test.ts** (854 B, modified: 8/15/2025)
+        - **environmentUtils.ts** (416 B, modified: 8/15/2025)
+        - **features.yml** (2 KB, modified: 8/15/2025)
+        - **moodCheckinUtils.test.ts** (752 B, modified: 8/15/2025)
+        - **moodCheckinUtils.ts** (339 B, modified: 8/15/2025)
+        - **moodUtils.ts** (867 B, modified: 8/15/2025)
+        - **package.json** (144 B, modified: 8/15/2025)
+        - **parentDashboardUtils.ts** (0 B, modified: 8/15/2025)
+        - **requirements.txt** (52 B, modified: 8/15/2025)
+        - **usageUtils.test.ts** (708 B, modified: 8/15/2025)
+        - **usageUtils.ts** (394 B, modified: 8/15/2025)
+        - **useAvatarPosition.ts** (844 B, modified: 8/15/2025)
+        - **useMoodColor.ts** (795 B, modified: 8/15/2025)
+        - **wearableUtils.test.ts** (904 B, modified: 8/15/2025)
+        - **wearableUtils.ts** (423 B, modified: 8/15/2025)
+  - **sounds/**
+    - **ui/**
+      - **README.md** (0 B, modified: 8/15/2025)
+- **components/**
+  - **Audio/**
+    - **AudioBootstrapper.tsx** (1.3 KB, modified: 8/15/2025)
+    - **ZenSoundProvider.tsx** (13.2 KB, modified: 8/15/2025)
+    - **localSoundMap.ts** (502 B, modified: 8/15/2025)
+  - **Companion/**
+    - **CompanionAnimationsSimple.tsx** (8.1 KB, modified: 8/15/2025)
+    - **CompanionExampleScreen.tsx** (5.7 KB, modified: 8/15/2025)
+    - **ZenGlowCompanion.tsx** (6.7 KB, modified: 8/15/2025)
+  - **ZenMoon/**
+    - **EnhancedZenMoonAvatar.tsx** (6.7 KB, modified: 8/15/2025)
+    - **FaceComponents.tsx** (7.1 KB, modified: 8/15/2025)
+    - **ZenMoonAvatar.tsx** (6.6 KB, modified: 8/15/2025)
+    - **ZenMoonFaceFloating.tsx** (8.3 KB, modified: 8/15/2025)
+  - **ui/**
+    - **IconSymbol.ios.tsx** (598 B, modified: 8/15/2025)
+    - **IconSymbol.tsx** (1.5 KB, modified: 8/15/2025)
+    - **TabBarBackground.ios.tsx** (547 B, modified: 8/15/2025)
+    - **TabBarBackground.tsx** (159 B, modified: 8/15/2025)
+  - **Collapsible.tsx** (1.3 KB, modified: 8/15/2025)
+  - **ExternalLink.tsx** (713 B, modified: 8/15/2025)
+  - **HapticTab.tsx** (564 B, modified: 8/15/2025)
+  - **HelloWave.tsx** (929 B, modified: 8/15/2025)
+  - **ParallaxScrollView.tsx** (2.1 KB, modified: 8/15/2025)
+  - **RoutineBuilder.tsx** (533 B, modified: 8/15/2025)
+  - **ThemedText.tsx** (1.3 KB, modified: 8/15/2025)
+  - **ThemedView.tsx** (469 B, modified: 8/15/2025)
+- **config/**
+  - **.eslintrc.json** (996 B, modified: 8/15/2025)
+  - **.prettierrc.json** (206 B, modified: 8/15/2025)
+- **configs/**
+  - **docker-daemon.json** (838 B, modified: 8/15/2025)
+- **constants/**
+  - **Colors.ts** (750 B, modified: 8/15/2025)
+- **contexts/**
+  - **UIElementContext.tsx** (3.5 KB, modified: 8/15/2025)
+- **docs/**
+  - **rag/**
+    - **hardening.md** (31.2 KB, modified: 8/15/2025)
+  - **EnhancedCompanionGuide.md** (9.8 KB, modified: 8/15/2025)
+  - **parent-dashboard-metrics.md** (6.3 KB, modified: 8/15/2025)
+- **examples/**
+  - **SecureConnectionExample.tsx** (9.5 KB, modified: 8/15/2025)
+- **hooks/**
+  - **useAppPerformance.ts** (423 B, modified: 8/15/2025)
+  - **useColorScheme.ts** (47 B, modified: 8/15/2025)
+  - **useColorScheme.web.ts** (480 B, modified: 8/15/2025)
+  - **useCompanionAI.ts** (8.4 KB, modified: 8/15/2025)
+  - **useMemoryPressure.ts** (490 B, modified: 8/15/2025)
+  - **useThemeColor.ts** (532 B, modified: 8/15/2025)
+  - **useWarmSounds.ts** (451 B, modified: 8/15/2025)
+  - **useZenMoon.ts** (6.3 KB, modified: 8/15/2025)
+- **nginx/**
+  - **Dockerfile** (3.8 KB, modified: 8/15/2025)
+  - **nginx.conf** (4.1 KB, modified: 8/15/2025)
+- **schemas/**
+  - **new/**
+    - **emotion.schema.v1.0.0.json** (858 B, modified: 8/15/2025)
+  - **old/**
+    - **emotion.schema.v1.0.0.json** (471 B, modified: 8/15/2025)
+  - **parent-child-sync-fixed.schema.json** (4.5 KB, modified: 8/15/2025)
+  - **parent-child-sync.schema.json** (8.7 KB, modified: 8/15/2025)
+- **scripts/**
+  - **analyze-structure.sh** (3.2 KB, modified: 8/15/2025)
+  - **check-deps.mjs** (2.9 KB, modified: 8/15/2025)
+  - **compare-key-files.sh** (3.7 KB, modified: 8/15/2025)
+  - **demo-parent-dashboard.js** (6 KB, modified: 8/15/2025)
+  - **find-unused-files.sh** (2.7 KB, modified: 8/15/2025)
+  - **fix-nested-structure.sh** (1.2 KB, modified: 8/15/2025)
+  - **generate-project-index.js** (6.5 KB, modified: 8/15/2025)
+  - **pre-commit.sample** (1.3 KB, modified: 8/15/2025)
+  - **reset-project.js** (3.5 KB, modified: 8/15/2025)
+  - **safety-check.sh** (6.5 KB, modified: 8/15/2025)
+- **src/**
+  - **components/**
+    - **AvatarFloating.tsx** (553 B, modified: 8/15/2025)
+  - **hooks/**
+    - **useAudio.js** (4.3 KB, modified: 8/15/2025)
+    - **useAvatarPosition.ts** (844 B, modified: 8/15/2025)
+    - **usePredictiveInsights.ts** (5.2 KB, modified: 8/15/2025)
+  - **lib/**
+    - **moodUtils.ts** (867 B, modified: 8/15/2025)
+  - **sensors/**
+    - **storage/**
+      - **db.ts** (4.9 KB, modified: 8/15/2025)
+    - **flushScheduler.ts** (6.5 KB, modified: 8/15/2025)
+    - **index.ts** (3.1 KB, modified: 8/15/2025)
+    - **transport.ts** (3.8 KB, modified: 8/15/2025)
+  - **services/**
+    - **parentDashboardApi.ts** (14.2 KB, modified: 8/15/2025)
+  - **utils/**
+    - **SecureConnectionManager.ts** (14.6 KB, modified: 8/15/2025)
+    - **SecureDataStorage.ts** (12.8 KB, modified: 8/15/2025)
+    - **SecureGlobalManager.ts** (12.4 KB, modified: 8/15/2025)
+    - **SecurityConfig.ts** (7 KB, modified: 8/15/2025)
+    - **childSafety.js** (10.7 KB, modified: 8/15/2025)
+    - **errorHandler.ts** (473 B, modified: 8/15/2025)
+    - **zenScore.js** (5.1 KB, modified: 8/15/2025)
+  - **app.py** (4.7 KB, modified: 8/15/2025)
+  - **sum.js** (226 B, modified: 8/15/2025)
+- **supabase/**
+  - **.temp/**
+    - **cli-latest** (7 B, modified: 8/15/2025)
+    - **gotrue-version** (8 B, modified: 8/15/2025)
+    - **pooler-url** (108 B, modified: 8/15/2025)
+    - **postgres-version** (10 B, modified: 8/15/2025)
+    - **project-ref** (20 B, modified: 8/15/2025)
+    - **storage-version** (15 B, modified: 8/15/2025)
+- **testData/**
+  - **fixtures.js** (6.2 KB, modified: 8/15/2025)
+- **types/**
+  - **audio.ts** (1.2 KB, modified: 8/15/2025)
+  - **companion.ts** (4 KB, modified: 8/15/2025)
+  - **navigation.ts** (870 B, modified: 8/15/2025)
+  - **parentDashboard.ts** (3.3 KB, modified: 8/15/2025)
+  - **supabase.ts** (10.2 KB, modified: 8/15/2025)
+  - **zenMoonTypes.ts** (1.2 KB, modified: 8/15/2025)
+- **utils/**
+  - **audio/**
+    - **RemoteAudioCache.ts** (1.5 KB, modified: 8/15/2025)
+    - **SupabaseAudio.ts** (1.4 KB, modified: 8/15/2025)
+  - **CompanionAccessibility.ts** (6.8 KB, modified: 8/15/2025)
+  - **CompanionPersonality.ts** (9.9 KB, modified: 8/15/2025)
+  - **README.md** (1.7 KB, modified: 8/15/2025)
+  - **cli.js** (825 B, modified: 8/15/2025)
+  - **corsConfig.json** (313 B, modified: 8/15/2025)
+  - **corsHandler.d.ts** (104 B, modified: 8/15/2025)
+  - **corsHandler.js** (552 B, modified: 8/15/2025)
+  - **env.ts** (406 B, modified: 8/15/2025)
+  - **package-lock.json** (55.2 KB, modified: 8/15/2025)
+  - **package.json** (544 B, modified: 8/15/2025)
+  - **secretFetcher.cjs** (824 B, modified: 8/15/2025)
+  - **secretFetcher.js** (1.2 KB, modified: 8/15/2025)
+  - **secretFetcher.ts** (674 B, modified: 8/15/2025)
+  - **secretsFetcherSummary.md** (1.7 KB, modified: 8/15/2025)
+  - **secureServer.js** (6.3 KB, modified: 8/15/2025)
+  - **secureServer.ts** (0 B, modified: 8/15/2025)
+  - **supabaseClient.ts** (3.2 KB, modified: 8/15/2025)
+  - **testEnv.js** (424 B, modified: 8/15/2025)
+  - **tsconfig.json** (457 B, modified: 8/15/2025)
+- **.babelrc** (3 B, modified: 8/15/2025)
+- **.copilot.md** (524 B, modified: 8/15/2025)
+- **.copilotignore** (558 B, modified: 8/15/2025)
+- **.easignore** (395 B, modified: 8/15/2025)
+- **.env.example** (284 B, modified: 8/15/2025)
+- **.gitattributes** (498 B, modified: 8/15/2025)
+- **.gitignore** (2.1 KB, modified: 8/15/2025)
+- **.prettierrc** (133 B, modified: 8/15/2025)
+- **.sudo_as_admin_successful.txt** (0 B, modified: 8/15/2025)
+- **.wget-hsts** (295 B, modified: 8/15/2025)
+- **AI_BEHAVIOR_BLUEPRINT.md** (3 KB, modified: 8/15/2025)
+- **App.js.legacy** (2.1 KB, modified: 8/15/2025)
+- **CHANGELOG.md** (520 B, modified: 8/15/2025)
+- **DEVELOPMENT_LOG.md** (0 B, modified: 8/15/2025)
+- **INFRASTRUCTURE_GUIDE.md** (0 B, modified: 8/15/2025)
+- **ISSUE_TRACKER.md** (0 B, modified: 8/15/2025)
+- **LICENSE** (1.1 KB, modified: 8/15/2025)
+- **PROJECT_AUDIT_AND_CLEANUP_PLAN.md** (4 KB, modified: 8/15/2025)
+- **Project_clean_up.md** (4.2 KB, modified: 8/15/2025)
+- **README.md** (2.8 KB, modified: 8/15/2025)
+- **STRUCTURE_ANALYSIS_REPORT.md** (7.1 KB, modified: 8/15/2025)
+- **ZenCompanion.tsx** (0 B, modified: 8/15/2025)
+- **ZenCompanionProvider.tsx** (2 B, modified: 8/15/2025)
+- **ZenGlow.code-workspace** (1.2 KB, modified: 8/15/2025)
+- **app.config.ts** (760 B, modified: 8/15/2025)
+- **app.json** (1.4 KB, modified: 8/15/2025)
+- **babel.config.js** (217 B, modified: 8/15/2025)
+- **create_match_function.sql** (924 B, modified: 8/15/2025)
+- **cspell.json** (302 B, modified: 8/15/2025)
+- **docker-compose.ai.yml** (1.1 KB, modified: 8/15/2025)
+- **docker-compose.yml** (1.7 KB, modified: 8/15/2025)
+- **eas.json** (657 B, modified: 8/15/2025)
+- **eslint.config.cjs** (3.1 KB, modified: 8/15/2025)
+- **eslint.config.js** (237 B, modified: 8/15/2025)
+- **expo-env.d.ts** (110 B, modified: 8/15/2025)
+- **file structure zenglow** (1.2 KB, modified: 8/15/2025)
+- **gradle_debug** (1.2 KB, modified: 8/15/2025)
+- **import CardStack, { Card } from 'react-native-card** (3.2 KB, modified: 8/15/2025)
+- **jest.config.js** (2.8 KB, modified: 8/15/2025)
+- **jest.setup.js** (4.8 KB, modified: 8/15/2025)
+- **metro.config.js** (458 B, modified: 8/15/2025)
+- **package-lock.json** (645.6 KB, modified: 8/15/2025)
+- **package.json** (3.2 KB, modified: 8/15/2025)
+- **plugin-workflow-guide.yaml** (1.7 KB, modified: 8/15/2025)
+- **prof-VGtvpUPA** (177 B, modified: 8/15/2025)
+- **requirements.txt** (176 B, modified: 8/15/2025)
+- **setup-nginx-proxy.sh** (2.9 KB, modified: 8/15/2025)
+- **tsconfig.json** (330 B, modified: 8/15/2025)
+- **types.ts** (0 B, modified: 8/15/2025)
+
+---
+Generated by: npm run generate-project-index

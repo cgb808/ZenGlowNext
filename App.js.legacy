@@ -1,0 +1,48 @@
+import * as React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+// Test import
+import TestScreen from './TestScreen';
+
+// Screen imports
+import Overview from './src/views/Overview';
+import MoodTracker from './src/views/MoodTracker';
+import FocusAttention from './src/views/FocusAttention';
+import Supplements from './src/views/supplements';
+import FoodHydration from './src/views/foodhydration';
+import Exercises from './src/views/Exercises';
+import SchoolReports from './src/views/schoolReports';
+import EmotionalEpisodes from './src/views/emotionalepisodes';
+import RechargeTime from './src/views/rechargetime';
+import OverwhelmSupport from './src/views/OverwhelmSupport/OverwhelmSupport';
+import EnergyGauge from './src/views/EnergyGuage/EnergyGuage';
+import RoutineBuilder from './src/views/RoutineBuilder/RoutineBuilder';
+
+const Stack = createNativeStackNavigator();
+
+export default function App() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="TestScreen">
+        <Stack.Screen 
+          name="TestScreen" 
+          component={TestScreen}
+          options={{ title: 'ZenGlow Test' }}
+        />
+        <Stack.Screen name="Overview" component={Overview} />
+        <Stack.Screen name="MoodTracker" component={MoodTracker} />
+        <Stack.Screen name="FocusAttention" component={FocusAttention} />
+        <Stack.Screen name="Supplements" component={Supplements} />
+        <Stack.Screen name="FoodHydration" component={FoodHydration} />
+        <Stack.Screen name="Exercises" component={Exercises} />
+        <Stack.Screen name="SchoolReports" component={SchoolReports} />
+        <Stack.Screen name="EmotionalEpisodes" component={EmotionalEpisodes} />
+        <Stack.Screen name="RechargeTime" component={RechargeTime} />
+        <Stack.Screen name="OverwhelmSupport" component={OverwhelmSupport} />
+        <Stack.Screen name="EnergyGauge" component={EnergyGauge} />
+        <Stack.Screen name="RoutineBuilder" component={RoutineBuilder} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}

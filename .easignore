@@ -1,0 +1,25 @@
+# Exclude directories that cause permission issues or aren't needed for mobile build
+postgres/
+supabase-data/
+utils/node_modules/
+utils/dist/
+cache-integration-backup*/
+ai-agents/
+examples/
+docs/
+
+# Docker and development files
+docker-compose.yml
+*.deb
+*.gpg
+
+# Database and SQL files
+*.sql
+
+# Test and development scripts
+test-*.js
+check-*.js
+run-*.js
+
+# Deployment scripts
+scripts/deploy-*.sh

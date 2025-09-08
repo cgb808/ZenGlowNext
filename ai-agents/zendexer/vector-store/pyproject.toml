@@ -1,0 +1,37 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "zenglow-tooling"
+version = "1.0.0"
+description = "Python tooling and scripts for the ZenGlow project."
+readme = "README.md"
+requires-python = ">=3.8"
+# license = { text = "MIT" } # Choose an appropriate license
+authors = [
+  { name = "CGBowen", email = "your-email@example.com" }, # Placeholder
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+
+dependencies = [
+  "transformers",
+  "httpx",
+  "uv",
+  # For MCP integration (as seen in JENKINS_MCP_SETUP.yml)
+  "mcp-jenkins",
+  "mcp-server-fetch",
+  "mcp-server-git",
+]
+
+[project.urls]
+Homepage = "https://github.com/CGBowen/ZenGlow"
+Repository = "https://github.com/CGBowen/ZenGlow"
+
+# If you have command-line scripts that you want to make easily executable,
+# you can define them here. For example:
+# [project.scripts]
+# health-check = "zenglow.scripts.health_check:main"

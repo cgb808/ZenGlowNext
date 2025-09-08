@@ -1,0 +1,23 @@
+{
+  "version": "0.2",
+  "language": "en",
+  "words": [
+    "Codecy",
+    "errorlevel",
+    "supabase",
+    "zengg",
+    "zenglow"
+  ],
+  "ignoreWords": [
+    "errorlevel"
+  ],
+  "overrides": [
+    {
+      "filename": "**/*.bat",
+      "words": [
+        "errorlevel",
+        "nul"
+      ]
+    }
+  ]
+}

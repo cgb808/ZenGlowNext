@@ -1,0 +1,5 @@
+import React from 'react';
+
+// TODO: Implement ChildCardStack component.
+// This will use a deck-swiper library or a custom gesture handler
+// to manage a stack of Card3D components, one for each child.

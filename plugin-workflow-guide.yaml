@@ -1,0 +1,60 @@
+# Plugin Workflow Guide
+
+## Development Workflow
+
+- **Step 1: Code Generation**
+  - Use **GoCodeo** to generate full-stack app scaffolding.
+  - Enhance code with **GitHub Copilot** for intelligent completions.
+
+- **Step 2: Code Assistance**
+  - Use **GoCodeo** for syntax-aware editing and refactoring.
+  - Leverage **Intellicode** for method and property recommendations.
+
+- **Step 3: Mobile Development**
+  - Use **React Native Tools** for debugging and testing mobile apps.
+
+## Testing Workflow
+
+- **Step 1: Test Generation**
+  - Use **GoCodeo** to auto-generate unit tests.
+  - Refine tests with **GitHub Copilot**.
+
+- **Step 2: Test Execution**
+  - Run tests directly from **GoCodeo**'s Test Panel.
+
+- **Step 3: Debugging**
+  - Use **GoCodeo**'s AI-powered fixes for failing tests.
+
+## Deployment Workflow
+
+- **Step 1: Containerization**
+  - Use **Docker** to build and manage containers.
+
+- **Step 2: Hosting**
+  - Deploy apps with **GoCodeo**'s one-click Vercel integration.
+
+## Collaboration Workflow
+
+- **Step 1: Repository Insights**
+  - Use **GitLens** for commit history and blame annotations.
+
+- **Step 2: Pull Requests**
+  - Automate PR creation with **GoCodeo**.
+
+## Security Workflow
+
+- **Step 1: Vulnerability Scanning**
+  - Use **Snyk Vulnerability Scanner** to identify and fix issues.
+
+## Data Science Workflow
+
+- **Step 1: Interactive Notebooks**
+  - Use **Jupyter** for data exploration and visualization.
+
+## Notes
+
+- Combine **GoCodeo**'s MCP with other tools for real-time, context-aware actions.
+- Use **GitHub Copilot Chat** for interactive coding assistance and explanations.
+- Regularly monitor security with **Snyk** to ensure safe code.
+
+# cSpell:ignore Vercel

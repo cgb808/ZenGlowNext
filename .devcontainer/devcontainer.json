@@ -1,0 +1,72 @@
+{
+  "name": "ZenGlow Dev Environment",
+  // Use docker-compose defined service "app" (built from .devcontainer/Dockerfile)
+  "dockerComposeFile": ["../docker-compose.yml"],
+  "service": "app",
+  "workspaceFolder": "/workspace",
+  // The base image already includes a vscode user; switch remoteUser accordingly
+  "remoteUser": "vscode",
+  "forwardPorts": [8081, 3000, 8080, 54322, 6379],
+  "containerEnv": {
+    "FORCE_COLOR": "1",
+    "JAVA_HOME": "/usr/lib/jvm/msopenjdk-17-amd64"
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "github.copilot",
+        "github.copilot-chat",
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "ms-vscode.vscode-typescript-next",
+        "msjsdiag.vscode-react-native",
+        "expo.vscode-expo-tools",
+        "eamodio.gitlens",
+        "humao.rest-client",
+        "ms-azuretools.vscode-docker",
+        "ms-python.python",
+        "redhat.vscode-yaml",
+        "ms-python.black-formatter",
+        "ms-azuretools.vscode-containers",
+        "denoland.vscode-deno",
+        "google.geminicodeassist"
+      ],
+      "settings": {
+        // === Added Setting to Enable Copilot Terminal Access ===
+        "github.copilot.terminal.tools": true,
+
+        // Your existing settings
+        "editor.formatOnSave": true,
+        "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
+        "eslint.options": {
+          "configFile": "./.eslintrc.json"
+        },
+        "prettier.configPath": "./.prettierrc",
+
+        // Settings moved from the root of the file to the correct location
+        "git.ignoreLimitWarning": true,
+        "geminicodeassist.verboseLogging": true,
+        "geminicodeassist.inlineSuggestions.suggestionSpeed": "Fast",
+        "geminicodeassist.chat.defaultCodeBlockDisplay": "Expanded",
+        "geminicodeassist.agentYoloMode": true,
+        "geminicodeassist.agentDebugMode": true,
+        "github.copilot.chat.notebook.followCellExecution.enabled": false,
+        "github.copilot.chat.newWorkspace.useContext7": true,
+        "github.copilot.chat.languageContext.typescript.enabled": true,
+        "github.copilot.chat.languageContext.inline.typescript.enabled": true,
+        "github.copilot.chat.languageContext.fix.typescript.enabled": true,
+        "github.copilot.chat.generateTests.codeLens": true,
+        "github.copilot.chat.enableRetryAfterFilteredResponse": true,
+        "github.copilot.chat.edits.temporalContext.enabled": true,
+        "github.copilot.chat.editor.temporalContext.enabled": true,
+        "github.copilot.chat.agent.thinkingTool": true,
+        "github.copilot.chat.codesearch.enabled": true,
+        "github.copilot.chat.scopeSelection": true,
+        "github.copilot.nextEditSuggestions.enabled": true,
+        "java.jdt.ls.java.home": "/usr/lib/jvm/msopenjdk-17-amd64"
+      }
+    }
+  },
+  "postCreateCommand": "npm install && npm run ensure-babel || true",
+  "updateContentCommand": "npm install"
+}

@@ -1,0 +1,21 @@
+Sales Report Q3 2024
+
+Product Name     Quantity    Unit Price    Total Revenue
+Widget Standard  150         $25.00        $3,750.00
+Widget Deluxe    200         $30.00        $6,000.00
+Widget Premium   75          $45.00        $3,375.00
+Gadget Basic     100         $15.00        $1,500.00
+Gadget Pro       50          $35.00        $1,750.00
+
+Regional Sales Summary
+
+Region           Q3 Sales    Growth
+North America    $8,500      +12%
+Europe           $5,200      +8%
+Asia Pacific     $2,675      +15%
+Latin America    $900        +5%
+
+Top Performers:
+1. Widget Deluxe - highest volume
+2. Widget Premium - highest margin
+3. Asia Pacific - highest growth rate

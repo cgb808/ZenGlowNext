@@ -1,0 +1,30 @@
+design_system:
+  color_psychology:
+    calm: '#6B73FF - Blue orb for peaceful/focused states'
+    growth: '#4ADE80 - Green orb for positive/growth moments'
+    curious: '#F59E0B - Orange orb for active/exploring behavior'
+    loved: '#C084FC - Purple/lavender for affirmed/supported feelings'
+    stressed: '#EF4444 - Red orb for overwhelmed states (used carefully)'
+    moonGlow: "#DDD6FE - ZenMoon's gentle lavender presence"
+  interaction_patterns:
+    hum_types:
+      - 'agree: Positive affirming hum'
+      - 'disagree: Gentle redirecting hum'
+      - 'maybe: Questioning exploring hum'
+      - 'neutral: Calm present hum'
+      - 'comfort: Soothing supportive hum'
+      - 'celebrate: Joyful encouraging hum'
+    visual_effects:
+      - 'nod: Head nod animation for validation'
+      - 'shake: Gentle side-to-side for redirection'
+      - 'glow: Color glow increase for emphasis'
+      - 'pulse: Rhythmic pulsing for emotional intensity'
+      - 'sparkle: Celebratory sparkles for achievements'
+  accessibility:
+    neurodivergent_friendly:
+      - No harsh transitions or overwhelming color shifts
+      - Gentle glows and pulses instead of abrupt changes
+      - Visual cues prioritized over text
+      - Predictable interaction patterns
+      - Calming color palette
+description: Color psychology, interaction patterns, and accessibility guidelines

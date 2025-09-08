@@ -1,0 +1,53 @@
+{
+  // Auto-save settings
+  "files.autoSave": "afterDelay",
+  "files.autoSaveDelay": 1000,
+
+  // Format on save
+  "editor.formatOnSave": true,
+  "editor.formatOnPaste": true,
+  "editor.formatOnType": false,
+
+  // Code actions on save
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "explicit",
+    "source.organizeImports": "explicit",
+    "source.sortMembers": "explicit"
+  },
+
+  // Language-specific formatting
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[yaml]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[yml]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "geminicodeassist.verboseLogging": true,
+  "geminicodeassist.inlineSuggestions.suggestionSpeed": "Fast",
+  "geminicodeassist.inlineSuggestions.enableAuto": false,
+  "gradle.allowParallelRun": true,
+  "gradle.debug": true,
+  "gradle.javaDebug.cleanOutput": true,
+  "gradle.reuseTerminals": "off",
+  "github.copilot.chat.languageContext.fix.typescript.enabled": true,
+  "github.copilot.chat.languageContext.inline.typescript.enabled": true,
+  "github.copilot.chat.languageContext.typescript.enabled": true
+}

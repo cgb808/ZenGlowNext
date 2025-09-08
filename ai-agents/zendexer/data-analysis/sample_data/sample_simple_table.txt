@@ -1,0 +1,9 @@
+Simple Table Example
+
+| Product | Quantity | Price | Total |
+|---------|----------|-------|-------|
+| Widget A| 150      | $25   | $3,750|
+| Widget B| 200      | $30   | $6,000|
+| Widget C| 75       | $45   | $3,375|
+
+This is a basic table that should be easily detected by the OCR table extraction system.

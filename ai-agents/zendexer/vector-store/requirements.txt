@@ -1,0 +1,14 @@
+# FastAPI and Server
+fastapi
+uvicorn[standard]
+gunicorn
+
+# Vector Database and Embeddings
+chromadb
+sentence-transformers
+
+# LLM Engine (assuming llama.cpp for GGUF models)
+llama-cpp-python
+
+# Supabase Client
+supabase

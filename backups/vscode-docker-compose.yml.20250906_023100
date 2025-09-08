@@ -1,0 +1,259 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json
+
+networks:
+  zenglow-network:
+    driver: bridge
+
+volumes:
+  timescale_db_data:
+  supabase_db_data:
+  supabase_storage_data:
+
+services:
+  app:
+    build:
+      context: ..
+      dockerfile: .devcontainer/Dockerfile
+    volumes:
+      - ../:/workspace:cached
+    command: sleep infinity
+    depends_on:
+      - timescaledb-local
+      - weaviate
+      - redis
+    networks:
+      - zenglow-network
+
+  timescaledb-local:
+    image: timescale/timescaledb:latest-pg15
+    container_name: timescaledb-local
+    restart: unless-stopped
+    environment:
+      POSTGRES_PASSWORD: examplepassword
+      POSTGRES_DB: zenglow
+      POSTGRES_USER: zenglow
+    ports:
+      - "54322:5432"
+    volumes:
+      - timescale_db_data:/var/lib/postgresql/data
+    networks:
+      - zenglow-network
+
+  weaviate:
+    image: semitechnologies/weaviate:1.23.7
+    container_name: weaviate
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      QUERY_DEFAULTS_LIMIT: 25
+      AUTHENTICATION_ANONYMOUS_ACCESS_ENABLED: "true"
+      DEFAULT_VECTORIZER_MODULE: "none"
+      ENABLE_MODULES: ""
+      PERSISTENCE_DATA_PATH: "/var/lib/weaviate"
+    networks:
+      - zenglow-network
+
+  redis:
+    image: redis:7-alpine
+    container_name: redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    networks:
+      - zenglow-network
+
+  nginx:
+    build:
+      context: ../nginx
+      dockerfile: Dockerfile
+    container_name: zenglow-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ../nginx/logs:/var/log/nginx
+      - ../nginx/sample-images:/data/images:ro
+      - ../app:/var/www/zenglow:ro
+    depends_on:
+      - app
+      - weaviate
+      - redis
+    networks:
+      - zenglow-network
+
+  # Supabase Local Development Stack
+  supabase-db:
+    image: supabase/postgres:15.1.1.84
+    container_name: supabase-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_PASSWORD: examplepassword
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      SUPABASE_INTERNAL_IMAGE: "1"
+    ports:
+      - "54321:5432"
+    volumes:
+      - supabase_db_data:/var/lib/postgresql/data
+    networks:
+      - zenglow-network
+
+  supabase-kong:
+    image: kong:2.8.1
+    container_name: supabase-kong
+    restart: unless-stopped
+    ports:
+      - "8000:8000/tcp"
+      - "8443:8443/tcp"
+    environment:
+      KONG_DATABASE: "off"
+      KONG_DECLARATIVE_CONFIG: /kong.yml
+      KONG_DNS_ORDER: LAST,A,CNAME
+      KONG_PLUGINS: request-transformer,cors,key-auth,acl,basic-auth
+      KONG_NGINX_PROXY_PROXY_BUFFER_SIZE: 160k
+      KONG_NGINX_PROXY_PROXY_BUFFERS: 64 160k
+    volumes:
+      - ../supabase/kong.yml:/kong.yml:ro
+    depends_on:
+      - supabase-auth
+    networks:
+      - zenglow-network
+
+  supabase-auth:
+    image: supabase/gotrue:v2.99.0
+    container_name: supabase-auth
+    restart: unless-stopped
+    environment:
+      GOTRUE_API_HOST: 0.0.0.0
+      GOTRUE_API_PORT: 9999
+      API_EXTERNAL_URL: http://localhost:8000
+      GOTRUE_DB_DRIVER: postgres
+      GOTRUE_DB_DATABASE_URL: postgres://postgres:examplepassword@supabase-db:5432/postgres?search_path=auth
+      GOTRUE_SITE_URL: http://localhost:3000
+      GOTRUE_URI_ALLOW_LIST: "*"
+      GOTRUE_DISABLE_SIGNUP: "false"
+      GOTRUE_JWT_ADMIN_ROLES: service_role
+      GOTRUE_JWT_AUD: authenticated
+      GOTRUE_JWT_DEFAULT_GROUP_NAME: authenticated
+      GOTRUE_JWT_EXP: 3600
+      GOTRUE_JWT_SECRET: ${SUPABASE_JWT_SECRET:-dev_supabase_jwt_secret_please_change_32_chars_min}
+      GOTRUE_EXTERNAL_EMAIL_ENABLED: "true"
+      GOTRUE_MAILER_AUTOCONFIRM: "true"
+      GOTRUE_SMTP_ADMIN_EMAIL: admin@example.com
+      GOTRUE_SMTP_HOST: supabase-inbucket
+      GOTRUE_SMTP_PORT: 2500
+      GOTRUE_SMTP_USER: fake_mail_user
+      GOTRUE_SMTP_PASS: fake_mail_password
+      GOTRUE_SMTP_SENDER_NAME: fake_sender
+    ports:
+      - "9999:9999"
+    depends_on:
+      - supabase-db
+    networks:
+      - zenglow-network
+
+  supabase-rest:
+    image: postgrest/postgrest:v11.2.0
+    container_name: supabase-rest
+    restart: unless-stopped
+    environment:
+      PGRST_DB_URI: postgres://postgres:examplepassword@supabase-db:5432/postgres
+      PGRST_DB_SCHEMAS: public,storage,graphql_public
+      PGRST_DB_ANON_ROLE: anon
+      PGRST_JWT_SECRET: ${SUPABASE_JWT_SECRET:-dev_supabase_jwt_secret_please_change_32_chars_min}
+      PGRST_DB_USE_LEGACY_GUCS: "false"
+      PGRST_APP_SETTINGS_JWT_SECRET: ${SUPABASE_JWT_SECRET:-dev_supabase_jwt_secret_please_change_32_chars_min}
+      PGRST_APP_SETTINGS_JWT_EXP: 3600
+    ports:
+      - "3000:3000"
+    depends_on:
+      - supabase-db
+    networks:
+      - zenglow-network
+
+  supabase-realtime:
+    image: supabase/realtime:v2.27.5
+    container_name: supabase-realtime
+    restart: unless-stopped
+    environment:
+      PORT: 4000
+      DB_HOST: supabase-db
+      DB_PORT: 5432
+      DB_USER: supabase_realtime_admin
+      DB_PASSWORD: examplepassword
+      DB_NAME: postgres
+      DB_AFTER_CONNECT_QUERY: "SET search_path TO _realtime"
+      DB_ENC_KEY: supabaserealtime
+      API_JWT_SECRET: ${SUPABASE_JWT_SECRET:-dev_supabase_jwt_secret_please_change_32_chars_min}
+      FLY_ALLOC_ID: fly123
+      FLY_APP_NAME: realtime
+      SECRET_KEY_BASE: UpNVntn3cDxHJpq99YMc1T1AQgQpc8kfYTuRgBiYa15BLrx8etQoXz3gZv1/u2oq
+      ERL_AFLAGS: -proto_dist inet_tcp
+      ENABLE_TAILSCALE: "false"
+      DNS_NODES: ""
+    ports:
+      - "4000:4000"
+    depends_on:
+      - supabase-db
+    networks:
+      - zenglow-network
+
+  supabase-storage:
+    image: supabase/storage-api:v0.46.4
+    container_name: supabase-storage
+    restart: unless-stopped
+    environment:
+      ANON_KEY: ${SUPABASE_ANON_KEY:-your_local_supabase_anon_key}
+      SERVICE_KEY: ${SUPABASE_SERVICE_ROLE_KEY:-your_local_service_role_key}
+      POSTGREST_URL: http://supabase-rest:3000
+      PGRST_JWT_SECRET: ${SUPABASE_JWT_SECRET:-dev_supabase_jwt_secret_please_change_32_chars_min}
+      DATABASE_URL: postgres://postgres:examplepassword@supabase-db:5432/postgres
+      FILE_SIZE_LIMIT: 52428800
+      STORAGE_BACKEND: file
+      FILE_STORAGE_BACKEND_PATH: /var/lib/storage
+      TENANT_ID: stub
+      REGION: stub
+      GLOBAL_S3_BUCKET: stub
+      ENABLE_IMAGE_TRANSFORMATION: "true"
+      IMGPROXY_URL: http://supabase-imgproxy:5001
+    ports:
+      - "5000:5000"
+    volumes:
+      - supabase_storage_data:/var/lib/storage
+    depends_on:
+      - supabase-db
+      - supabase-rest
+    networks:
+      - zenglow-network
+
+  supabase-imgproxy:
+    image: darthsim/imgproxy:v3.8.0
+    container_name: supabase-imgproxy
+    restart: unless-stopped
+    environment:
+      IMGPROXY_BIND: 0.0.0.0:5001
+      IMGPROXY_LOCAL_FILESYSTEM_ROOT: /
+      IMGPROXY_USE_ETAG: "true"
+      IMGPROXY_ENABLE_WEBP_DETECTION: "true"
+    volumes:
+      - supabase_storage_data:/var/lib/storage:ro
+    ports:
+      - "5001:5001"
+    networks:
+      - zenglow-network
+
+  supabase-inbucket:
+    image: inbucket/inbucket:3.0.3
+    container_name: supabase-inbucket
+    restart: unless-stopped
+    ports:
+      - "2500:2500"
+      - "9000:9000"
+    environment:
+      INBUCKET_WEB_ADDR: 0.0.0.0:9000
+      INBUCKET_POP3_ADDR: 0.0.0.0:1100
+      INBUCKET_SMTP_ADDR: 0.0.0.0:2500
+    networks:
+      - zenglow-network

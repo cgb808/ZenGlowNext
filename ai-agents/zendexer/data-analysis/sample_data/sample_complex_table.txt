@@ -1,0 +1,32 @@
+Complex Document with Multiple Tables
+
+Financial Summary Q4 2024
+
+| Department | Budget | Actual | Variance |
+|------------|--------|--------|----------|
+| Marketing  | $50K   | $48K   | -$2K     |
+| Sales      | $75K   | $82K   | +$7K     |
+| Engineering| $120K  | $115K  | -$5K     |
+| Operations | $40K   | $42K   | +$2K     |
+
+Some explanatory text between tables...
+
+Employee Information
+
+Name		Department	Start Date	Salary
+John Smith	Engineering	2020-01-15	$85,000
+Jane Doe	Marketing	2021-03-22	$65,000
+Bob Wilson	Sales		2019-11-08	$70,000
+Alice Brown	Operations	2022-05-10	$60,000
+
+Additional text and analysis...
+
+Performance Metrics
+
+Metric          Q3 2024    Q4 2024    Change
+Revenue         $250K      $275K      +10%
+Profit Margin   12.5%      14.2%      +1.7%
+Customer Sat    4.2/5      4.5/5      +0.3
+
+This document contains multiple table formats to test the 
+extraction system's ability to handle various table types.

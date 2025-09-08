@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+# Git pre-commit hook (sample) – prevents committing large / ignored AI artifacts.
+# Installation:
+#   cp scripts/pre-commit.sample .git/hooks/pre-commit
+#   chmod +x .git/hooks/pre-commit
+# Adjust MAX_SIZE_MB or BLOCK_PATTERNS as needed.
+
+set -euo pipefail
+
+MAX_SIZE_MB=75
+BLOCK_PATTERNS=("*.gguf" "*.tflite" "*.h5" "*.pkl" "*.pb" "*.tar" "*.tar.gz" "*.zip" "vector-store/*")
+
+bytes=$((MAX_SIZE_MB * 1024 * 1024))
+fail=false
+
+echo "[pre-commit] Scanning staged files for large blobs / forbidden patterns..." >&2
+
+staged_files=$(git diff --cached --name-only)
+
+for f in $staged_files; do
+  [[ -e $f ]] || continue
+  if [[ -f $f ]]; then
+    size=$(wc -c <"$f")
+    if (( size > bytes )); then
+      echo "ERROR: $f is $(numfmt --to=iec $size) (> ${MAX_SIZE_MB}MB)." >&2
+      fail=true
+    fi
+  fi
+  for pat in "${BLOCK_PATTERNS[@]}"; do
+    if [[ $f == $pat ]]; then
+      echo "ERROR: $f matches blocked pattern '$pat'." >&2
+      fail=true
+    fi
+  done
+done
+
+if $fail; then
+  cat <<'EOF' >&2
+Commit aborted. Remove large / blocked files from staging or adjust ignore rules.
+If you truly must commit, temporarily bypass with: git commit --no-verify
+Better: publish via release asset, external storage, or a pointer file.
+EOF
+  exit 1
+fi
+
+echo "[pre-commit] OK"

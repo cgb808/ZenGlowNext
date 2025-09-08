@@ -1,0 +1,38 @@
+---
+name: Release Tagging
+
+'on':
+  push:
+    branches:
+      - master
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Release Please
+        uses: google-github-actions/release-please-action@v4
+        with:
+          # Release type for Node.js/React Native projects
+          release-type: node
+          # Package name (matches package.json name)
+          package-name: zenglow
+          # Include conventional commit types in changelog
+          include-v-in-tag: true
+          # Changelog sections for conventional commits
+          changelog-types: '[
+            {"type": "feat", "section": "Features", "hidden": false},
+            {"type": "fix", "section": "Bug Fixes", "hidden": false},
+            {"type": "chore", "section": "Miscellaneous", "hidden": false},
+            {"type": "docs", "section": "Documentation", "hidden": false},
+            {"type": "style", "section": "Styling", "hidden": false},
+            {"type": "refactor", "section": "Refactoring", "hidden": false},
+            {"type": "perf", "section": "Performance", "hidden": false},
+            {"type": "test", "section": "Tests", "hidden": false},
+            {"type": "build", "section": "Build System", "hidden": false},
+            {"type": "ci", "section": "CI/CD", "hidden": false}
+          ]'

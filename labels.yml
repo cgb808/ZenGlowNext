@@ -1,0 +1,38 @@
+# Copy all of this into .github/labels.yml on master
+- name: readme
+  color: "0366d6"
+  description: Changes that modify README or markdown docs
+- name: documentation
+  color: "0e8a16"
+  description: General documentation work
+- name: ci
+  color: "ededed"
+  description: CI workflows and automation
+- name: jest
+  color: "f9d0c4"
+  description: Jest/test environment related
+- name: automated
+  color: "ededed"
+  description: Opened by automation
+- name: copilot
+  color: "ededed"
+  description: Copilot-related automation
+- name: test-failure
+  color: "d73a4a"
+  description: Tests failing in CI
+- name: automation
+  color: "ededed"
+  description: Automation tasks and bots
+- name: scoped:skip-tests
+  color: "ededed"
+  description: CI scope label to skip tests
+- name: scoped:lint-only
+  color: "ededed"
+  description: CI scope label for lint-only
+- name: scoped:skip-typecheck
+  color: "ededed"
+  description: CI scope label to skip typecheck
+- name: maintenance
+  color: "ededed"
+  description: Repo hygiene and maintenance
+
