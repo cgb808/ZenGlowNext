@@ -63,6 +63,7 @@ build/
 
 # Data directories (mounted or external)
 pgdata/
+pgdata
 redisdata/
 chroma_data/
 
@@ -78,3 +79,14 @@ chroma_data/
 .coverage
 htmlcov/
 coverage.xml
+
+# For indexer image builds, exclude everything by default,
+# then explicitly include only what Dockerfile needs.
+# This avoids following restricted symlinks like 'pgdata'.
+*
+!Dockerfile
+!requirements.txt
+!infrastructure/configs/requirements.txt
+!app/**
+!start.sh
+!scripts/fetch_whisper_cpp.sh

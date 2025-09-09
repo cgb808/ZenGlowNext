@@ -83,5 +83,14 @@ docker stack rm zenglow
 
 Wait for tasks to drain, then optionally `docker swarm leave --force` on worker nodes.
 
----
 Baseline only; expand with ingress + observability before production traffic.
+## Appendix: Agent routing policy example
+
+For higher-level scheduling (beyond Swarm's built-in service placement), you might implement an app-side router that allocates tasks across logical worker groups and explores underused partitions. See `docs/examples/swarm_policy.example.yaml` for an illustrative policy describing:
+
+- A primary "star-ring" small swarm and a micro "mesh explorer" swarm
+- 80/20 task allocation between primary and explorer
+- An exploration bias that targets least-recently-used partitions
+- A logical partition space of 32 slots (map these to shards/sectors as needed)
+
+Note: This YAML is not consumed by Docker Swarm itself; it's a control-plane input your application or a separate scheduler can interpret to direct work to different services or queues.

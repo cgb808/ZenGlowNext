@@ -1,3 +1,5 @@
+// NOTE: If you change workspace settings, also add a brief note in .github/copilot-instructions.md (Settings sync policy).
+// Context: Formatters/validators are disabled and vendored CI folders are excluded to reduce editor noise; re-enable selectively as needed.
 {
   "python.analysis.typeCheckingMode": "basic",
   "python.analysis.diagnosticSeverityOverrides": {
@@ -13,38 +15,52 @@
       "packageManager": "ms-python.python:pip"
     }
   ],
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "editor.formatOnSave": true,
+  "editor.defaultFormatter": null,
+  "editor.formatOnSave": false,
   "editor.autoIndent": "full",
   "editor.insertSpaces": true,
   "editor.tabSize": 2,
   "editor.detectIndentation": false,
   "[python]": {
-    "editor.defaultFormatter": "ms-python.black-formatter",
-    "editor.formatOnSave": true,
+    "editor.defaultFormatter": null,
+    "editor.formatOnSave": false,
     "editor.tabSize": 4
   },
   "[yaml]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.defaultFormatter": null,
     "editor.detectIndentation": false,
     "editor.insertSpaces": true,
     "editor.tabSize": 2
   },
-  "[json]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
-  "[jsonc]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
-  "[markdown]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
-  "[javascript]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
-  "[javascriptreact]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
-  "[typescript]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
-  "[typescriptreact]": { "editor.defaultFormatter": "esbenp.prettier-vscode" },
+  "[json]": { "editor.defaultFormatter": null },
+  "[jsonc]": { "editor.defaultFormatter": null },
+  "[markdown]": { "editor.defaultFormatter": null },
+  "[javascript]": { "editor.defaultFormatter": null },
+  "[javascriptreact]": { "editor.defaultFormatter": null },
+  "[typescript]": { "editor.defaultFormatter": null },
+  "[typescriptreact]": { "editor.defaultFormatter": null },
   "prettier.useTabs": false,
   "prettier.tabWidth": 2,
   "prettier.printWidth": 100,
   "prettier.trailingComma": "all",
-  "yaml.format.enable": true,
-  "yaml.validate": true,
-  "yaml.schemaStore.enable": true,
-  "files.trimTrailingWhitespace": true,
-  "files.insertFinalNewline": true,
+  "yaml.format.enable": false,
+  "yaml.validate": false,
+  "yaml.schemaStore.enable": false,
+  "yaml.schemas": {},
+  "files.associations": {},
+  "files.exclude": {
+    "**/.github/**": true,
+    "**/node_modules/**": true,
+    "whisper.cpp/.github/**": true,
+    "vendor/whisper.cpp/.github/**": true
+  },
+  "search.exclude": {
+    "**/.github/**": true,
+    "**/node_modules/**": true,
+    "whisper.cpp/.github/**": true,
+    "vendor/whisper.cpp/.github/**": true
+  },
+  "files.trimTrailingWhitespace": false,
+  "files.insertFinalNewline": false,
   "files.eol": "\n"
 }

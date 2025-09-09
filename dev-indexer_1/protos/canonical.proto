@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+package canonical.v1;
+
+option go_package = "github.com/cgb808/ZenGlowNext/dev-indexer_1/protos;canonicalv1";
+
+// Canonical messages shared across services
+message Event {
+  string event_time = 1;        // RFC3339 timestamp
+  string user_token = 2;        // pseudonymous token
+  string agent_key = 3;
+  string device_key = 4;
+  string event_type = 5;
+  string data_payload_proc = 6; // JSON (stringified)
+  repeated float embedding = 7; // optional vector
+}
+
+message Edge {
+  string source_id = 1;
+  string target_id = 2;
+  string relation = 3;
+  float weight = 4;
+}
+
+message TopKQueryRequest {
+  // Provide either embedding or a text query to be embedded by server
+  repeated float embedding = 1;
+  string text = 2;
+  string user_token = 3;  // optional filter
+  string event_type = 4;  // optional filter
+  uint32 top_k = 5;       // default 5
+}
+
+message ScoredEvent {
+  Event event = 1;
+  float score = 2;
+}
+
+message TopKQueryResponse {
+  repeated ScoredEvent results = 1;
+}
+
+service CanonicalService {
+  rpc TopKEvents(TopKQueryRequest) returns (TopKQueryResponse);
+}

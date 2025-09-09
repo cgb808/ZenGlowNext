@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+package logging.v1;
+
+option go_package = "./;loggingv1";
+
+import "google/protobuf/struct.proto";
+import "google/protobuf/timestamp.proto";
+
+// ===================================================================
+// The Logging Service Definition
+// ===================================================================
+
+service LogService {
+  // A client streams log frames; the server returns a final confirmation.
+  rpc WriteLogStream(stream LogFrame) returns (WriteLogResponse);
+}
+
+// ===================================================================
+// Message Definitions
+// ===================================================================
+
+// Represents a single log frame, mirroring the JSON structure used by agents.
+message LogFrame {
+  int32 version = 1;
+  google.protobuf.Timestamp time = 2;
+  string session_id = 3;
+  string user_id = 4;
+  string role = 5;
+  // Sequence can be omitted; the service will generate it when absent.
+  int64 seq = 6;
+  string content = 7;
+  google.protobuf.Struct metadata = 8;
+}
+
+message WriteLogResponse {
+  uint32 frames_received = 1;
+  string status = 2; // e.g., "ACKNOWLEDGED"
+}

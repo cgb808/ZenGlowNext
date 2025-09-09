@@ -30,7 +30,7 @@ Soft Deletes
 Add deleted_at TIMESTAMPTZ; extend predicate with deleted_at IS NULL.
 
 Apply
-psql ... -f sql/roles_privileges.sql then sql/rls_policies.sql.
+psql ... -f sql/init.sql then -f sql/rls_policies.sql.
 
 Verify
 Check pg_class.relrowsecurity and diagnostic view if present.

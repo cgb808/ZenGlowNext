@@ -14,6 +14,8 @@ psycopg2-binary>=2.9,<3
 
 # Optional: Redis client (used by future cache impl; safe to preinstall)
 redis>=5,<6
+msgpack>=1.0,<2
+watchdog>=4.0,<5
 
 # Dev tools
 python-dotenv>=1.0,<2
@@ -24,6 +26,8 @@ pre-commit>=3.5,<4
 # Vector and data utils (lightweight)
 numpy>=1.26,<3
 scikit-learn>=1.5,<2
+pandas>=2.2,<3
+PyYAML>=6.0,<7
 
 # For CORS and static files (normally FastAPI/Starlette bring this in)
 starlette>=0.37,<1
@@ -31,4 +35,7 @@ python-multipart>=0.0.9
 
 # Optional: Supabase Python client (used by edge function helper; safe to preinstall for dev)
 supabase>=2.6,<3
+
+# JWT utility
+PyJWT>=2.8,<3
 

@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package router.v1;
+
+option go_package = "github.com/cgb808/ZenGlowNext/grpc-router/internal/gen/services/router/v1;routerv1";
+
+// Router service definition (matches current Go server stubs)
+service RouterService {
+  rpc Process(RequestEnvelope) returns (ResponseEnvelope);
+}
+
+message RequestEnvelope {
+  string request_id = 1;
+  string source_service = 2;
+  oneof payload {
+    EmbedRequest embed_request = 10;
+    AnalyzeEventRequest analyze_event_request = 11;
+  }
+}
+
+message EmbedRequest {
+  string text_to_embed = 1;
+}
+
+message AnalyzeEventRequest {
+  string query = 1;
+}
+
+message EmbedResponse {
+  repeated float embedding = 1;
+}
+
+message ResponseEnvelope {
+  enum Status { UNKNOWN = 0; OK = 1; ERROR = 2; }
+  string request_id = 1;
+  Status status = 2;
+  string error_message = 3;
+  oneof payload {
+    EmbedResponse embed_response = 10;
+  }
+}

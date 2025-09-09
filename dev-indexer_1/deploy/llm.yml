@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  leonardo:
+    image: ollama/ollama:latest
+    volumes:
+      - ollama_data:/root/.ollama
+    networks:
+      - backend
+    deploy:
+      replicas: 1
+      placement:
+        constraints: [node.labels.gpu == true]
+      resources:
+        limits:
+          cpus: '2.00'
+          memory: 4g
+        reservations:
+          cpus: '0.50'
+          memory: 1g
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+
+volumes:
+  ollama_data:
+
+networks:
+  backend: {}

@@ -1,0 +1,15 @@
+{
+  "method": "POST",
+  "url": "{{ env "GATE_URL" }}",
+  "headers": {
+    "Authorization": "Bearer {{ env "GATE_TOKEN" }}",
+    "Content-Type": "application/json"
+  },
+  "body": {
+    "event": "gate.done",
+    "batch_tag": "{{ .batch_tag }}",
+    "status": "{{ .status }}",
+    "processed": {{ .processed }},
+    "ts": "{{ now | printf "%s" }}"
+  }
+}

@@ -1,20 +1,41 @@
 {
-  "github.copilot.chat.commitMessageGeneration": {
+  // Prefer Docker DX language server for Compose and disable Red Hat YAML validation (conflicts)
+  "yaml.validate": false,
+  "yaml.format.enable": false,
+  // Optional: disable Red Hat YAML extension entirely in this workspace
+  "redhat.telemetry.enabled": false,
+  // Docker DX LSP debug port per request (requires language server started with this port)
+  "docker.lsp.debugServerPort": 49201,
+  // Associate compose files with Docker Compose language to activate Docker DX features
+  "files.associations": {
+    "docker-compose*.yml": "dockercompose",
+    "docker-compose*.yaml": "dockercompose",
+    "compose*.yml": "dockercompose",
+    "compose*.yaml": "dockercompose",
+    "**/docker-compose.yml": "dockercompose",
+    "**/docker-compose.yaml": "dockercompose"
+  },
+  // Disable all format-on-save to prevent auto-indentation changes
+  "editor.formatOnSave": false,
+  "[yaml]": {
+    "editor.formatOnSave": false,
+    "editor.defaultFormatter": null
+  },
+  "[dockercompose]": {
+    "editor.formatOnSave": false,
+    "editor.defaultFormatter": null
+  },
+  "github.copilot.chat.": {
     "instructions": [
       "Refer to COPILOT.md for SOP (modes, safety matrix, directory policy).",
       "Execution Rule: ONE terminal command per step; wait for output before next.",
       "Context Sources: project-index.json, root README.md, docs/ hierarchy.",
       "Directory Policy: No new root files unless in allowlist (README.md, COPILOT.md, Makefile, docker-compose*.yml, kong.yml, package.json, package-lock.json, project-index*.json, requirements-*.txt, settings.json, pytest.ini, run_tests.sh, .env*, .gitignore); enforce via scripts/root_hygiene_check.py.",
-      "Memory MCP: Persist key architectural decisions & doc relocations.",
-      "Sequential Thinking: Break complex tasks into verifiable substeps before edits.",
-      "Commit Guidance: Summarize intent, scope (dirs touched), notable constraints.",
-      "Multi-Root: Secondary curated repo synced via multi_repo_sync.sh (manifest-driven).",
-      "Remote CUDA: Heavy training uses remote_cuda.sh / cuda_aliases.sh; always sync (zpush) first.",
-      "Curated Manifest: Add new share-worthy docs to [includes] in repo_sync_manifest.txt.",
-      "Project Summary: See docs/PROJECT_SUMMARY_AGGREGATED.md for consolidated context refresher.",
-      "Large Artifacts: Never add datasets / model weights to curated subset; document retrieval steps instead.",
-      "Reference: docs/MULTI_ROOT_WORKSPACE.md for integrated workflow overview.",
-      "Backlog Alignment: Always consult DEVOPS_TODO.md (sections 1-17 + phase plan) before suggesting new DevOps / infra / security / observability tasks."
+      "Commit Guidance: Summarize intent, scope (dirs touched), and notable constraints.",
+      "Remote CUDA Inference: Heavy inference tasks use remote_cuda.sh / cuda_aliases.sh; always sync code (zpush) before execution.",
+      "Project Summary: See AGGREGATED_PROJECT_SUMMARY.md for a consolidated context refresher.",
+      "Large Artifacts: Never commit model weights or other large binaries; document retrieval steps in the README instead.",
+      "Backlog Alignment: Always consult DEVOPS_TODO.md before suggesting new DevOps, infrastructure, security, or observability tasks."
     ]
   }
 }

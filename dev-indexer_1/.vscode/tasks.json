@@ -1,0 +1,167 @@
+{
+  // Run: Terminal > Run Task... > Redis: ZFS up
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Redis: ZFS up",
+      "type": "shell",
+  "command": "bash -lc './scripts/redis_zfs_up.sh'",
+      "group": "none",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "clear": false
+      },
+      "options": {
+        "cwd": "${workspaceFolder}"
+      }
+    },
+    {
+      "label": "Remote CUDA: probe",
+      "type": "shell",
+      "command": "bash -lc './scripts/remote_cuda_probe.sh'",
+      "group": "none",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      },
+      "options": {
+        "cwd": "${workspaceFolder}"
+      }
+    }
+    ,
+    {
+      "label": "CCE worker: run",
+      "type": "shell",
+      "command": "bash -lc 'python scripts/cce_event_worker.py'",
+      "group": "none",
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "panel": "dedicated" },
+      "options": { "cwd": "${workspaceFolder}" }
+    },
+    {
+      "label": "Go: ingester run",
+      "type": "shell",
+      "command": "bash -lc 'go run ./cmd/ingester'",
+      "group": "none",
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "panel": "dedicated" },
+      "options": { "cwd": "${workspaceFolder}" }
+    },
+    {
+      "label": "Go: topk client",
+      "type": "shell",
+      "command": "bash -lc 'go run ./cmd/topk-client --text "hello world"'",
+      "group": "none",
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "panel": "dedicated" },
+      "options": { "cwd": "${workspaceFolder}" }
+    }
+  ]
+}
+    {
+      "label": "JWT: mint (1h, sub=dev)",
+      "type": "shell",
+      "command": "bash -lc 'python scripts/dev_jwt.py mint --sub dev --aud dev --exp 3600'",
+      "group": "none",
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "panel": "dedicated" },
+      "options": { "cwd": "${workspaceFolder}" }
+    },
+    {
+      "label": "JWT: decode",
+      "type": "shell",
+      "command": "bash -lc 'read -p \"Token: \" TOK && python scripts/dev_jwt.py decode --token \"$$TOK\"'",
+      "group": "none",
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "panel": "dedicated" },
+      "options": { "cwd": "${workspaceFolder}" }
+    },
+    {
+      "label": "JWT: verify",
+      "type": "shell",
+      "command": "bash -lc 'read -p \"Token: \" TOK && python scripts/dev_jwt.py decode --verify --token \"$$TOK\"'",
+      "group": "none",
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "panel": "dedicated" },
+      "options": { "cwd": "${workspaceFolder}" }
+    },
+    
+    {
+      "label": "Swarm: init",
+      "type": "shell",
+      "command": "bash -lc 'make swarm-init'",
+      "group": "none",
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "panel": "dedicated" },
+      "options": { "cwd": "${workspaceFolder}" }
+    },
+    {
+      "label": "Swarm: deploy",
+      "type": "shell",
+      "command": "bash -lc 'make swarm-deploy'",
+      "group": "none",
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "panel": "dedicated" },
+      "options": { "cwd": "${workspaceFolder}" }
+    },
+    {
+      "label": "Swarm: ps",
+      "type": "shell",
+      "command": "bash -lc 'make swarm-ps'",
+      "group": "none",
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "panel": "dedicated" },
+      "options": { "cwd": "${workspaceFolder}" }
+    },
+    {
+      "label": "Swarm: remove",
+      "type": "shell",
+      "command": "bash -lc 'make swarm-rm'",
+      "group": "none",
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "panel": "dedicated" },
+      "options": { "cwd": "${workspaceFolder}" }
+    }
+    ,
+    {
+      "label": "Swarm: secret: legacy_jwt from .env",
+      "type": "shell",
+      "command": "bash -lc 'set -euo pipefail; source .env 2>/dev/null || true; : \"${LEGACY_JWT:=}\"; test -n \"$LEGACY_JWT\" || { echo \"LEGACY_JWT not set in .env\"; exit 2; }; echo -n \"$LEGACY_JWT\" | docker secret create legacy_jwt - 2>/dev/null || echo -n \"$LEGACY_JWT\" | docker secret rm legacy_jwt >/dev/null 2>&1 || true; echo -n \"$LEGACY_JWT\" | docker secret create legacy_jwt - 2>/dev/null || { echo \"legacy_jwt secret updated\"; }'",
+      "group": "none",
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "panel": "dedicated" },
+      "options": { "cwd": "${workspaceFolder}" }
+    },
+    {
+      "label": "Show: LEGACY_JWT (.env)",
+      "type": "shell",
+      "command": "bash -lc 'grep -E ^LEGACY_JWT= .env || echo LEGACY_JWT not set'",
+      "group": "none",
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "panel": "dedicated" },
+      "options": { "cwd": "${workspaceFolder}" }
+    }
+    ,
+    {
+      "label": "Swarm: secret: supabase_jwt from .env",
+      "type": "shell",
+      "command": "bash -lc 'set -euo pipefail; source .env 2>/dev/null || true; : \"${SUPABASE_JWT:=}\"; test -n \"$SUPABASE_JWT\" || { echo \"SUPABASE_JWT not set in .env\"; exit 2; }; echo -n \"$SUPABASE_JWT\" | docker secret create supabase_jwt - 2>/dev/null || echo -n \"$SUPABASE_JWT\" | docker secret rm supabase_jwt >/dev/null 2>&1 || true; echo -n \"$SUPABASE_JWT\" | docker secret create supabase_jwt - 2>/dev/null || { echo \"supabase_jwt secret updated\"; }'",
+      "group": "none",
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "panel": "dedicated" },
+      "options": { "cwd": "${workspaceFolder}" }
+    },
+    {
+      "label": "Show: SUPABASE_JWT (.env)",
+      "type": "shell",
+      "command": "bash -lc 'grep -E ^SUPABASE_JWT= .env || echo SUPABASE_JWT not set'",
+      "group": "none",
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "panel": "dedicated" },
+      "options": { "cwd": "${workspaceFolder}" }
+    }
+  ]
+}

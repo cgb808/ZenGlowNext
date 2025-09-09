@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  embedding_worker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: zenglow/embedding-worker:dev
+    container_name: embedding_worker
+    restart: unless-stopped
+    environment:
+      # API URL to fetch tasks; adjust in production
+      API_EXTERNAL_URL: '${API_EXTERNAL_URL:-http://localhost:8000}'
+      # JWT for authenticating to the API (set a strong secret in real envs)
+      JWT_SECRET: ${JWT_SECRET:-your-super-secret-jwt-token-with-at-least-32-characters-long}
+      # Model + batch config (tune as needed)
+      EMBEDDING_MODEL: 'bge-small-en-v1.5'
+      BATCH_SIZE: 64
+    volumes:
+      - ./:/workspace:rw
+    working_dir: /workspace
+    command: >-
+      bash -lc "pip install --no-cache-dir -r requirements.txt && python scripts/generate_vector_batch.py"

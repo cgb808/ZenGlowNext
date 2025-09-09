@@ -1,39 +1,3 @@
-from __future__ import annotations
-from typing import Any, Dict, List, Optional
-from .context import FAMILY_STORE, Person
-
-
-class BaseFamilyService:
-    def upsert_person(self, p: Dict[str, Any], user_id: Optional[str] = None) -> Dict[str, Any]:
-        raise NotImplementedError
-
-    def list_people(self, user_id: Optional[str] = None) -> List[Dict[str, Any]]:
-        raise NotImplementedError
-
-    def get_person(self, pid: str, user_id: Optional[str] = None) -> Optional[Dict[str, Any]]:
-        raise NotImplementedError
-
-    # Extension points
-    def add_guardian(self, guardian_id: str, child_id: str, user_id: Optional[str] = None) -> None:
-        raise NotImplementedError
-
-    def tutoring_guardrails(self, child_id: str) -> Dict[str, Any]:
-        return {"child_id": child_id, "allow": True, "rules": []}
-
-
-class InMemoryFamilyService(BaseFamilyService):
-    def upsert_person(self, p: Dict[str, Any], user_id: Optional[str] = None) -> Dict[str, Any]:
-        return FAMILY_STORE.upsert_person(Person(**p))
-
-    def list_people(self, user_id: Optional[str] = None) -> List[Dict[str, Any]]:
-        return FAMILY_STORE.list_people()
-
-    def get_person(self, pid: str, user_id: Optional[str] = None) -> Optional[Dict[str, Any]]:
-        return FAMILY_STORE.get_person(pid)
-
-    def add_guardian(self, guardian_id: str, child_id: str, user_id: Optional[str] = None) -> None:
-        # no-op for now
-        return None
 """Family service abstraction with DI (in-memory or Postgres).
 
 Selection logic (see `deps.get_family_service`). This isolates FastAPI router
@@ -280,7 +244,9 @@ class PgFamilyService(BaseFamilyService):
                     "meta": r.get("meta") or {},
                     "content_ref": r.get("content_ref"),
                     "created_ts": (
-                        int(r.get("created_ts").timestamp() * 1000) if r.get("created_ts") else 0
+                        int(r.get("created_ts").timestamp() * 1000)
+                        if hasattr(r.get("created_ts"), "timestamp")
+                        else int(r.get("created_ts") or 0)
                     ),
                 }
             )

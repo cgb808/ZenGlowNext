@@ -216,8 +216,7 @@ def main() -> int:
         else:
             with open(args.json_out, "w", encoding="utf-8") as jf:
                 jf.write(encoded + "\n")
-            print(f"[schema-drift] Wrote JSON diff -> {args.json_out}
-")
+            print(f"[schema-drift] Wrote JSON diff -> {args.json_out}")
 
     if not drift:
         print("\n[schema-drift] No drift detected (public schema).")

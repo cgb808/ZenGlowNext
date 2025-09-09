@@ -83,7 +83,7 @@ class LLMClient:
         prompt: str,
         temperature: Optional[float] = None,
         max_tokens: int = 512,
-        prefer: str = "auto",  # auto|edge|llama|ollama|leonardo|leo|jarvis|mistral|phi3
+    prefer: str = "auto",  # auto|edge|llama|ollama|leonardo|leo|jarvis|mistral|phi3
     ) -> Dict[str, Any]:
         metrics.inc("llm_calls_total")
         debug = os.getenv("LLM_DEBUG", "0").lower() in {"1", "true", "yes", "on"}
@@ -97,6 +97,17 @@ class LLMClient:
                 },
             )
         temp = temperature if temperature is not None else self.default_temperature
+
+        # Preference overrides via environment (opt-in)
+        # - LLM_FORCE_PREFER: overrides 'prefer' for all calls (e.g., 'jarvis')
+        # - LLM_DEFAULT_PREFER: used when prefer is 'auto' or empty
+        force_prefer = os.getenv("LLM_FORCE_PREFER", "").strip().lower()
+        if force_prefer:
+            prefer = force_prefer
+        elif (prefer or "").strip().lower() in {"", "auto"}:
+            default_prefer = os.getenv("LLM_DEFAULT_PREFER", "").strip().lower()
+            if default_prefer:
+                prefer = default_prefer
 
         # Env resolution
         supabase_url = os.getenv("SUPABASE_URL")

@@ -1,0 +1,79 @@
+syntax = "proto3";
+
+package router.v1;
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/struct.proto";
+
+// ===================================================================
+// THE ENVELOPE (The Standardized "Shipping Container")
+// ===================================================================
+message RequestEnvelope {
+  string request_id = 1;
+  google.protobuf.Timestamp timestamp = 2;
+  string source_service = 3;
+  // Metadata can hold routing hints or auth info
+  google.protobuf.Struct metadata = 4;
+
+  oneof payload {
+    EmbedRequest embed_request = 10;
+    AnalyzeEventRequest analyze_event_request = 11;
+    ASOMissionRequest aso_mission_request = 12;
+  }
+}
+
+message ResponseEnvelope {
+  string request_id = 1;
+  enum Status {
+    OK = 0;
+    ERROR = 1;
+  }
+  Status status = 2;
+  string error_message = 3;
+
+  oneof payload {
+    EmbedResponse embed_response = 10;
+    AnalyzeEventResponse analyze_event_response = 11;
+    ASOMissionResponse aso_mission_response = 12;
+  }
+}
+
+// ===================================================================
+// THE PAYLOADS (The Specific "Cargo")
+// ===================================================================
+
+// For the Embedding Agent
+message EmbedRequest {
+  string text_to_embed = 1;
+}
+message EmbedResponse {
+  repeated float embedding = 1;
+}
+
+// For the LLM Agent
+message AnalyzeEventRequest {
+  string event_id = 1; // ID from the main 'events' hypertable
+  string analysis_type = 2; // "sentiment", "summary", "pii_redaction"
+}
+message AnalyzeEventResponse {
+  google.protobuf.Struct analysis_results = 1;
+}
+
+// For the ASO Swarm Controller
+message ASOMissionRequest {
+  string swarm_name = 1;
+  google.protobuf.Struct objective = 2;
+}
+message ASOMissionResponse {
+  string mission_id = 1;
+  string status = 2;
+}
+
+
+// ===================================================================
+// THE ROUTER SERVICE
+// ===================================================================
+service RouterService {
+  // A single, unified entrypoint for all requests.
+  rpc Process(RequestEnvelope) returns (ResponseEnvelope);
+}

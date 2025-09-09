@@ -1,4 +1,0 @@
-{"instruction": "Retrieve media titled 'Willow Science Project Volcano Photo' for entity willow", "output": {"entity_id": "willow", "kind": "media", "title": "Willow Science Project Volcano Photo", "tags": ["science", "project", "photo"]}, "meta": {"source": "artifact"}}
-{"instruction": "Retrieve document titled 'Willow Fall 2025 Reading Assessment' for entity willow", "output": {"entity_id": "willow", "kind": "document", "title": "Willow Fall 2025 Reading Assessment", "tags": ["reading", "assessment", "2025", "fall"]}, "meta": {"source": "artifact"}}
-{"instruction": "What is the latest height_in for chase?", "output": "66in", "meta": {"source": "health_metric"}}
-{"instruction": "What is the latest height_in for willow?", "output": "50in", "meta": {"source": "health_metric"}}

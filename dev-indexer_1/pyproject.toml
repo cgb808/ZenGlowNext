@@ -39,4 +39,5 @@ dependencies = [
 	"psutil>=5.9.8",
 	"redis>=5.0.1",
 	"asyncpg>=0.29.0",
+	"numpy",
 ]

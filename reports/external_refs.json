@@ -1,0 +1,257 @@
+[
+  {
+    "file": "dev-indexer_1/app/personas.py",
+    "import": "__future__",
+    "found_elsewhere": null
+  },
+  {
+    "file": "dev-indexer_1/app/main.py",
+    "import": "app.swarm.state_router",
+    "found_elsewhere": null
+  },
+  {
+    "file": "dev-indexer_1/app/main.py",
+    "import": "app.audio.transcription_simple_router",
+    "found_elsewhere": null
+  },
+  {
+    "file": "dev-indexer_1/app/main.py",
+    "import": "app.api.openelm_router",
+    "found_elsewhere": null
+  },
+  {
+    "file": "dev-indexer_1/app/main.py",
+    "import": "scripts.env_load",
+    "found_elsewhere": null
+  },
+  {
+    "file": "dev-indexer_1/app/main.py",
+    "import": "app.devices_router",
+    "found_elsewhere": null
+  },
+  {
+    "file": "dev-indexer_1/app/main.py",
+    "import": "app.discovery.router",
+    "found_elsewhere": null
+  },
+  {
+    "file": "dev-indexer_1/app/main.py",
+    "import": "app.system.arc_router",
+    "found_elsewhere": null
+  },
+  {
+    "file": "dev-indexer_1/app/main.py",
+    "import": "app.cache.redis_supabase_cache",
+    "found_elsewhere": null
+  },
+  {
+    "file": "dev-indexer_1/app/main.py",
+    "import": "app.swarm.ant_swarm",
+    "found_elsewhere": null
+  },
+  {
+    "file": "dev-indexer_1/app/main.py",
+    "import": "app.audio.tts_sidecar_router",
+    "found_elsewhere": null
+  },
+  {
+    "file": "dev-indexer_1/app/health/health_router.py",
+    "import": "__future__",
+    "found_elsewhere": null
+  },
+  {
+    "file": "dev-indexer_1/app/health/system_metrics.py",
+    "import": "__future__",
+    "found_elsewhere": null
+  },
+  {
+    "file": "dev-indexer_1/app/audio/xtts_router.py",
+    "import": "__future__",
+    "found_elsewhere": null
+  },
+  {
+    "file": "dev-indexer_1/app/audio/audio_diagnostics_router.py",
+    "import": "__future__",
+    "found_elsewhere": null
+  },
+  {
+    "file": "dev-indexer_1/app/audio/devices_router.py",
+    "import": "__future__",
+    "found_elsewhere": null
+  },
+  {
+    "file": "dev-indexer_1/app/audio/speaker_router.py",
+    "import": "__future__",
+    "found_elsewhere": null
+  },
+  {
+    "file": "dev-indexer_1/app/leonardo/audio_router.py",
+    "import": "__future__",
+    "found_elsewhere": null
+  },
+  {
+    "file": "dev-indexer_1/app/rag/embed_router.py",
+    "import": "__future__",
+    "found_elsewhere": null
+  },
+  {
+    "file": "dev-indexer_1/app/rag/pruner.py",
+    "import": "__future__",
+    "found_elsewhere": null
+  },
+  {
+    "file": "dev-indexer_1/app/rag/db_async.py",
+    "import": "__future__",
+    "found_elsewhere": null
+  },
+  {
+    "file": "dev-indexer_1/app/rag/feature_assembler.py",
+    "import": "__future__",
+    "found_elsewhere": null
+  },
+  {
+    "file": "dev-indexer_1/app/rag/db_pool.py",
+    "import": "__future__",
+    "found_elsewhere": null
+  },
+  {
+    "file": "dev-indexer_1/app/rag/llm_probe_router.py",
+    "import": "__future__",
+    "found_elsewhere": null
+  },
+  {
+    "file": "dev-indexer_1/app/rag/schemas.py",
+    "import": "__future__",
+    "found_elsewhere": null
+  },
+  {
+    "file": "dev-indexer_1/app/rag/embedder.py",
+    "import": "__future__",
+    "found_elsewhere": null
+  },
+  {
+    "file": "dev-indexer_1/app/rag/llm_client.py",
+    "import": "__future__",
+    "found_elsewhere": null
+  },
+  {
+    "file": "dev-indexer_1/app/rag/streaming_router.py",
+    "import": "__future__",
+    "found_elsewhere": null
+  },
+  {
+    "file": "dev-indexer_1/app/rag/system_router.py",
+    "import": "__future__",
+    "found_elsewhere": null
+  },
+  {
+    "file": "dev-indexer_1/app/rag/ranking_router.py",
+    "import": "__future__",
+    "found_elsewhere": null
+  },
+  {
+    "file": "dev-indexer_1/app/rag/clarify_priority_features.py",
+    "import": "__future__",
+    "found_elsewhere": null
+  },
+  {
+    "file": "dev-indexer_1/app/family/context.py",
+    "import": "__future__",
+    "found_elsewhere": null
+  },
+  {
+    "file": "dev-indexer_1/app/family/pg_repo.py",
+    "import": "__future__",
+    "found_elsewhere": null
+  },
+  {
+    "file": "dev-indexer_1/app/family/repo.py",
+    "import": "__future__",
+    "found_elsewhere": null
+  },
+  {
+    "file": "dev-indexer_1/app/family/service.py",
+    "import": "__future__",
+    "found_elsewhere": null
+  },
+  {
+    "file": "dev-indexer_1/app/family/deps.py",
+    "import": "__future__",
+    "found_elsewhere": null
+  },
+  {
+    "file": "dev-indexer_1/app/vector/vector_router.py",
+    "import": "__future__",
+    "found_elsewhere": null
+  },
+  {
+    "file": "dev-indexer_1/app/inference/logging.py",
+    "import": "__future__",
+    "found_elsewhere": null
+  },
+  {
+    "file": "dev-indexer_1/app/inference/gating.py",
+    "import": "__future__",
+    "found_elsewhere": null
+  },
+  {
+    "file": "dev-indexer_1/app/inference/router.py",
+    "import": "__future__",
+    "found_elsewhere": null
+  },
+  {
+    "file": "dev-indexer_1/app/core/embedding_cache.py",
+    "import": "__future__",
+    "found_elsewhere": null
+  },
+  {
+    "file": "dev-indexer_1/app/core/prompt_cache.py",
+    "import": "__future__",
+    "found_elsewhere": null
+  },
+  {
+    "file": "dev-indexer_1/app/core/resource_watchdog.py",
+    "import": "__future__",
+    "found_elsewhere": null
+  },
+  {
+    "file": "dev-indexer_1/app/core/task_queue_router.py",
+    "import": "__future__",
+    "found_elsewhere": null
+  },
+  {
+    "file": "dev-indexer_1/app/core/config.py",
+    "import": "__future__",
+    "found_elsewhere": null
+  },
+  {
+    "file": "dev-indexer_1/app/core/token_cache.py",
+    "import": "__future__",
+    "found_elsewhere": null
+  },
+  {
+    "file": "dev-indexer_1/app/core/redis_backend.py",
+    "import": "__future__",
+    "found_elsewhere": null
+  },
+  {
+    "file": "dev-indexer_1/app/core/cache_metrics.py",
+    "import": "__future__",
+    "found_elsewhere": null
+  },
+  {
+    "file": "dev-indexer_1/app/core/response_cache.py",
+    "import": "__future__",
+    "found_elsewhere": null
+  },
+  {
+    "file": "dev-indexer_1/app/core/log_buffer.py",
+    "import": "__future__",
+    "found_elsewhere": null
+  },
+  {
+    "file": "dev-indexer_1/app/core/cache_stats_router.py",
+    "import": "__future__",
+    "found_elsewhere": null
+  }
+]

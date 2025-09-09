@@ -3,7 +3,7 @@
 Only implements what `app.main` expects:
   - apply_backward_compat_env(): mutate env for older var names (noop for now).
   - validate_required_env(): return list of missing required vars (kept small so
-	service can still boot in dev / test).
+        service can still boot in dev / test).
   - config_router: FastAPI router exposing minimal diagnostic endpoints.
 
 Design goals:
@@ -47,15 +47,52 @@ def validate_required_env() -> list[str]:
 config_router = APIRouter(prefix="/config", tags=["config"])  # Exported for app.main
 
 
+def get_sanitized_env_snapshot(max_val_len: int = 200) -> Dict[str, str]:
+    """Return a sanitized environment snapshot for safe diagnostics.
+
+    Rules:
+    - Include keys with allowed prefixes: PG_, RAG_, OLLAMA_, CORS_, EMBED_, ASYN
+    - Always allow explicit keys (currently SUPABASE_URL)
+    - Exclude keys containing common secret markers: KEY, TOKEN, SECRET, PASS, PASSWORD
+    - Truncate long values to `max_val_len` and suffix with '...'
+    """
+    allow_prefixes = (
+        "PG_",
+        "RAG_",
+        "OLLAMA_",
+        "CORS_",
+        "EMBED_",
+        "ASYN",
+    )
+    allow_explicit = {"SUPABASE_URL"}
+    deny_markers = ("KEY", "TOKEN", "SECRET", "PASS", "PASSWORD")
+
+    def _allowed_key(k: str) -> bool:
+        kup = k.upper()
+        if any(m in kup for m in deny_markers):
+            return False
+        if kup in allow_explicit:
+            return True
+        return any(kup.startswith(p) for p in allow_prefixes)
+
+    def _sanitize_val(v: str) -> str:
+        if v is None:
+            return ""
+        if len(v) > max_val_len:
+            return v[: max_val_len - 3] + "..."
+        return v
+
+    snapshot: Dict[str, str] = {}
+    for k, v in os.environ.items():
+        if _allowed_key(k):
+            snapshot[k] = _sanitize_val(str(v))
+    return snapshot
+
+
 @config_router.get("/env")
 def get_env_snapshot() -> Dict[str, object]:  # pragma: no cover - simple pass-through
     """Return a filtered snapshot of environment (non-secret values)."""
-    allow_prefixes = ("PG_", "RAG_", "OLLAMA_", "CORS_", "EMBED_", "ASYN")
-    snapshot = {
-        k: v
-        for k, v in os.environ.items()
-        if any(k.startswith(p) for p in allow_prefixes) and "KEY" not in k and "SECRET" not in k
-    }
+    snapshot = get_sanitized_env_snapshot()
     return {"env": snapshot, "missing": validate_required_env()}
 
 

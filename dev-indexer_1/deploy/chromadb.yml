@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  chromadb:
+    image: chromadb/chroma:latest
+    environment:
+      - IS_PERSISTENT=TRUE
+    volumes:
+      - chromadb_data:/chroma/chroma
+    networks:
+      - backend
+    ports:
+      - '8001:8000'
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: any
+      resources:
+        limits:
+          cpus: '1.00'
+          memory: 2g
+        reservations:
+          cpus: '0.25'
+          memory: 512m
+      healthcheck:
+        test: ['CMD', 'wget', '-qO-', 'http://localhost:8000/api/v1/heartbeat']
+        interval: 15s
+        timeout: 5s
+        retries: 5
+        start_period: 15s
+
+volumes:
+  chromadb_data:
+
+networks:
+  backend: {}

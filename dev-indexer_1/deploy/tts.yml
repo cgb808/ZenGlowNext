@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  tts:
+    image: ghcr.io/coqui-ai/tts-cpu:dbf1a08a0d4e47fdad6172e433eeb34bc6b13b4e
+    command: >-
+      tts-server
+        --model_name "${TTS_MODEL:-tts_models/en/ljspeech/tacotron2-DDC}"
+        --vocoder_name "${VOCODER_MODEL:-vocoder_models/en/ljspeech/hifigan_v2}"
+        --host 0.0.0.0
+        --port 5002
+    environment:
+      - TTS_MODEL=tts_models/en/vctk/vits
+      - VOCODER_MODEL=vocoder_models/en/vctk/vits
+    volumes:
+      - tts_models:/root/.local/share/tts
+    networks:
+  - backend
+    ports:
+      - '5002:5002'
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 4g
+        reservations:
+          cpus: '0.5'
+          memory: 1g
+
+volumes:
+  tts_models:
+
+networks:
+  backend: {}

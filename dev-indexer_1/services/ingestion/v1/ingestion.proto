@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package ingestion.v1;
+
+option go_package = "zenglow/ingester/gen/ingestion/v1;ingestionv1";
+
+import "google/protobuf/struct.proto";
+
+// ===================================================================
+// The Ingestion Service Definition
+// ===================================================================
+
+service IngestionService {
+  // A client-streaming RPC to ingest a stream of data records.
+  rpc IngestStream(stream IngestRecord) returns (IngestStreamResponse);
+}
+
+// ===================================================================
+// Message Definitions
+// ===================================================================
+
+// Represents a single record to be ingested, mirroring the msgpack structure.
+message IngestRecord {
+  string source = 1;
+  string text = 2;
+  // Metadata can hold content_hash or other structured data.
+  google.protobuf.Struct metadata = 3;
+  string batch_tag = 4;
+  // The embedding is optional; the service will generate it if missing.
+  repeated float embedding = 5;
+}
+
+// The final summary returned after the client finishes streaming.
+message IngestStreamResponse {
+  string batch_id = 1;
+  int32 total_received = 2;
+  int32 inserted = 3;
+  int32 skipped_duplicates = 4;
+  string status = 5; // e.g., "COMPLETED", "FAILED"
+  string error_message = 6;
+}

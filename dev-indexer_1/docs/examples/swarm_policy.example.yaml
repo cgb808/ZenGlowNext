@@ -1,0 +1,32 @@
+# Example: Swarm-style agent routing policy (illustrative)
+# NOTE: This is NOT consumed by Docker Swarm directly. It documents a logical
+# routing policy you might implement in an app-level scheduler/router.
+# Wire-up ideas: a control-plane service could parse this to decide
+# how to allocate tasks to different worker groups.
+
+swarm_types:
+  star_ring:
+    size: small
+    nodes: 5
+    topology: star-ring
+    role: primary
+  mesh_explorer:
+    size: micro
+    nodes: 2
+    topology: mesh
+    role: explorer
+
+routing:
+  allocation:
+    # 80% of tasks go to star-ring primary, 20% to mesh explorer
+    star_ring: 0.8
+    mesh_explorer: 0.2
+
+exploration_bias:
+  # Prefer cells/partitions with least recent usage
+  strategy: least_recent
+  decay_half_life_tasks: 200
+
+partitions:
+  # Logical space indexed by id; can be physical sectors or data shards
+  count: 32

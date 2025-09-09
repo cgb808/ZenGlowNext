@@ -29,7 +29,7 @@ workflow reference: `docs/MULTI_ROOT_WORKSPACE.md`.
 ### 3. Tooling & Tasks
 
 - `pyproject.toml`: mypy strict, Ruff config.
-- `settings.json`: Black provider + Ruff fix on save.
+- `settings.json`: YAML validation and formatting are disabled to avoid noisy false positives. Schema Store remains disabled. If re-enabled later, prefer explicit Compose schema mapping and associating `deploy/docker-stack.yml` as `dockercompose`. Vendored CI folders and node_modules are excluded in files/search.
 - Run (before commit): tests -> ruff -> mypy.
 
 ### 4. Current Tech Debt

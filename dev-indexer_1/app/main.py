@@ -358,10 +358,50 @@ try:
 except Exception:
     swarm_state_router = APIRouter()
 
+try:  # optional lightweight predictor
+    if os.getenv("SWARM_PREDICT_ENABLE", "1").lower() in {"1", "true", "yes"}:
+        from app.swarm.meta_prophet_router import router as swarm_predict_router  # type: ignore[attr-defined]
+    else:  # pragma: no cover
+        swarm_predict_router = APIRouter()
+except Exception:  # pragma: no cover
+    swarm_predict_router = APIRouter()
+
+try:  # index-assist helper for Supabase edge functions
+    if os.getenv("ASSIST_ENABLE", "1").lower() in {"1", "true", "yes"}:
+        from app.rag.index_assist_router import router as index_assist_router  # type: ignore[attr-defined]
+    else:  # pragma: no cover
+        index_assist_router = APIRouter()
+except Exception:  # pragma: no cover
+    index_assist_router = APIRouter()
+
 try:
     from app.system.arc_router import router as arc_router  # type: ignore[attr-defined]
 except Exception:
     arc_router = APIRouter()
+
+try:  # optional Jarvis inference endpoint
+    if os.getenv("JARVIS_ENABLE", "0").lower() in {"1", "true", "yes"}:
+        from app.jarvis.router import router as jarvis_router  # type: ignore[attr-defined]
+    else:
+        jarvis_router = APIRouter()
+except Exception:
+    jarvis_router = APIRouter()
+
+try:  # optional swarm handlers trainer
+    if os.getenv("HANDLERS_ENABLE", "1").lower() in {"1", "true", "yes"}:
+        from app.swarm.handlers_router import router as handlers_router  # type: ignore[attr-defined]
+    else:
+        handlers_router = APIRouter()
+except Exception:
+    handlers_router = APIRouter()
+
+try:  # optional central control tutor router
+    if os.getenv("CENTRAL_ENABLE", "1").lower() in {"1", "true", "yes"}:
+        from app.central.router import router as central_router  # type: ignore[attr-defined]
+    else:
+        central_router = APIRouter()
+except Exception:
+    central_router = APIRouter()
 
 # Family context (optional)
 try:  # type: ignore[attr-defined]
@@ -653,6 +693,11 @@ app.include_router(openelm_router)
 app.include_router(arc_router)
 app.include_router(discovery_router)
 app.include_router(swarm_state_router)
+app.include_router(swarm_predict_router)
+app.include_router(index_assist_router)
+app.include_router(jarvis_router)
+app.include_router(handlers_router)
+app.include_router(central_router)
 ## app.include_router(achievements_router)
 # (specialist_router temporarily disabled / not present)
 app.include_router(feedback_router)

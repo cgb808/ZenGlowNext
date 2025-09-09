@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  whisper:
+    image: your-registry/rag-whisper-cpu:1.0
+    volumes:
+      - whisper_models:/models
+    networks:
+      - backend
+    ports:
+      - '8080:8080'
+    deploy:
+      mode: replicated
+      replicas: 1
+      restart_policy:
+        condition: any
+        delay: 5s
+      update_config:
+        parallelism: 1
+        delay: 5s
+        order: start-first
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 1g
+        reservations:
+          cpus: '0.25'
+          memory: 256m
+
+volumes:
+  whisper_models:
+
+networks:
+  backend: {}

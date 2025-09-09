@@ -5,6 +5,7 @@
 -- Enable required extensions
 CREATE EXTENSION IF NOT EXISTS vector;
 CREATE EXTENSION IF NOT EXISTS timescaledb CASCADE;
+CREATE EXTENSION IF NOT EXISTS pgcrypto; -- for gen_random_uuid()
 
 -- ANN Runtime Configuration
 CREATE TABLE IF NOT EXISTS public.ann_runtime_config (

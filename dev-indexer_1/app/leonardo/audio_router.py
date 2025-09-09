@@ -130,10 +130,10 @@ async def leonardo_think(request: LeonardoThinkRequest):
     """
     try:
         # Create analytical prompt for Leonardo
-        analytical_prompt = f"""You are Leonardo, an analytical AI assistant focused on deep thinking and educational excellence. 
-        
+        analytical_prompt = f"""You are Leonardo, an analytical AI assistant focused on deep thinking and educational excellence.
+
 Query: {request.query}
-        
+
 {f"Additional context: {request.context}" if request.context else ""}
 
 Please provide a thoughtful, well-reasoned response that demonstrates analytical thinking. Consider multiple perspectives, provide clear explanations, and offer educational insights where appropriate."""

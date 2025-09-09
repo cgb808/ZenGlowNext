@@ -1,0 +1,47 @@
+household_id: "house-001"
+people:
+  - id: "guardian-nancy"
+    name: "Nancy"
+    last_name: "Bowen"
+    age: 40
+    grade_band: "adult"
+    birthdate: "1985-05-10"
+    meta:
+      notes: "Primary guardian"
+  - id: "guardian-charles"
+    name: "Charles"
+    last_name: "Bowen"
+    age: 41
+    grade_band: "adult"
+    birthdate: "1984-01-20"
+  - id: "child-alice"
+    name: "Alice"
+    last_name: "Bowen"
+    age: 10
+    grade_band: "elementary"
+    birthdate: "2015-09-01"
+  - id: "child-bob"
+    name: "Bob"
+    last_name: "Bowen"
+    age: 7
+    grade_band: "primary"
+    birthdate: "2018-03-14"
+relationships:
+  - guardian_id: "guardian-nancy"
+    child_id: "child-alice"
+    kind: "guardian"
+  - guardian_id: "guardian-charles"
+    child_id: "child-bob"
+    kind: "guardian"
+artifacts:
+  - id: "art-001"
+    entity_id: "child-alice"
+    kind: "drawing"
+    title: "Sunset"
+    tags: ["art", "school"]
+    content_ref: "s3://bucket/path/sunset.jpg"
+health_metrics:
+  - entity_id: "child-bob"
+    metric: "height_cm"
+    value_num: 122.5
+    unit: "cm"

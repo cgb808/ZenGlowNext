@@ -1,0 +1,16 @@
+{
+  "method": "POST",
+  "url": "{{ env "GATE_URL" }}",
+  "headers": {
+    "Authorization": "Bearer {{ env "GATE_TOKEN" }}",
+    "Content-Type": "application/json"
+  },
+  "body": {
+    "event": "gate.open",
+    "batch_tag": "{{ .batch_tag }}",
+    "count": {{ .count }},
+    "bytes": {{ .bytes }},
+    "spool": "{{ .spool }}",
+    "ts": "{{ now | printf "%s" }}"
+  }
+}

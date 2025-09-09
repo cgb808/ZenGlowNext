@@ -1,0 +1,36 @@
+version: '3.8'
+
+# Toggle file to pin CPU-heavy services to a specific remote node.
+# Label that node first:
+#   docker node update --label-add tier=cpu-remote <node-name>
+
+services:
+  # Vector DB (CPU-heavy on compactions/queries)
+  chromadb:
+    deploy:
+      placement:
+        constraints: [node.labels.tier == cpu-remote]
+
+  # Whisper CPU server
+  whisper:
+    deploy:
+      placement:
+        constraints: [node.labels.tier == cpu-remote]
+
+  # Coqui TTS
+  tts:
+    deploy:
+      placement:
+        constraints: [node.labels.tier == cpu-remote]
+
+  # Go router (if you want to pin it)
+  router:
+    deploy:
+      placement:
+        constraints: [node.labels.tier == cpu-remote]
+
+  # Go logservice (file/network heavy; optional)
+  logservice:
+    deploy:
+      placement:
+        constraints: [node.labels.tier == cpu-remote]

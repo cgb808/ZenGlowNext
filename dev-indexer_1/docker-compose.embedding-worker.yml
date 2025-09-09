@@ -1,0 +1,2 @@
+## Moved: This file has been relocated to compose/embedding-worker.yml to avoid multiple root compose files.
+## Use: docker compose -f compose/embedding-worker.yml up -d

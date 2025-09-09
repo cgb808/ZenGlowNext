@@ -1,4 +1,6 @@
 # docker-compose.yml
+#
+# RAG System Backend Stack
 # This file defines the complete backend stack for your RAG system, including:
 # 1. db (PostgreSQL): The primary, persistent database for storing documents and vectors.
 # 2. redis: The high-speed, in-memory cache used as a buffer for the intake pipeline.
@@ -22,10 +24,11 @@ services:
   #     retries: 5
   #     start_period: 15s
 
-  # The PostgreSQL database service
+  # The PostgreSQL database service (core) with TimescaleDB + pgvector
   db:
-    # pgvector-enabled image (includes vector extension). Timescale optional.
-    image: pgvector/pgvector:pg15
+    build:
+      context: ./db
+      dockerfile: Dockerfile.pg
     container_name: rag_postgres_db
     restart: unless-stopped
     environment:
@@ -37,11 +40,17 @@ services:
     ports:
       - '127.0.0.1:5432:5432'
     volumes:
-      # Persists PostgreSQL data on the host machine
-      - ./pgdata:/var/lib/postgresql/data
-      # Initialize schema & extensions (vector present; timescaledb created only if image supports)
-      - ./sql/rag_core_schema.sql:/docker-entrypoint-initdb.d/10_rag_core_schema.sql:ro
-      - ./sql/rag_indexes.sql:/docker-entrypoint-initdb.d/20_rag_indexes.sql:ro
+      # Persist PostgreSQL data on ZFS (host bind mount)
+      - /DEV_ZFS/postgres/core:/var/lib/postgresql/data
+      # Initialize core schema (order by prefix numbers)
+      - ./sql/artifact_a_schema.sql:/docker-entrypoint-initdb.d/10_artifact_a_schema.sql:ro
+      - ./sql/rag_core_schema.sql:/docker-entrypoint-initdb.d/20_rag_core_schema.sql:ro
+      - ./sql/rag_indexes.sql:/docker-entrypoint-initdb.d/30_rag_indexes.sql:ro
+      - ./sql/dev_knowledge_graph_schema.sql:/docker-entrypoint-initdb.d/40_dev_knowledge_graph_schema.sql:ro
+      - ./sql/events_unified_schema.sql:/docker-entrypoint-initdb.d/45_events_unified_schema.sql:ro
+      - ./sql/unified_knowledge_graph_schema.sql:/docker-entrypoint-initdb.d/46_unified_knowledge_graph_schema.sql:ro
+      - ./sql/swarm_schema.sql:/docker-entrypoint-initdb.d/47_swarm_schema.sql:ro
+      - ./sql/inference_logging.sql:/docker-entrypoint-initdb.d/50_inference_logging.sql:ro
     healthcheck:
       # Checks if the database is ready to accept connections
       test: ['CMD-SHELL', 'pg_isready -U postgres -d rag_db']
@@ -50,56 +59,352 @@ services:
       retries: 5
       start_period: 10s
 
-  # The Redis service for caching and queuing
-  # redis service removed (using host redis already running on 6379). Add back if containerized redis needed.
+  # The Redis service for caching and queuing (local, persisted on ZFS bind mount)
+  redis:
+    image: redis:7-alpine
+    container_name: rag_redis
+    restart: unless-stopped
+    volumes:
+      - ${REDIS_DATA_DIR:-/DEV_ZFS/redis/dev-indexer_1}:/data:rw
+    ports:
+      - '6379:6379'
+    expose:
+      - '6379'
+    command: ["redis-server", "--save", "60", "1000", "--appendonly", "yes"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
 
-  # FastAPI indexer application (dev mode)
-  indexer:
+  # FastAPI application (staging/prod)
+  app:
     build:
       context: .
       dockerfile: Dockerfile
-      args: # Align container user with host to avoid permission issues on mounted volumes
-        UID: ${HOST_UID:-1000}
-        GID: ${HOST_GID:-1000}
-        USERNAME: ${HOST_USER:-cgb808}
-    container_name: rag_indexer
+      target: prod
+      args:
+        PYTHON_VERSION: "3.12"
+        ENABLE_WHISPER: "0"
+        INSTALL_HEAVY_EXTRAS: "0"
+    working_dir: /workspace
+    container_name: rag_app
     restart: unless-stopped
     depends_on:
       db:
         condition: service_healthy
-    environment: # Using mapping style for clarity
-      # Core DB connectivity
+      db_pii:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
       POSTGRES_HOST: db
       POSTGRES_DB: rag_db
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: your-super-strong-and-secret-password
-      DATABASE_URL: postgresql://postgres:your-super-strong-and-secret-password@db:5432/rag_db
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-change-me-dev-only}
+      DATABASE_URL: '${DATABASE_URL:-postgresql://postgres:${POSTGRES_PASSWORD:-change-me-dev-only}@db:5432/rag_db}'
+      PII_DATABASE_URL: '${PII_DATABASE_URL:-postgresql://postgres:${POSTGRES_PASSWORD:-change-me-dev-only}@db_pii:5432/rag_pii}'
+      DATABASE_URL_VEC: '${DATABASE_URL_VEC:-postgresql://postgres:${POSTGRES_PASSWORD:-change-me-dev-only}@db:5432/rag_db}'
+      DATABASE_URL_TS: '${DATABASE_URL_TS:-postgresql://postgres:${POSTGRES_PASSWORD:-change-me-dev-only}@db:5432/rag_db}'
+      PII_DATABASE_URL_VEC: '${PII_DATABASE_URL_VEC:-postgresql://postgres:${POSTGRES_PASSWORD:-change-me-dev-only}@db_pii:5432/rag_pii}'
+      PII_DATABASE_URL_TS: '${PII_DATABASE_URL_TS:-postgresql://postgres:${POSTGRES_PASSWORD:-change-me-dev-only}@db_pii:5432/rag_pii}'
       PG_EMBED_DIM: 768
       RAG_TOP_K_DEFAULT: 5
-      # Optional Ollama remote (adjust to actual host with model). On Linux add extra_hosts below.
+      API_EXTERNAL_URL: '${API_EXTERNAL_URL:-http://localhost:8000}'
+      JWT_SECRET: ${JWT_SECRET:-your-super-secret-jwt-token-with-at-least-32-characters-long}
+      LEGACY_JWT: ${LEGACY_JWT:-}
+      SUPABASE_JWT: ${SUPABASE_JWT:-}
       OLLAMA_HOST: host.docker.internal
       OLLAMA_PORT: 11434
-      OLLAMA_MODEL: gemma:2b
-      PHI3_REMOTE_HOST: 192.168.1.133
-      PHI3_REMOTE_PORT: 5000
-      BGE_REMOTE_HOST: 192.168.1.133
-      BGE_REMOTE_PORT: 5001
-      CUDA_REMOTE_HOST: 192.168.1.133
-      CUDA_REMOTE_USER: cgbowen
-      CUDA_REMOTE_SSH_KEY: /home/cgbowen/.ssh/id_ed25519
-      REDIS_HOST: host.docker.internal # using host redis
+      OLLAMA_MODEL: 'gemma:2b'
+      LEONARDO_URL: 'http://leonardo:11434'
+      LEONARDO_MODEL: 'mistral:7b'
+      WHISPER_SERVER_URL: 'http://whisper:9000'
+      PHI3_REMOTE_HOST: ${PHI3_REMOTE_HOST:-192.168.1.133}
+      PHI3_REMOTE_PORT: ${PHI3_REMOTE_PORT:-5000}
+      BGE_REMOTE_HOST: ${BGE_REMOTE_HOST:-192.168.1.133}
+      BGE_REMOTE_PORT: ${BGE_REMOTE_PORT:-5001}
+      CUDA_REMOTE_HOST: ${CUDA_REMOTE_HOST:-192.168.1.133}
+      CUDA_REMOTE_USER: ${CUDA_REMOTE_USER:-cgbowen}
+      CUDA_REMOTE_SSH_KEY: ${CUDA_REMOTE_SSH_KEY:-/home/cgbowen/.ssh/id_ed25519}
+      REDIS_HOST: redis
       REDIS_PORT: 6379
-      HOME: /home/${HOST_USER:-cgb808}
+      HOME: '/home/${HOST_USER:-cgb808}'
     ports:
-      - '8001:8000' # TEMP: host port shifted from 8000 -> 8001 (VS Code local listener conflict); revert when freed
-    volumes:
-      # Mount developer home (adjust host path if moved to /zfs or btrfs)
-      - /DEV_ZFS/home/${HOST_USER:-cgb808}:/home/${HOST_USER:-cgb808}:rw
-      # Project source for live reload
-      - ./:/workspace:rw
-    command: ['uvicorn', 'app.main:app', '--host', '0.0.0.0', '--port', '8000']
+      - '8001:8000'
     extra_hosts:
       - 'host.docker.internal:host-gateway'
 
+  # FastAPI application (dev, profile=dev)
+  app-dev:
+    profiles: [dev]
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: dev
+      args:
+        PYTHON_VERSION: "3.12"
+        ENABLE_WHISPER: "0"
+        INSTALL_HEAVY_EXTRAS: "0"
+    working_dir: /workspace
+    container_name: rag_app_dev
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+      db_pii:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      POSTGRES_HOST: db
+      POSTGRES_DB: rag_db
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-change-me-dev-only}
+      DATABASE_URL: '${DATABASE_URL:-postgresql://postgres:${POSTGRES_PASSWORD:-change-me-dev-only}@db:5432/rag_db}'
+      PII_DATABASE_URL: '${PII_DATABASE_URL:-postgresql://postgres:${POSTGRES_PASSWORD:-change-me-dev-only}@db_pii:5432/rag_pii}'
+      DATABASE_URL_VEC: '${DATABASE_URL_VEC:-postgresql://postgres:${POSTGRES_PASSWORD:-change-me-dev-only}@db:5432/rag_db}'
+      DATABASE_URL_TS: '${DATABASE_URL_TS:-postgresql://postgres:${POSTGRES_PASSWORD:-change-me-dev-only}@db:5432/rag_db}'
+      PII_DATABASE_URL_VEC: '${PII_DATABASE_URL_VEC:-postgresql://postgres:${POSTGRES_PASSWORD:-change-me-dev-only}@db_pii:5432/rag_pii}'
+      PII_DATABASE_URL_TS: '${PII_DATABASE_URL_TS:-postgresql://postgres:${POSTGRES_PASSWORD:-change-me-dev-only}@db_pii:5432/rag_pii}'
+      PG_EMBED_DIM: 768
+      RAG_TOP_K_DEFAULT: 5
+      API_EXTERNAL_URL: '${API_EXTERNAL_URL:-http://localhost:8000}'
+      JWT_SECRET: ${JWT_SECRET:-your-super-secret-jwt-token-with-at-least-32-characters-long}
+      LEGACY_JWT: ${LEGACY_JWT:-}
+      SUPABASE_JWT: ${SUPABASE_JWT:-}
+      OLLAMA_HOST: host.docker.internal
+      OLLAMA_PORT: 11434
+      OLLAMA_MODEL: 'gemma:2b'
+      LEONARDO_URL: 'http://leonardo:11434'
+      LEONARDO_MODEL: 'mistral:7b'
+      WHISPER_SERVER_URL: 'http://whisper:9000'
+      PHI3_REMOTE_HOST: ${PHI3_REMOTE_HOST:-192.168.1.133}
+      PHI3_REMOTE_PORT: ${PHI3_REMOTE_PORT:-5000}
+      BGE_REMOTE_HOST: ${BGE_REMOTE_HOST:-192.168.1.133}
+      BGE_REMOTE_PORT: ${BGE_REMOTE_PORT:-5001}
+      CUDA_REMOTE_HOST: ${CUDA_REMOTE_HOST:-192.168.1.133}
+      CUDA_REMOTE_USER: ${CUDA_REMOTE_USER:-cgbowen}
+      CUDA_REMOTE_SSH_KEY: ${CUDA_REMOTE_SSH_KEY:-/home/cgbowen/.ssh/id_ed25519}
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      HOME: '/home/${HOST_USER:-cgb808}'
+    ports:
+      - '8001:8000'
+    volumes:
+      - /DEV_ZFS/home/${HOST_USER:-cgb808}:/home/${HOST_USER:-cgb808}:rw
+      - ./:/workspace:rw
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
+
+  # Leonardo LLM (Mistral 7B) via Ollama
+  leonardo:
+    image: ollama/ollama:latest
+    container_name: rag_leonardo
+    profiles: [leonardo]
+    restart: unless-stopped
+    ports:
+      - '11434:11434'
+    environment:
+      - OLLAMA_KEEP_ALIVE=60m
+      - NVIDIA_VISIBLE_DEVICES=all
+    volumes:
+      - ollama_data:/root/.ollama
+    # Enable GPU when available (Compose plugin supports 'gpus')
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: [gpu]
+    healthcheck:
+      test: ['CMD', 'curl', '-sf', 'http://localhost:11434/api/tags']
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      start_period: 15s
+
+  # Whisper.cpp HTTP server (CPU build for portability; switch Dockerfile to CUDA if desired)
+  whisper:
+    build:
+      context: ./whisper.cpp
+      dockerfile: .devops/main.Dockerfile
+    container_name: rag_whisper
+    profiles: [whisper]
+    restart: unless-stopped
+    environment:
+      WHISPER_MODEL: ggml-tiny.en.bin
+    volumes:
+      # Persist models so we can pull a small one (e.g., ggml-tiny.en.bin) without rebuilding
+      - whisper_models:/app/models:rw
+    expose:
+      - '9000'
+    ports:
+      - '9000:9000'
+    command: >-
+      bash -lc "whisper-server -m /app/models/$${WHISPER_MODEL:-ggml-tiny.en.bin} -p 9000"
+    healthcheck:
+      test: ['CMD', 'curl', '-sf', 'http://localhost:9000']
+      interval: 20s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+
+  # Slim CPU Whisper.cpp for prod/Swarm (keeps dev image as-is)
+  whisper_cpu:
+    build:
+      context: ./whisper.cpp
+      dockerfile: Dockerfile.cpu
+    container_name: rag_whisper_cpu
+    profiles: [whisper-cpu]
+    restart: unless-stopped
+    environment:
+      WHISPER_PORT: 8080
+      WHISPER_THREADS: 2
+      # Default tiny-en Q5; override with your own model filename
+      WHISPER_MODEL: /models/ggml-tiny.en-q5_1.bin
+      # Optional lazy download URL (empty to disable)
+      WHISPER_MODEL_URL: ""
+    volumes:
+      - whisper_models:/models:rw
+    ports:
+      - '8080:8080'
+    healthcheck:
+      test: ['CMD', 'curl', '-sf', 'http://localhost:8080/inference/health']
+      interval: 20s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+    deploy:
+      mode: replicated
+      replicas: 1
+      restart_policy:
+        condition: any
+        delay: 5s
+        max_attempts: 0
+      update_config:
+        parallelism: 1
+        delay: 5s
+        order: start-first
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 1g
+        reservations:
+          cpus: '0.25'
+          memory: 256m
+
+  # The PII PostgreSQL database service (separate instance) with TimescaleDB + pgvector
+  db_pii:
+    build:
+      context: ./db
+      dockerfile: Dockerfile.pg
+    container_name: rag_postgres_db_pii
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: your-super-strong-and-secret-password
+      POSTGRES_DB: rag_pii
+    ports:
+      - '127.0.0.1:5433:5432'
+    volumes:
+      - /DEV_ZFS/postgres/pii:/var/lib/postgresql/data
+      - ./sql/pii_secure_schema.sql:/docker-entrypoint-initdb.d/10_pii_secure_schema.sql:ro
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres -d rag_pii']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  # Router gRPC service (toggle via profile)
+  router:
+    build:
+      context: ./grpc-router
+      dockerfile: Dockerfile
+      args:
+        GO_VERSION: "1.23"
+    container_name: rag_router
+    profiles: [router]
+    restart: unless-stopped
+    depends_on:
+      redis:
+        condition: service_healthy
+    environment:
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      # Default listen addr can be overridden at deploy time
+      ADDR: ":50052"
+    ports:
+      - '50052:50052'
+    deploy:
+      mode: replicated
+      replicas: 1
+      restart_policy:
+        condition: any
+        delay: 5s
+        max_attempts: 0
+      update_config:
+        parallelism: 1
+        delay: 5s
+        order: start-first
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 256m
+        reservations:
+          cpus: '0.10'
+          memory: 64m
+    security_opt:
+      - no-new-privileges:true
+    read_only: true
+    tmpfs:
+      - /tmp
+
+  # Logservice gRPC ingestion (toggle via profile)
+  logservice:
+    build:
+      context: ./grpc/logservice
+      dockerfile: Dockerfile
+      args:
+        GO_VERSION: "1.23"
+    container_name: rag_logservice
+    profiles: [logservice]
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      POSTGRES_HOST: db
+      POSTGRES_PORT: 5432
+      # Default listen addr can be overridden at deploy time
+      ADDR: ":50051"
+    ports:
+      - '50051:50051'
+    deploy:
+      mode: replicated
+      replicas: 1
+      restart_policy:
+        condition: any
+        delay: 5s
+        max_attempts: 0
+      update_config:
+        parallelism: 1
+        delay: 5s
+        order: start-first
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 256m
+        reservations:
+          cpus: '0.10'
+          memory: 64m
+    security_opt:
+      - no-new-privileges:true
+    read_only: true
+    tmpfs:
+      - /tmp
+
 volumes:
-  pgdata:
+  ollama_data:
+  whisper_models:

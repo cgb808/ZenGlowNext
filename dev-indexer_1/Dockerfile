@@ -2,12 +2,15 @@
 # Multi-stage Indexer Image                                #
 # Stage 1: builder (deps, wheels)                          #
 # Stage 2: runtime (slim, no build toolchain)              #
-# Optional dev image via DEV_IMAGE=1 adds git, sudo, etc.  #
+# Targets:
+#   - prod (default): minimal runtime, non-root            #
+#   - dev: adds git/sudo and enables reload                #
 ############################################################
 
 ARG PYTHON_VERSION=3.12
 ARG ENABLE_WHISPER=0          # set to 1 to build & include whisper.cpp + model
 ARG WHISPER_MODEL=small.en    # whisper.cpp model to fetch when enabled
+ARG INSTALL_HEAVY_EXTRAS=0    # set to 1 to install heavy optional deps (torch/transformers)
 FROM python:${PYTHON_VERSION}-slim AS builder
 
 ARG UID=1000
@@ -42,10 +45,12 @@ RUN mkdir -p vendor/whisper.cpp \
 				 echo "[whisper] skipped (ENABLE_WHISPER!=1)" ; \
 			 fi
 
-# Install additional dependencies for new services
-RUN pip install --no-cache-dir transformers torch sentence-transformers
-RUN pip install --no-cache-dir whispercpp
-RUN pip install --no-cache-dir stt
+# Optional: build wheels for heavy extras only when explicitly requested
+RUN if [ "${INSTALL_HEAVY_EXTRAS}" = "1" ]; then \
+		pip wheel --wheel-dir /wheels transformers torch sentence-transformers whispercpp stt ; \
+	else \
+		echo "[extras] skipped heavy extras wheel build" ; \
+	fi
 
 ############################################################
 FROM python:${PYTHON_VERSION}-slim AS runtime
@@ -53,9 +58,9 @@ FROM python:${PYTHON_VERSION}-slim AS runtime
 ARG UID=1000
 ARG GID=1000
 ARG USERNAME=cgb808
-ARG DEV_IMAGE=0
 ARG ENABLE_WHISPER=0
 ARG WHISPER_MODEL=small.en
+ARG INSTALL_HEAVY_EXTRAS=0
 ENV PYTHONUNBUFFERED=1 \
 	PIP_NO_CACHE_DIR=1 \
 	APP_HOME=/workspace \
@@ -65,10 +70,8 @@ WORKDIR ${APP_HOME}
 # Minimal runtime deps; extend if audio/native libs required later
 RUN apt-get update && apt-get install -y --no-install-recommends \
 	ca-certificates curl procps \
-	$( [ "${DEV_IMAGE}" = "1" ] && echo "git sudo" ) \
 	&& groupadd -g ${GID} ${USERNAME} \
 	&& useradd -m -u ${UID} -g ${GID} -s /bin/bash ${USERNAME} \
-	&& if [ "${DEV_IMAGE}" = "1" ]; then usermod -aG sudo ${USERNAME} && echo "${USERNAME} ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/90-${USERNAME}; fi \
 	&& rm -rf /var/lib/apt/lists/*
 
 COPY --from=builder /wheels /wheels
@@ -91,5 +94,20 @@ ENV UVICORN_HOST=0.0.0.0 UVICORN_PORT=8000 ENABLE_RELOAD=0 \
 	WHISPER_CPP_DIR=/opt/whisper.cpp WHISPER_MODEL=${WHISPER_MODEL}
 
 ENTRYPOINT ["/usr/local/bin/start.sh"]
-# Reload only for dev image (override at runtime: -e ENABLE_RELOAD=1)
-CMD ["bash", "-lc", "exec uvicorn app.main:app --host ${UVICORN_HOST} --port ${UVICORN_PORT} $( [ \"$ENABLE_RELOAD\" = \"1\" ] && echo '--reload' )" ]
+# Default command suitable for production (no reload). Dev target overrides via ENV.
+CMD ["bash", "-lc", "exec uvicorn app.main:app --host ${UVICORN_HOST} --port ${UVICORN_PORT}"]
+
+# ---------- Targets ----------
+# Production target (default)
+FROM runtime AS prod
+
+# Development target: add git/sudo and enable reload by default
+FROM runtime AS dev
+USER root
+RUN apt-get update && apt-get install -y --no-install-recommends git sudo \
+	&& usermod -aG sudo ${USERNAME} \
+	&& echo "${USERNAME} ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/90-${USERNAME} \
+	&& rm -rf /var/lib/apt/lists/*
+USER ${USERNAME}
+ENV ENABLE_RELOAD=1
+CMD ["bash", "-lc", "exec uvicorn app.main:app --host ${UVICORN_HOST} --port ${UVICORN_PORT} --reload"]

@@ -1,3 +1,54 @@
+# Architecture Overview
+
+This repo implements a local-first ingestion and retrieval stack that can bridge to Supabase services.
+
+## High-level components
+
+- App API: FastAPI app (minimal endpoints and health checks)
+- Ingestion spool: filesystem-based batching of .msgpack frames
+- Embedding: external service (or local mock) producing vectors
+- Databases: Postgres/TimescaleDB with pgvector for vector search
+- Caching: Redis (optional) for queues and signals
+- Go Notifier: templated HTTP notifier invoked at critical lifecycle points
+
+## Ingestion pipeline (spool → gate → ingest)
+
+1. Writers produce .msgpack segments (optionally compressed) and land them in `spool/incoming/`.
+2. A watcher opens the gate: when thresholds are met it triggers `scripts/process_spool.sh`.
+3. The orchestrator atomically moves files to `spool/processing/` and marks a manifest row.
+4. The Go Notifier fires a templated HTTP request (gate.open) to an external endpoint.
+5. The Python replayer (`scripts/rag_replay_msgpack.py`) ingests data into Postgres/Timescale.
+6. On success: files move to `spool/archive/`; notifier sends gate.done(status=success).
+7. On failure: files move to `spool/failed/`; notifier sends gate.done(status=failed).
+
+## Ingestion manifest
+
+- Table: `ingestion_manifest` (status, files jsonb, totals, timestamps)
+- Helper: `scripts/ingestion_manifest.py` provides `create_or_update_manifest()` and `finish_manifest()`
+- Purpose: track batches and emit NOTIFYs (if enabled) for observability.
+
+## Notifications (Go templated HTTP)
+
+- Binary: `tools/notifier` (tiny CLI)
+- Templates:
+  - `tools/notifier/templates/gate_open.json.tmpl`
+  - `tools/notifier/templates/gate_done.json.tmpl`
+- Trigger points:
+  - Gate open: after moving files → processing, before ingest.
+  - Gate done: after ingest success/failure.
+- Why Go: static binary, fast startup, simple templating and HTTP client.
+
+## Edge/Cloud compatibility
+
+- Supabase Edge functions can still be used for other flows.
+- For Redis in Edge, prefer `npm:redis` or Upstash HTTP client.
+- This architecture decouples on-prem ingestion from Edge listeners via HTTP notifications.
+
+## Security notes
+
+- Keep Redis and Postgres non-public or locked down; prefer TLS.
+- Gate webhook endpoints should validate tokens (Bearer) and rate-limit.
+- Ingestion manifest data can include non-PII metadata for observability.
 # ZenGlow AI Workspace - Architecture Overview
 
 _Last Updated: August 29, 2025_
@@ -46,7 +97,7 @@ ZenGlowAIWorkspace/
     └── archive/                # Archived/deprecated code
 ```
 
-## Architecture: Specialized Models + RAG Integration
+## Architecture: Hybrid Data + Specialized Models
 
 ### 🎯 Core Concept
 
@@ -71,7 +122,7 @@ graph TB
     IntMod --> RAG
     GenMod --> RAG
 
-    RAG --> Vector[Vector Store<br/>pgvector]
+   RAG --> Vector[Vector Store<br/>pgvector on Timescale]
     RAG --> Context[Contextual Response]
 
     Context --> SocMod
@@ -107,18 +158,18 @@ graph TB
    - Context-aware behavior
 
 3. **RAG Layer** (Retrieval & Context)
-   - Vector similarity search (pgvector)
+   - Vector similarity search (pgvector on Timescale)
    - Contextual knowledge retrieval
    - Domain-specific content filtering
 
-4. **Knowledge Layer** (Storage)
-   - Vector embeddings store
-   - Domain knowledge bases
-   - Conversation memory
+4. **Knowledge & Storage Layers**
+   - Timescale (ZFS): Events hypertable (pgvector), partitioned activity log
+   - Supabase: swarms, agents, missions, knowledge_graph, user-scoped data
+   - FDW bridge on Supabase to reach Timescale (operator pushdown for vectors)
+   - Conversation memory and logs
 
 5. **Infrastructure Layer** (DevOps)
-   - Container orchestration (Docker)
-   - Model serving (Ollama)
+   - Docker Compose (dev) + light Swarm stack (caps, secrets)
    - Caching (Redis)
    - Monitoring & metrics
 
@@ -145,13 +196,19 @@ graph TB
 5. Response: "Great question! Let me address that..."
 ```
 
-### 📊 Current Capabilities
+### � Privacy & Access
+
+- PII vault with token map (mint/resolve/rotate) — see `docs/PII_ARCHITECTURE.md`
+- RLS policies: users self-only, dev cross-user, guardianship access — `docs/RLS_SEED_EXAMPLE.sql`
+- Swarm tables carry `owner_identity_id` for logical linkage without joining PII
+
+### �📊 Current Capabilities
 
 **Operational:**
 
 - ✅ Docker Compose stack (backend, ollama, redis, webui)
 - ✅ Leonardo voice integration (TTS/Whisper)
-- ✅ RAG pipeline with pgvector
+- ✅ RAG pipeline with pgvector (Timescale)
 - ✅ Metrics & health monitoring
 
 **Training Infrastructure:**
@@ -167,13 +224,20 @@ graph TB
 - ✅ MCP Memory → RAG integration bridge
 - ✅ Automated project indexing
 
-### 🚀 Next Phase: Training Automation
+### �️ Services
+
+- gRPC Router contract (`services/router/v1/router.proto`)
+- gRPC Ingestion (client-streaming) (`services/ingestion/v1/ingestion.proto`)
+- Go ingester scaffold (`cmd/ingester/`) — register service after codegen
+
+### 🚀 Next Phase
 
 **Priority Queue:**
 
 1. **Model Training Pipeline**: Automate base + specialization training
 2. **Deployment Integration**: Deploy specialists alongside RAG
 3. **Model Router**: Implement specialist selection logic
+6. **Ingestion Service**: Embed/dedupe/COPY batch insert with health + metrics
 4. **Performance Monitoring**: Track specialist effectiveness
 5. **Continuous Learning**: Feedback loops for model improvement
 
