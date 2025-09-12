@@ -5,31 +5,11 @@ Wants=network-online.target
 
 [Service]
 Type=simple
-EnvironmentFile=-/etc/default/spool-watcher
+EnvironmentFile=/etc/default/zenglow-indexer
 WorkingDirectory=%h/ZenGlow/ZenGlow/dev-indexer_1
-ExecStart=/usr/bin/env python3 scripts/spool_poll_watcher.py \
-  --spool-dir ${SPOOL_DIR:-/data/spool} \
-  --min-bytes ${SPOOL_MIN_BYTES:-4000000} \
-  --min-files ${SPOOL_MIN_FILES:-1} \
-  --interval-sec ${SPOOL_POLL_INTERVAL:-5} \
-  --script ${SPOOL_PROCESS_SCRIPT:-$(pwd)/scripts/process_spool.sh}
+ExecStart=/usr/bin/env python3 scripts/spool_poll_watcher.py
 Restart=always
 RestartSec=2
 
 [Install]
 WantedBy=default.target
-[Unit]
-Description=Spool Directory Watcher for RAG Ingestion
-After=network.target
-
-[Service]
-EnvironmentFile=/etc/default/zenglow-indexer
-ExecStart=/usr/bin/python3 /opt/zenglow/scripts/spool_watcher.py
-WorkingDirectory=/opt/zenglow/scripts
-StandardOutput=journal
-StandardError=journal
-Restart=always
-User=zenglow
-
-[Install]
-WantedBy=multi-user.target

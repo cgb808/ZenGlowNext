@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://zenglow.dev/schemas/edge_publish_request.schema.json",
+  "title": "Supabase Edge Function Request (Redis Pub/Sub)",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "action": { "type": "string", "enum": ["publish", "subscribe", "listen"] },
+    "channel": { "type": "string", "minLength": 1, "pattern": "^[a-z0-9_.:-]+$" },
+    "message": { "type": "string" },
+    "timeoutMs": { "type": "integer", "minimum": 1000, "maximum": 60000 }
+  },
+  "required": ["action", "channel"],
+  "allOf": [
+    {
+      "if": { "properties": { "action": { "const": "publish" } } },
+      "then": { "required": ["message"] }
+    }
+  ]
+}

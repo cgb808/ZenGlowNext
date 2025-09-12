@@ -1,0 +1,60 @@
+# Keyword / pattern triggers for voice routing heuristic boosts.
+# Simple initial list; future: weights & regex support.
+# Format:
+# categories:
+#   analysis: ["analyze", "compare", "explain", "why", "reason about"]
+#   math: ["integral", "derivative", "matrix", "solve", "equation"]
+#   code: ["function", "class", "import", "bug", "refactor"]
+#   health: ["heart rate", "sleep", "stress", "recovery", "fatigue"]
+#   tutoring: ["teach", "help me understand", "practice", "quiz me"]
+#   memory: ["remember this", "store this", "log this"]
+#   planning: ["plan", "schedule", "roadmap", "milestone"]
+#   mood_support: ["feeling", "anxious", "overwhelmed", "encourage"]
+#
+# Implementation note: initial router only loads file optionally for manual inspection;
+# actual boost integration to be added with intent classifier phase.
+
+categories:
+  analysis:
+    - analyze
+    - compare
+    - explain
+    - why
+    - reason about
+  math:
+    - integral
+    - derivative
+    - matrix
+    - solve
+    - equation
+  code:
+    - function
+    - class
+    - import
+    - bug
+    - refactor
+  health:
+    - heart rate
+    - sleep
+    - stress
+    - recovery
+    - fatigue
+  tutoring:
+    - teach
+    - help me understand
+    - practice
+    - quiz me
+  memory:
+    - remember this
+    - store this
+    - log this
+  planning:
+    - plan
+    - schedule
+    - roadmap
+    - milestone
+  mood_support:
+    - feeling
+    - anxious
+    - overwhelmed
+    - encourage

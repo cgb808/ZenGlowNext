@@ -1,0 +1,226 @@
+version: '3.8'
+
+secrets:
+  legacy_jwt:
+    external: true
+  supabase_jwt:
+    external: true
+  pg_password:
+    external: true
+
+networks:
+  zenglow_net:
+    driver: overlay
+
+volumes:
+  pgdata_core:
+  pgdata_pii:
+  redis_data:
+  spool_data:
+
+services:
+  db:
+    image: pgvector/pgvector:pg15
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD_FILE: /run/secrets/pg_password
+      POSTGRES_DB: rag_db
+    volumes:
+      - pgdata_core:/var/lib/postgresql/data
+      - ./sql/rag_core_schema.sql:/docker-entrypoint-initdb.d/10_rag_core_schema.sql:ro
+      - ./sql/rag_indexes.sql:/docker-entrypoint-initdb.d/20_rag_indexes.sql:ro
+      - ./sql/dev_knowledge_graph_schema.sql:/docker-entrypoint-initdb.d/30_dev_knowledge_graph_schema.sql:ro
+      - ./sql/events_unified_schema.sql:/docker-entrypoint-initdb.d/40_events_unified_schema.sql:ro
+      - ./sql/41_ingestion_manifest.sql:/docker-entrypoint-initdb.d/41_ingestion_manifest.sql:ro
+      - ./sql/swarm_schema.sql:/docker-entrypoint-initdb.d/45_swarm_schema.sql:ro
+      - ./sql/inference_logging.sql:/docker-entrypoint-initdb.d/50_inference_logging.sql:ro
+    networks:
+      - zenglow_net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d rag_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    secrets:
+      - pg_password
+
+  db_pii:
+    image: pgvector/pgvector:pg15
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD_FILE: /run/secrets/pg_password
+      POSTGRES_DB: rag_pii
+    volumes:
+      - pgdata_pii:/var/lib/postgresql/data
+      - ./sql/pii_secure_schema.sql:/docker-entrypoint-initdb.d/10_pii_secure_schema.sql:ro
+    networks:
+      - zenglow_net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d rag_pii"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    secrets:
+      - pg_password
+
+  redis:
+    image: redis:7-alpine
+    command: ["redis-server", "--save", "60", "1000", "--appendonly", "yes"]
+    volumes:
+      - redis_data:/data
+    networks:
+      - zenglow_net
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    ports:
+      - target: 6379
+        published: 6379
+        protocol: tcp
+        mode: ingress
+
+  app:
+    image: ghcr.io/zen-glow/dev-indexer-app:latest
+    environment:
+      DATABASE_URL: postgresql://postgres:__PW__@db:5432/rag_db
+      PII_DATABASE_URL: postgresql://postgres:__PW__@db_pii:5432/rag_pii
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      API_EXTERNAL_URL: http://localhost:8000
+      JWT_SECRET: dev-only-override
+      LEGACY_JWT_FILE: /run/secrets/legacy_jwt
+      SUPABASE_JWT_FILE: /run/secrets/supabase_jwt
+    secrets:
+      - legacy_jwt
+      - supabase_jwt
+      - pg_password
+    networks:
+      - zenglow_net
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:8000/health || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    ports:
+      - target: 8000
+        published: 8001
+        protocol: tcp
+        mode: ingress
+
+  pg_bridge:
+    image: ghcr.io/zen-glow/dev-indexer-app:latest
+    environment:
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_PREFIX: pg_events:
+      REDIS_ROUTE_BY_TYPE: "true"
+      PG_LISTEN_CHANNELS: ingest_manifest
+    command: ["/bin/sh", "-lc", "export DATABASE_URL=postgresql://postgres:$(cat /run/secrets/pg_password)@db:5432/rag_db && python /app/scripts/pg_notify_to_redis_bridge.py"]
+    networks:
+      - zenglow_net
+    depends_on:
+      - db
+      - redis
+    secrets:
+      - pg_password
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+
+  spool_watcher:
+    image: ghcr.io/zen-glow/dev-indexer-app:latest
+    environment:
+      SPOOL_DIR: /data/spool
+      SPOOL_TRIGGER_SIZE_MB: 100
+      PROCESS_SPOOL_SCRIPT_PATH: /app/scripts/process_spool.sh
+      LOCK_FILE: /tmp/spool_watcher.lock
+      PYTHON_REPLAY_SCRIPT: /app/scripts/rag_replay_msgpack.py
+      RAG_LOG_FILE: /var/log/rag_ingestion.log
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+    command: ["/bin/sh", "-lc", "export DATABASE_URL=postgresql://postgres:$(cat /run/secrets/pg_password)@db:5432/rag_db && python /app/scripts/spool_watcher.py"]
+    volumes:
+      - spool_data:/data/spool
+    networks:
+      - zenglow_net
+    depends_on:
+      - db
+      - redis
+    secrets:
+      - pg_password
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+
+  embedding_worker:
+    image: ghcr.io/zen-glow/dev-indexer-app:latest
+    environment:
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      EMBED_SUB_CHANNEL: pg_events:ingest.manifest
+      EMBED_READY_CHANNEL: pg_events:ingest.ready
+    command: ["python", "/app/scripts/embedding_worker_stub.py"]
+    networks:
+      - zenglow_net
+    depends_on:
+      - redis
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+
+  embed_model:
+    image: ghcr.io/zen-glow/dev-indexer-app:latest
+    environment:
+      SERVE_MODEL: BAAI/bge-small-en-v1.5
+      SERVE_HOST: 0.0.0.0
+      SERVE_PORT: 8010
+      SERVE_CONCURRENCY: 2
+      SERVE_BATCH_SIZE: 32
+      SERVE_NORMALIZE: "1"
+    command: ["python", "/app/scripts/serve_embedding_model.py", "--port", "8010"]
+    networks:
+      - zenglow_net
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+    ports:
+      - target: 8010
+        published: 8010
+        protocol: tcp
+        mode: ingress
+
+  async_embedding_worker:
+    image: ghcr.io/zen-glow/dev-indexer-app:latest
+    environment:
+      EMBED_ENDPOINT: http://embed_model:8010/model/embed
+      BATCH_SIZE: 32
+      POLL_INTERVAL: 5
+    command: ["/bin/sh", "-lc", "export DATABASE_URL=postgresql://postgres:$(cat /run/secrets/pg_password)@db:5432/rag_db && python /app/scripts/async_embedding_worker.py --hash-content"]
+    networks:
+      - zenglow_net
+    depends_on:
+      - db
+      - embed_model
+    secrets:
+      - pg_password
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure

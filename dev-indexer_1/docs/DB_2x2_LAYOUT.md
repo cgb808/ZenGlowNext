@@ -1,37 +1,41 @@
-# 2x2 Database Layout
+# Dual Database Layout (Non-PII & PII)
 
-This project can run with four logical Postgres endpoints:
+We simplified the earlier 2x2 matrix into two Postgres databases:
 
-- Non-PII Vector (pgvector): DATABASE_URL_VEC
-- Non-PII Timeseries (Timescale): DATABASE_URL_TS
-- PII Vector (pgvector): PII_DATABASE_URL_VEC
-- PII Timeseries (Timescale): PII_DATABASE_URL_TS
+1. Non-PII ("core") – vectors (Chroma or pgvector), events/time-series (range partitions + BRIN), knowledge graph, artifact/rag schemas.
+2. PII vault – identity & token map, optional user-personal embeddings, access log, RLS enforced.
 
-Defaults map to the two local Postgres containers defined in docker-compose:
-- db (rag_db) on 127.0.0.1:5432
-- db_pii (rag_pii) on 127.0.0.1:5433
+Local defaults (docker compose):
+- core db: `db` (rag_db) on 127.0.0.1:5432
+- pii db: `db_pii` (rag_pii) on 127.0.0.1:5433
 
-If you don't override the 2x2 variables, both "_VEC" and "_TS" for a given privacy zone point to the same DSN, which is fine for dev.
+Environment variables (current usage):
+- `DATABASE_URL` → core database
+- `PII_DATABASE_URL` → pii database
+- `RAG_EMBED_DIM` (unified embedding dimension)
+
+We no longer require the verbose *_VEC / *_TS variants. If they appear in legacy scripts they fall back to the unified DSNs.
 
 ## Quick start
 
-- Copy .env.example to .env and adjust passwords.
-- Optionally set the 2x2 DSNs in .env:
-  - DATABASE_URL_VEC, DATABASE_URL_TS
-  - PII_DATABASE_URL_VEC, PII_DATABASE_URL_TS
-- docker compose up -d (the compose file mounts a number of SQL files into the Postgres init path)
+1. Copy `.env.example` to `.env` and set passwords/secrets.
+2. `docker compose up -d db db_pii` (or deploy stack).
+3. Core schema + indexes mount automatically via bind-mounted SQL.
+4. PII schema (`pii_secure_schema.sql`) initializes token map + RLS.
 
-## Applying schema
+## Time-series & Vector
 
-- Non-PII db mounts core schemas: artifact/rag/events/knowledge_graph, plus indexes (pgvector + JSONB + trigram).
-- PII db mounts pii_secure_schema.sql (RLS, token map, access log).
+- Time-series tables (events/metrics) live in core DB with daily partitions + BRIN.
+- Chroma (separate container) default for vector search; optional pgvector extension can coexist in core DB for consolidation.
 
 ## Service expectations
 
-- Go CanonicalService reads DATABASE_URL_VEC (fallback to DATABASE_URL).
-- Python FastAPI may use DATABASE_URL_* and PII_DATABASE_URL_* as we wire services; legacy variables remain for compatibility.
+- FastAPI app reads `DATABASE_URL` and `PII_DATABASE_URL` directly.
+- Background workers / embedding services only need `DATABASE_URL` unless performing PII enrichment (rare; keep separation).
 
 ## Future
 
-- FDW links between non-PII and PII will be read-only and narrowly scoped.
-- Announce environment variable changes in docs when Router/Ingester services start using the split DSNs.
+- Optional FDW from core → pii for controlled joins (read-only).
+- Potential consolidation of vector + structured retrieval onto pgvector if performance matches Chroma baseline.
+
+Keep new variables minimal; add only when a real divergent backend appears.

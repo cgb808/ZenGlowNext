@@ -1,18 +1,19 @@
 from __future__ import annotations
 
 import os
-from typing import Any, Optional
+from typing import Any
 
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel, Field
 
 try:  # optional import; router remains mountable without Redis
-    import redis.asyncio as redis  # type: ignore
-except ImportError:  # pragma: no cover
-    try:
-        import redis  # type: ignore
-    except Exception:  # pragma: no cover
-        redis = None  # type: ignore
+    import redis.asyncio as aioredis  # type: ignore
+except Exception:  # pragma: no cover
+    aioredis = None  # type: ignore
+try:
+    import redis as sync_redis  # type: ignore
+except Exception:  # pragma: no cover
+    sync_redis = None  # type: ignore
 
 from .meta_prophet import SeasonalEWMA, SeasonalEWMAState, default_state
 
@@ -20,33 +21,87 @@ from .meta_prophet import SeasonalEWMA, SeasonalEWMAState, default_state
 router = APIRouter(prefix="/swarm/predict", tags=["swarm-predictor"])
 
 
-def _redis_client():
-    if redis is None:
-        raise RuntimeError("redis client not installed")
-    host = os.getenv("REDIS_HOST", "localhost")
-    port = int(os.getenv("REDIS_PORT", "6379"))
-    return redis.Redis(host=host, port=port)
+_MEM_STORE: dict[str, str] = {}
 
 
 def _key(name: str) -> str:
     return f"swarm:forecaster:{name}" if name else "swarm:forecaster:default"
 
 
+def _redis_params() -> tuple[str, int]:
+    host = os.getenv("REDIS_HOST", "localhost")
+    port = int(os.getenv("REDIS_PORT", "6379"))
+    return host, port
+
+
 async def _load(name: str) -> SeasonalEWMA:
-    r = _redis_client()
-    raw = await r.get(_key(name))
-    if not raw:
-        return SeasonalEWMA(default_state())
-    try:
-        s = raw.decode("utf-8") if isinstance(raw, (bytes, bytearray)) else str(raw)
-        return SeasonalEWMA.from_json(s)
-    except Exception:
-        return SeasonalEWMA(default_state())
+    k = _key(name)
+    host, port = _redis_params()
+    # Try async redis first
+    if aioredis is not None:
+        try:
+            r = aioredis.Redis(host=host, port=port)
+            raw = await r.get(k)
+            if raw:
+                s = raw.decode("utf-8") if isinstance(raw, (bytes, bytearray)) else str(raw)
+                return SeasonalEWMA.from_json(s)
+        except Exception:
+            pass
+    # Fallback to sync redis in a thread
+    if sync_redis is not None:
+        try:
+            import anyio
+
+            def _get_sync() -> bytes | str | None:
+                try:
+                    r = sync_redis.StrictRedis(host=host, port=port)
+                    return r.get(k)  # type: ignore[return-value]
+                except Exception:
+                    return None
+
+            raw = await anyio.to_thread.run_sync(_get_sync)
+            if raw:
+                s = raw.decode("utf-8") if isinstance(raw, (bytes, bytearray)) else str(raw)
+                return SeasonalEWMA.from_json(s)
+        except Exception:
+            pass
+    # In-memory fallback
+    s = _MEM_STORE.get(k)
+    if s:
+        try:
+            return SeasonalEWMA.from_json(s)
+        except Exception:
+            pass
+    return SeasonalEWMA(default_state())
 
 
 async def _save(name: str, model: SeasonalEWMA) -> None:
-    r = _redis_client()
-    await r.set(_key(name), model.to_json())
+    k = _key(name)
+    host, port = _redis_params()
+    payload = model.to_json()
+    if aioredis is not None:
+        try:
+            r = aioredis.Redis(host=host, port=port)
+            await r.set(k, payload)
+            return
+        except Exception:
+            pass
+    if sync_redis is not None:
+        try:
+            import anyio
+
+            def _set_sync() -> None:
+                try:
+                    r = sync_redis.StrictRedis(host=host, port=port)
+                    r.set(k, payload)
+                except Exception:
+                    pass
+
+            await anyio.to_thread.run_sync(_set_sync)
+            return
+        except Exception:
+            pass
+    _MEM_STORE[k] = payload
 
 
 class ObserveIn(BaseModel):

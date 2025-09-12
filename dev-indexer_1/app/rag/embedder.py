@@ -106,10 +106,10 @@ class Embedder:
 		resp = requests.post(url, json={"texts": texts}, timeout=self.timeout)
 		resp.raise_for_status()
 		data = resp.json()
-	embeddings = data.get("embeddings")
-	if not isinstance(embeddings, list):
+		embeddings = data.get("embeddings")
+		if not isinstance(embeddings, list):
 			raise ValueError("Invalid embedding response: missing 'embeddings'")
-	return cast(List[List[float]], embeddings)
+		return cast(List[List[float]], embeddings)
 
 	def _embed_supabase(self, texts: List[str]) -> List[List[float]]:
 		if not (self.supabase_url and self.supabase_key):
@@ -129,9 +129,9 @@ class Embedder:
 		body = {"texts": texts}
 		resp = requests.post(url, json=body, headers=headers, timeout=self.timeout)
 		resp.raise_for_status()
-	data = resp.json()
-	embeddings = data.get("embeddings")
-	if not isinstance(embeddings, list):
+		data = resp.json()
+		embeddings = data.get("embeddings")
+		if not isinstance(embeddings, list):
 			raise ValueError("Invalid Supabase embedding response: missing 'embeddings'")
-	return cast(List[List[float]], embeddings)
+		return cast(List[List[float]], embeddings)
 

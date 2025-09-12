@@ -44,6 +44,7 @@ apply_core() {
   apply_sql "$CORE_CONT" "$CORE_DB" "$sql_dir/inference_logging.sql"
   apply_sql "$CORE_CONT" "$CORE_DB" "$sql_dir/family_schema.sql"
   apply_sql "$CORE_CONT" "$CORE_DB" "$sql_dir/family_rls.sql"
+  apply_sql "$CORE_CONT" "$CORE_DB" "$sql_dir/optional_brin_indexes.sql"
 }
 
 apply_pii() {

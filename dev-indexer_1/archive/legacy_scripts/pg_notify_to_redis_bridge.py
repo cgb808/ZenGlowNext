@@ -1,0 +1,1 @@
+# Archived simpler bridge variant.

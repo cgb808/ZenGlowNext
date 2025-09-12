@@ -12,11 +12,136 @@ docker compose -f compose/embedding-worker.yml up -d
 It uses `API_EXTERNAL_URL` and `JWT_SECRET` from your `.env` (see `.env.example`
 for defaults). Change `API_EXTERNAL_URL` in production.
 
+## Staged Embedding Worker Startup (Low-Churn Mode)
+
+For deliberate, longer warm-up (DB, API, optional embed service) use the staged script:
+
+```
+chmod +x scripts/start_embedding_worker.sh  # one-time
+DATABASE_URL=postgresql://user:pass@db/core \
+  scripts/start_embedding_worker.sh
+```
+
+Environment knobs:
+
+| Variable | Default | Purpose |
+|----------|---------|---------|
+| STARTUP_WAIT_DB | 30 | Initial unconditional settle sleep (seconds) |
+| STARTUP_WAIT_APP | 30 | Interval between FastAPI health polls |
+| STARTUP_WAIT_EMBED | 45 | Interval between embedding endpoint polls |
+| EXTRA_SLEEP_AFTER | 20 | Final buffer after readiness before exec |
+| MAX_RETRIES | 20 | Max poll attempts for each dependency |
+| APP_HEALTH_URL | http://app:8000/health | App health endpoint |
+| EMBED_HEALTH_URL | (unset) | Optional embedding service health URL |
+| DATABASE_URL | (required) | Postgres DSN passed to worker |
+
+Embedding worker additional env:
+
+| Variable | Default | Purpose |
+|----------|---------|---------|
+| EMBED_TARGET | pgvector | Where to persist embeddings (pgvector|chroma|none) |
+| BRIN_MIN_ROWS | 500000 | Auto-create BRIN on conversation_events when row estimate exceeds threshold |
+| SELF_HEAL_INDEXES | 1 | Enable index self-heal logic at worker start |
+
+Notes:
+
+Behavior: exits non‑zero if a required dependency never becomes ready (app, db env var). Embedding health is only enforced when EMBED_HEALTH_URL is set.
+
+
+### Environment Configuration & Cloud Deployment Prep
+
+We keep three environment artifacts:
+
+### Database Connection Pooling (In-Process)
+
+The API now ships with a lightweight in-process PostgreSQL connection pool wrapper (`psycopg_pool`).
+
+Key points:
+* Enabled automatically when `POSTGRES_DSN` is set (e.g. `postgresql://user:pass@host:5432/db`).
+* Pool constructed lazily on first use; if unset, calls fail soft (returning empty results / no-ops) so non-DB features still boot.
+* Optional sizing via `PG_POOL_MIN` / `PG_POOL_MAX` env vars (both optional; defaults come from library).
+* Health endpoint `/health` now includes a `db_pool` object: `{ "enabled": true, "opened": ..., "checked_out": ... }`.
+
+Usage example:
+```python
+from app.db.pool import db
+rows = db.fetchall("SELECT id, name FROM widgets LIMIT 10")
+```
+
+To swap to an external pooler (pgBouncer), just point `POSTGRES_DSN` at the pooler's host:port.
+
+### Async Database Pool Migration (Step 1)
+
+An asynchronous PostgreSQL pool (`AsyncConnectionPool`) is now initialized during app lifespan when any of `DATABASE_URL`, `SUPABASE_DB_URL`, `SUPABASE_DIRECT_URL`, or `POSTGRES_DSN` is set.
+
+Key additions:
+* Module: `app/db/async_db.py` with `init_async_pool()` and `AsyncDBClient`.
+* Lifespan initializes the pool once; closed cleanly on shutdown.
+* Dependency accessor: `from app.main import get_async_db_client_dep` returns `AsyncDBClient | None`.
+* Transitional: synchronous `DBClient` still exists; migrate callers incrementally by switching to `await client.vector_search(...)`.
+
+Env vars:
+* `ASYNC_PG_POOL_MIN` (default 1)
+* `ASYNC_PG_POOL_MAX` (default 10)
+
+Sample use inside an async route:
+```python
+from fastapi import Depends
+from app.main import get_async_db_client_dep
+
+@router.get("/vector/sample")
+async def sample(q: str, db = Depends(get_async_db_client_dep)):
+  if not db:
+    return {"results": []}
+  # embed query separately to produce `vec`
+  vec = embedder.embed_batch([q])[0]
+  rows = await db.vector_search(vec, top_k=5)
+  return {"results": rows}
+```
+
+TinyToolController (optional) is loaded during lifespan if `app.audio.integrated_audio_pipeline.TinyToolController` is present and can be retrieved via `from app.main import get_tiny_controller`.
+
+### Vector Search Enhancements
+
+Added capabilities in `AsyncDBClient`:
+* Metadata filtering for vector search via JSONB `metadata @>` clauses.
+* `lexical_search` leveraging PostgreSQL full-text (expects `chunk_tsv` column if enabled).
+* `hybrid_search` combining vector + lexical results using Reciprocal Rank Fusion (RRF).
+
+Endpoints:
+* `GET /vector/search_async?q=...&top_k=5` – pure vector.
+* `GET /vector/search_hybrid?q=...&user_id=abc&top_k=10` – hybrid with optional `user_id` metadata filter.
+
+Env (optional future): create GIN index on `metadata` and a `chunk_tsv` tsvector column for performance.
+1. `.env` (local only, git-ignored) – your real secrets.
+2. `.env.example` – checked in; contains documented variables plus a generated section with placeholders or redacted values.
+3. `.env.redacted` – a manually curated minimal snapshot for onboarding docs.
+
+To regenerate the synchronized section in `.env.example` from your local `.env` and code usages:
+
+```
+python scripts/sync_env_example.py          # dry run (shows diff stats)
+python scripts/sync_env_example.py --write  # apply updates
+```
+
+Safeguards:
+- Real secret values are never copied; they are replaced with `__REDACTED__`.
+- New variables discovered via `os.getenv` / `os.environ[...]` are appended in a generated block.
+- Existing manual comments above the generated marker are preserved.
+
+Cloud deployment guidance:
+- Provide production overrides via your orchestrator (Docker Swarm / ECS task env / Kubernetes ConfigMap & Secrets).
+- Do NOT bake secrets into images; inject at runtime.
+- Rotate `JWT_SECRET`, Supabase keys, and any PAT / tokens before first prod launch.
+
+If you add a new environment variable in code, re-run the sync script so the example stays current.
+
 <!-- Directory Index: supabase/ -->
 
 Quick refs:
 
 - Architecture Overview: `docs/ARCHITECTURE_OVERVIEW.md` (spool/gate, ingestion_manifest, Go notifier)
+- Ingest Notifier Contract: `docs/INGEST_NOTIFIER.md` (channels, events, payloads, env)
 - DevOps TODO: `docs/DEVOPS_TODO.md` (wiring, systemd, env, security)
 
 # supabase/ Supabase Integration Assets
@@ -140,6 +265,84 @@ SUPABASE_DB_URL=postgresql://postgres:***@db.<project>.supabase.co:6543/postgres
 This applies, in order, `artifact_a_schema.sql`, `rag_core_schema.sql`, `rag_indexes.sql`,
 and optionally `dev_knowledge_graph_schema.sql`, `inference_logging.sql`, and `pii_vector_schema.sql` if present.
 
+### Unified full sync (local + Supabase)
+
+Use `scripts/supabase_full_sync.sh` for a comprehensive ordered apply, drift check, and optional reset of both local and remote public schemas.
+
+Dry run (plan only):
+
+```bash
+./scripts/supabase_full_sync.sh
+```
+
+Apply to remote (requires `SUPABASE_DB_URL` or Supabase CLI project context):
+
+```bash
+./scripts/supabase_full_sync.sh --apply
+```
+
+Reset both schemas then apply (DANGEROUS – drops public schema contents):
+
+```bash
+./scripts/supabase_full_sync.sh --reset-local --reset-remote --apply --yes
+```
+
+Include a drift check (aborts on drift with code 3):
+
+```bash
+./scripts/supabase_full_sync.sh --drift-check --fatal-on-drift --json-drift-out drift.json
+```
+
+Destructive statements (DROP/ALTER DROP) are skipped unless `--allow-destructive` is provided.
+
+## Supabase Env + Verification Helper
+
+Use `scripts/supabase_env_sync.sh` to merge secrets and run schema verifiers in one step.
+
+Examples:
+
+Dry-run merge (no file writes) and show metrics SQL only:
+
+```
+./scripts/supabase_env_sync.sh \
+  --target .env \
+  --set SUPABASE_PROJECT_REF=ref123 --set SUPABASE_URL=https://ref123.supabase.co \
+  --set SUPABASE_SERVICE_KEY=service_key --set SUPABASE_ANON_KEY=anon_key \
+  --validate --run-metrics --metrics-plan --plan-only
+```
+
+Pull remote secrets from `app_secrets` then run both verifiers (execute):
+
+```
+SUPABASE_URL=https://ref123.supabase.co \
+SUPABASE_SERVICE_KEY=service_key \
+./scripts/supabase_env_sync.sh --pull-remote-secrets --target .env \
+  --run-metrics --run-kg --validate --probe-db
+```
+
+Forward partition creation flags to metrics verifier:
+
+```
+./scripts/supabase_env_sync.sh --run-metrics --future-days 5 --hourly-today
+```
+
+Key flags:
+
+| Flag | Purpose |
+|------|---------|
+| `--pull-remote-secrets` | Fetch secrets via `fetch_supabase_secrets.sh` and merge |
+| `--set KEY=VAL` | Inline additions (repeatable) |
+| `--overwrite` | Replace existing values instead of keeping them |
+| `--validate` | Enforce required Supabase vars present |
+| `--probe-db` | Connectivity check (Supabase CLI or psql) |
+| `--run-metrics/--metrics-plan` | Run or plan metrics verifier |
+| `--run-kg/--kg-plan` | Run or plan KG verifier |
+| `--future-days/--hourly-today` | Partition ensure options (metrics) |
+| `--plan-only` | Print resulting env (no write / no verifiers) |
+
+Exit codes: 0 ok | 2 arg | 3 validation | 4 probe fail | 5 verifier fail.
+
+
 ## Redis cache client wrapper (planned)
 
 We will add a class-based Redis cache wrapper that keeps the existing key patterns and adds namespaced JSON/MsgPack helpers:
@@ -204,7 +407,81 @@ Env vars:
 ````
 COQUI_VOICE=tts_models/en/vctk/vits
 COQUI_SPEAKER_ID=\n```
-## Hybrid DB Model (Supabase + Timescale on ZFS)
+## Predictive Micro-Model Controller (Embedded Calibration)
+
+Lightweight in-process host for tiny heuristic or micro-ML models that gently adjust
+router confidence or emit advisory signals. Default is inert unless explicitly enabled.
+
+Activation:
+
+```
+ENABLE_ROUTE_CALIB=1  # turns on route_calibration model
+```
+
+Current model: `route_calibration` (logistic-style score over simple text + context
+features) producing a small bounded confidence adjustment (|Δ| <= ~0.05).
+
+Endpoints impact:
+- `/switchr/route`: Adds reasons `route_calib_adj:+0.XXX` and `route_calib_applied` when
+  active.
+- `/switchr/health`: Includes predictive cache stats:
+  `{ "predictive_enabled": true, "predictive_cache": { "models": [...], ... } }`.
+
+Environment variables:
+| Var | Default | Purpose |
+|-----|---------|---------|
+| ENABLE_ROUTE_CALIB | 0 | Enable predictive controller + route calibration model |
+
+Design constraints:
+- No network I/O; pure Python arithmetic.
+- Sub‑millisecond typical latency per model.
+- Deterministic feature hashing -> in-memory cache (hit ratio in stats).
+
+Add a new model:
+1. Create `app/predictive/models/<name>.py` exposing a predictor class with `predict(ctx)`.
+2. Register in `app/predictive/controller.py` (`_load_models`).
+3. Gate behind its own `ENABLE_<FLAG>` or composite flag.
+4. Extend `features.py` if new feature extraction needed.
+5. Return a dict containing any numeric scores / adjustments.
+
+Failure mode: model exceptions are caught and surfaced as `{"error": "model_error:<Type>"}`
+and skipped by the router (no adjustment). Cache remains valid for successes.
+
+### Leonardo Analytical Audio Suite
+
+Endpoints (always mounted when import succeeds):
+
+| Method | Path | Purpose |
+|--------|------|---------|
+| POST | `/leonardo/speak` | Piper TTS (voices: leonardo, analytical, teaching, encouraging) |
+| POST | `/leonardo/think` | Analytical LLM reasoning (Mistral 7B variant) optionally with TTS |
+| POST | `/leonardo/listen` | Whisper (CLI) speech-to-text transcription |
+| POST | `/leonardo/analyze-and-speak` | Combined think + speak convenience endpoint |
+| GET  | `/leonardo/status` | Capability probe (LLM, TTS, STT) |
+
+Env (optional overrides):
+
+| Var | Default | Purpose |
+|-----|---------|---------|
+| LEONARDO_URL | (falls back to `OLLAMA_URL`) | Base URL for Leonardo (Ollama style) |
+| LEONARDO_MODEL | `mistral:7b` | Model name served by Leonardo backend |
+| LLM_DEFAULT_PREFER | (unset) | Set to `leonardo` to make it default for /leonardo/think |
+
+Runtime binaries required on PATH:
+ - `piper` (for TTS)
+ - `whisper` (whisper.cpp CLI build)
+
+Degradation:
+ - Missing `piper` only affects `/leonardo/speak` (500) and audio portion of `think`.
+ - Missing `whisper` only affects `/leonardo/listen` (500).
+ - `/leonardo/status` returns `partial` or `down` instead of raising.
+
+Notes:
+ - TTS uses ephemeral temp files; responses default to base64 audio payload.
+ - Setting `LLM_FORCE_PREFER=leonardo` will also route general LLM calls to Leonardo unless explicitly overridden per request.
+
+
+## Hybrid DB Model (Supabase + Pg_Partman/cron)
 
 - Supabase (Engagement): swarms, agents, missions, performance, ancestry, knowledge_graph, users, pii_token_map.
 - Timescale (Data Engine): events hypertable, activity_log (partitioned).
@@ -288,3 +565,62 @@ python3 scripts/mock_embed_server.py  # serves on http://127.0.0.1:8000
 
 Point the app at it by setting `EMBED_BASE_URL=http://127.0.0.1:8000`.
 You can adjust `EMBED_DIM`, `EMBED_HOST`, and `EMBED_PORT` via env.
+
+## AoS Match Outcome Predictor (Exploratory)
+
+A lightweight exploratory script (`scripts/aos_predict.py`) trains a logistic regression model
+on historical Age of Sigmar match data (`aos_matches` table) using rolling performance,
+player streak, faction/opponent categorical features, and simple recency.
+
+Status: experimental (not on an API route / no persistence yet). Intended for quick local
+analysis and feature ideation ahead of a more formal predictive layer.
+
+Table expectation (`aos_matches`):
+```
+ts TIMESTAMPTZ,
+season TEXT,
+player TEXT,
+opponent TEXT,
+faction TEXT,
+opponent_faction TEXT,
+outcome TEXT,         -- 'win' | 'loss' | 'draw'
+score INT,            -- optional / unused currently
+meta JSONB            -- optional, not modeled yet
+```
+
+Features engineered:
+- Rolling wins / win-rate over a configurable past-N window (default 10).
+- Streak (signed consecutive wins or losses, reset on draw).
+- Recency gap (days since prior match per player, fallback 7 days).
+- Categorical encoding of season, opponent, faction, opponent_faction.
+
+CLI flags:
+```
+--dsn          PostgreSQL/Timescale DSN (required)
+--schema       Optional schema prefix added to search_path (e.g., pii)
+--player       Filter to a single player (personalized model)
+--window       Rolling window size (default 10)
+--test-size    Holdout fraction (default 0.2)
+--random-state RNG seed (default 42)
+```
+
+Example:
+```bash
+./scripts/aos_predict.py \
+  --dsn "postgresql://user:pass@localhost:5432/game" \
+  --schema pii \
+  --player demo_player \
+  --window 12
+```
+
+Output example:
+```
+[aos-predict] metrics: {'auc': 0.69, 'accuracy': 0.61}
+```
+(AUC may be NaN if the holdout contains only one class.)
+
+Future roadmap (see TODOs in script): model persistence, coefficient/odds reporting,
+matchup interaction features, calibration curves, time-decay weighting, and opponent
+rolling stats.
+
+---

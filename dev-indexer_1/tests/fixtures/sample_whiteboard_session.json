@@ -1,0 +1,10 @@
+{
+  "version": "v1",
+  "session_id": "sample-session",
+  "audio": { "sha256": "deadbeef" },
+  "events": [
+    { "t": 0, "type": "start" },
+    { "t": 1, "type": "draw", "data": {"x": 10, "y": 20} },
+    { "t": 2, "type": "end" }
+  ]
+}

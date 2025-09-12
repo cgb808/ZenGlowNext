@@ -1,3 +1,27 @@
+## A. Embedding Worker & Index Optimization (2025-09-10)
+
+Status: Implemented baseline auto-index (BRIN) & target-store switch.
+
+Features now in repo:
+- optional_brin_indexes.sql applied automatically by `db_apply.sh` (core path)
+- Worker env flags:
+  - EMBED_TARGET=pgvector|chroma|none (default pgvector)
+  - BRIN_MIN_ROWS (default 500000) threshold for self-heal BRIN creation
+  - SELF_HEAL_INDEXES=1 enables startup check creating `brin_conversation_events_time`
+- README updated (Staged Embedding Worker Startup + env table)
+
+Operational Notes:
+- BRIN kept even for small DB (cheap metadata); value grows with large append-only volumes.
+- Change BRIN_MIN_ROWS to 0 to force immediate index creation.
+- Future Chroma path: implement branch in gating worker where EMBED_TARGET=chroma posts embeddings and marks rows embedded (skip pgvector column update).
+- Safe to re-run `db_apply.sh core`; IF NOT EXISTS guards prevent duplication.
+
+Action Items:
+- [ ] Implement Chroma client branch in worker (EMBED_TARGET=chroma)
+- [ ] Add metrics on worker (processed/sec, retry count) exposed via /metrics
+- [ ] SECURITY DEFINER functions for any cross-schema token operations (if single-DB mode)
+- [ ] Add automated EXPLAIN sampling script to confirm BRIN usage after N rows
+
 ## 13. XTTS Voice Cloning (2025-09-04)
 
 - [ ] Support reference wav upload and text synthesis

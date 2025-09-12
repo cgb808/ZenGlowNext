@@ -38,6 +38,10 @@ Concise checklist to operationalize the ingestion pipeline and notifier.
 
 - [ ] Confirm NOTIFY or metrics on manifest updates
 - [ ] Tail ingestion logs and set up rotation
+- [ ] Secure failure log: any ingest/partition self-heal or permanent failure writes structured record to append-only log (owner root, 600)
+- [ ] Dev dashboard alert: on first failure event (even if healed) emit alert with batch_tag, reason, healed=true/false
+- [ ] Cron partition maintenance: capture run_maintenance() outcome + created partitions count; alert if zero created for >N intervals when expected
+- [ ] gate.done reason codes documented (success, failed, healed_partition, partition_missing, other_error) and validated in notifier template test
 
 ## Tests
 
@@ -46,3 +50,20 @@ Concise checklist to operationalize the ingestion pipeline and notifier.
 - [ ] Verify gate.open notification delivered (check webhook logs)
 - [ ] Verify database rows ingested
 - [ ] Verify gate.done notification delivered
+- [ ] Simulate partition missing -> self-heal retry path succeeds (expect healed_partition reason)
+- [ ] Simulate persistent failure -> failure log + alert path exercised
+
+## Redis Cache Wrapper (Planned)
+
+- [ ] Implement class-based Redis client wrapper (`app/cache/redis_cache.py`) preserving legacy key pattern `rag:q:<sha1(query)>:<top_k>`
+- [ ] Add namespaced helpers: `set_json_namespace(ns, key, value, ttl=None)` / `get_json_namespace(ns, key)`
+- [ ] Add MessagePack variants; internal MD5 of (ns + key) for compact keys
+- [ ] Integrate build update publisher (`publish_build_update`) emitting envelopes to channel `REDIS_BUILD_CHANNEL` (default `build_updates`)
+- [ ] Environment variables documented & validated:
+  - `REDIS_HOST`, `REDIS_PORT`, `REDIS_DB`, `REDIS_PASSWORD`, `REDIS_SSL`
+  - `DEFAULT_TTL_SECONDS` (fallback TTL)
+  - `REDIS_BUILD_CHANNEL` (optional override)
+- [ ] Add health probe to confirm connectivity & AUTH on startup
+- [ ] Add unit tests: key hash stability, JSON round trip, MsgPack round trip, TTL expiry mock
+- [ ] Add metrics increments (hits/misses) integrating with existing `cache_metrics`
+- [ ] Update README + .env.example with new env vars

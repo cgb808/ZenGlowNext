@@ -1,0 +1,3 @@
+{"channel":"ingest_updates","message":{"event":"gate.open","batch_tag":"spool_20250909_101010","spool":"/data/spool/processing","bytes":123456,"count":2,"pii":false,"ts":1694265600},"policy":{"pii_allowed":false,"max_message_bytes":32768},"labels":{"pii":false,"action":"ack"}}
+{"channel":"ingest_updates","message":{"event":"gate.done","batch_tag":"spool_20250909_101010","status":"success","processed":2,"pii":false,"ts":1694265610},"policy":{"pii_allowed":false},"labels":{"pii":false,"action":"ack"}}
+{"channel":"embed_updates","message":{"event":"embed.start","batch_tag":"spool_20250909_101010","pii":false,"ts":1694265612},"policy":{"pii_allowed":false},"labels":{"pii":false,"action":"trigger_embed"}}

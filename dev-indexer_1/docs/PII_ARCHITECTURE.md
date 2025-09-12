@@ -1,30 +1,22 @@
-# PII Architecture: Vault vs Tokenized References
+# PII Architecture (Dual DB Model)
 
-Goal: Keep raw PII isolated while enabling rich analytics on time-series data. Two options:
+Goal: Isolate raw PII while enabling analytics on tokenized events. We standardize on two Postgres DBs:
 
-## Option A — Separate Timescale PII Vault
-- Two TimescaleDB instances: one public (events), one PII vault.
-- Pros: uniform time-series features and compression for PII timelines; single engine for all time-based joins.
-- Cons: operational overhead, higher risk of cross-contamination, duplication of TS extensions/licenses.
-- Use when: you need high-write time-series of PII itself (e.g., vital streams, PHI timelines), or retention transforms that benefit from Timescale compression/chunking.
+1. Core DB (non-PII): events, metrics (partitioned + BRIN), embeddings (Chroma/pgvector), knowledge graph.
+2. PII Vault DB: identity profiles, token map, optional user-personal embeddings, access/audit log.
 
-## Option B — Single PII Postgres + Token Map (Recommended Default)
-- Keep PII in a standard Postgres (e.g., Supabase vault DB). Store only pseudonymous tokens in Timescale events.
-- Map `token -> identity_id` via `pii_token_map` with rotation + validity window.
-- Pros: simpler isolation boundary, less surface area, easy RLS and masking; Timescale only handles pseudonymous metrics.
-- Cons: joins requiring PII context require FDW or app-layer joins.
-- Use when: PII is relatively static (names, contact info) and events refer via tokens.
+Events store only `user_token` references; vault resolves token → identity via `pii_token_map` with rotation windows.
 
 ## Data Flow
 1. Voice recognition (or auth provider) asserts identity → get/create `pii_identity_profiles.id` (UUID).
 2. Mint pseudonymous token with `mint_user_token(id, purpose, ttl_days)`.
-3. App ingests event to Timescale `events` with `user_token` only.
+3. App ingests event to Postgres `events` (partitioned) with `user_token` only.
 4. PII stored/updated in Postgres vault (`pii_identity_profiles`).
 5. When needed, Supabase (or Edge Functions) join via FDW to `events_remote` filtered by `user_token`, then map to identity via `pii_token_map`.
 
 ## Embeddings & PII
 - Never embed raw PII. Redact or tokenize before embedding.
-- If user-personalization embeddings are required, store in PII DB (`user_embeddings`), not in Timescale.
+- If user-personalization embeddings are required, store in PII DB (`user_embeddings`), not in the public vector store.
 - For search over PII, create masked views and embed only masked text.
 
 ## RLS & Retention
@@ -32,11 +24,12 @@ Goal: Keep raw PII isolated while enabling rich analytics on time-series data. T
 - Schedule token rotation and set `valid_until`; keep audit in `pii_access_log`.
 - Redact `events.data_payload_raw` after N days (see `redact_raw_payload_older_than`).
 
-## Decision Tree
-- Do you stream high-frequency PII (PHI, vitals)? If yes → Option A.
-- Otherwise (mostly identity/contact + occasional references) → Option B.
+## Rationale
+- Keeps application code simple (clear DSN split).
+- Allows aggressive partition pruning + BRIN in core DB without RLS overhead on every table.
+- Vault enforces RLS, masking, and token lifecycle separately.
 
 ## Implementation Notes
-- FDW lives on Supabase; never expose PII via FDW to external consumers.
-- Keep all joins to PII on Supabase side using `events_remote` and `pii_token_map`.
- - Use `rotate_user_token(token, ttl_days)` to expire tokens and re-issue without exposing identity UUIDs.
+- Optional FDW from core → vault (read-only) kept narrow if needed for reporting.
+- Never embed raw PII; store personalization embeddings only in vault (`user_embeddings`).
+- Use `rotate_user_token(token, ttl_days)` to re-issue without leaking identity UUIDs.

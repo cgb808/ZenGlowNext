@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://zenglow.dev/schemas/pii_gate_policy.schema.json",
+  "title": "PII Gate & Publish Policy",
+  "type": "object",
+  "properties": {
+    "channels": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "allowed_events": { "type": "array", "items": { "type": "string" } },
+          "pii_allowed": { "type": "boolean" },
+          "max_message_bytes": { "type": "integer", "minimum": 1 }
+        },
+        "required": ["name", "allowed_events", "pii_allowed"],
+        "additionalProperties": false
+      }
+    },
+    "default_max_message_bytes": { "type": "integer", "minimum": 1, "default": 32768 }
+  },
+  "required": ["channels"]
+}

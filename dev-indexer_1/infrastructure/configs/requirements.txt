@@ -3,19 +3,25 @@
 
 fastapi>=0.115,<1
 uvicorn[standard]>=0.30,<1
-httpx>=0.27,<1
+# Pin httpx <0.28 so tests using AsyncClient(app=...) work
+httpx>=0.23,<0.28
 requests>=2.32,<3
 psutil>=5.9,<6
 pydantic>=2.7,<3
 websockets>=12,<13
 
-# Database (psycopg2-binary is easy for dev; switch to psycopg2 in prod if needed)
+# Database drivers
+# psycopg2-binary kept for legacy worker script (scripts/async_embedding_worker.py)
+# psycopg v3 added for forward path + async / modern adaptation layer
 psycopg2-binary>=2.9,<3
+psycopg[binary]>=3.1,<4
+psycopg_pool>=3.2,<4
 
 # Optional: Redis client (used by future cache impl; safe to preinstall)
 redis>=5,<6
 msgpack>=1.0,<2
 watchdog>=4.0,<5
+trio>=0.23,<1
 
 # Dev tools
 python-dotenv>=1.0,<2
@@ -28,6 +34,7 @@ numpy>=1.26,<3
 scikit-learn>=1.5,<2
 pandas>=2.2,<3
 PyYAML>=6.0,<7
+jsonschema>=4,<5
 
 # For CORS and static files (normally FastAPI/Starlette bring this in)
 starlette>=0.37,<1

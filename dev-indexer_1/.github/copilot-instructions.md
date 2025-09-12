@@ -4,20 +4,13 @@ Keep only verifiable, present-day facts. Mark unknowns; don't guess.
 
 ### 1. Snapshot (Loaded Now)
 
-Dirs: `app/`, `api/` (empty), `nginx/`, `scripts/` (stubs), `dashboard/`
-(empty), `ai-agents/` (empty), infra: `docker-compose.yml`, `Dockerfile`,
-`.devcontainer/`, `start.sh` (XRDP launcher). API endpoints: `/health`,
-`/vector/ping` (Chroma reachability), `/index` (count). Chroma HTTP client init
-on startup (non-fatal failure tolerated). Tests: `tests/test_health.py`
-(health + vector ping). Formatting: Black + Ruff (on save). Type checking: mypy
-strict. Lint: Ruff.
-
-Multi-root workspace: `dev-multiroot.code-workspace` pairs this repo with
-sibling `AIWorkspace` (curated subset). `AIWORKSHOP_PATH` env provided for sync
-scripts. Remote CUDA: access via `remote_cuda.sh` + aliases in `cuda_aliases.sh`
-(see `CUDA_REMOTE_GUIDE.md`). Curated sync: `multi_repo_sync.sh` (+
-`repo_sync_manifest.txt`) controls files mirrored into `AIWorkspace`. Integrated
-workflow reference: `docs/MULTI_ROOT_WORKSPACE.md`.
+Dirs: `app/`, `api/` (empty), `nginx/`, `scripts/` (stubs), `dashboard/` (empty),
+`ai-agents/` (empty); infra: `docker-compose.yml`, `Dockerfile`, `.devcontainer/`,
+`start.sh` (XRDP launcher). API endpoints: `/health`, `/vector/ping` (Chroma reachability),
+`/index` (count). Chroma HTTP client init on startup (non-fatal failure tolerated).
+Tests: `tests/test_health.py` (health + vector ping). Formatting: Black + Ruff (on save).
+Type checking: mypy strict. Lint: Ruff. No multi-root; this repo is now the single source.
+Go bins present (optional): notifier (`tools/notifier`), ingestion gRPC scaffold (`cmd/ingester`), canonical TopK service (`internal/canonical` + client), grpc-router (`grpc-router/`).
 
 ### 2. Conventions
 
@@ -30,6 +23,7 @@ workflow reference: `docs/MULTI_ROOT_WORKSPACE.md`.
 
 - `pyproject.toml`: mypy strict, Ruff config.
 - `settings.json`: YAML validation and formatting are disabled to avoid noisy false positives. Schema Store remains disabled. If re-enabled later, prefer explicit Compose schema mapping and associating `deploy/docker-stack.yml` as `dockercompose`. Vendored CI folders and node_modules are excluded in files/search.
+  - Update: Added watcher/search excludes for heavy dirs (`whisper.cpp/`, `pgdata/`, `volumes/`, `logs/`, caches) to reduce file watchers and improve editor responsiveness.
 - Run (before commit): tests -> ruff -> mypy.
 
 ### 4. Current Tech Debt
@@ -63,8 +57,9 @@ workflow reference: `docs/MULTI_ROOT_WORKSPACE.md`.
 - Postgres data access layer.
 - Dashboard React/Vite implementation.
 - XRDP security hardening docs (password rotation, restricting port).
-- Observability baseline across local + remote (metrics/traces unification).
-- Automated curated sync validation (CI) to catch missing manifest updates.
+- Observability baseline (metrics/traces unification).
+- Dual-DB consolidation tasks (ensure clear separation non-PII vs PII) pending.
+- AoS predictive match outcome modeling pipeline (current script `scripts/aos_predict.py` is exploratory only; future: persistence, coefficients exposure, calibration, matchup interaction features).
 
 ### 7. Open Questions
 

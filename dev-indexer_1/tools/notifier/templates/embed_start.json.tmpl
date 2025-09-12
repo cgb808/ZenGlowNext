@@ -1,0 +1,13 @@
+{
+  "method": "POST",
+  "url": "{{ env "EDGE_URL" }}",
+  "headers": {
+    "Authorization": "Bearer {{ env "EDGE_TOKEN" }}",
+    "Content-Type": "application/json"
+  },
+  "body": {
+    "action": "publish",
+    "channel": "embed_updates",
+  "message": "{{ tojson (dict "event" "embed.start" "batch_tag" .batch_tag "pii" (coalesce .pii false) "ts" (coalesce .ts (epoch))) }}"
+  }
+}

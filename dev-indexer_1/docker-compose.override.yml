@@ -1,0 +1,39 @@
+version: '3.8'
+# Override to run consolidated single Postgres (no PII db) + app without PII env duplication.
+services:
+  app:
+    environment:
+      PII_DATABASE_URL: ''
+      PII_DATABASE_URL_VEC: ''
+      PII_DATABASE_URL_TS: ''
+    depends_on:
+      db:
+        condition: service_healthy
+    # Remove dependency on db_pii if inherited
+  app-dev:
+    environment:
+      PII_DATABASE_URL: ''
+      PII_DATABASE_URL_VEC: ''
+      PII_DATABASE_URL_TS: ''
+    depends_on:
+      db:
+        condition: service_healthy
+  db_pii:
+    profiles: [never]
+  studio:
+    image: supabase/studio:latest
+    container_name: supabase_studio
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      # Basic vars; service/anon keys optional for limited local exploration
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      SUPABASE_ANON_KEY: ${SUPABASE_ANON_KEY:-dev-anon-key}
+      SUPABASE_SERVICE_KEY: ${SUPABASE_SERVICE_KEY:-dev-service-role-key}
+      # Point Studio at localhost (not all features active without full stack)
+      SUPABASE_URL: http://localhost
+    ports:
+      - "54323:3000"
+    # Note: This lightweight studio only surfaces limited functionality since other Supabase APIs (auth,realtime,storage) aren't running.

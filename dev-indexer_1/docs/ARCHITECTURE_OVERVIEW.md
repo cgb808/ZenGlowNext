@@ -7,7 +7,7 @@ This repo implements a local-first ingestion and retrieval stack that can bridge
 - App API: FastAPI app (minimal endpoints and health checks)
 - Ingestion spool: filesystem-based batching of .msgpack frames
 - Embedding: external service (or local mock) producing vectors
-- Databases: Postgres/TimescaleDB with pgvector for vector search
+- Databases: Postgres (partitioned + BRIN for time-series) and Chroma for vector search (pgvector optional)
 - Caching: Redis (optional) for queues and signals
 - Go Notifier: templated HTTP notifier invoked at critical lifecycle points
 
@@ -17,7 +17,7 @@ This repo implements a local-first ingestion and retrieval stack that can bridge
 2. A watcher opens the gate: when thresholds are met it triggers `scripts/process_spool.sh`.
 3. The orchestrator atomically moves files to `spool/processing/` and marks a manifest row.
 4. The Go Notifier fires a templated HTTP request (gate.open) to an external endpoint.
-5. The Python replayer (`scripts/rag_replay_msgpack.py`) ingests data into Postgres/Timescale.
+5. The Python replayer (`scripts/rag_replay_msgpack.py`) ingests data into Postgres (partitioned metrics/events).
 6. On success: files move to `spool/archive/`; notifier sends gate.done(status=success).
 7. On failure: files move to `spool/failed/`; notifier sends gate.done(status=failed).
 
@@ -63,139 +63,47 @@ ZenGlowAIWorkspace/
 │   │   ├── rag/                # RAG pipeline & retrieval
 │   │   ├── leonardo/           # Voice-enabled Leonardo assistant
 │   │   ├── audio/              # TTS/STT integration
-│   │   └── health/             # Health monitoring
-│
-├── 🧠 Fine-Tuning Infrastructure
-│   ├── fine_tuning/            # Specialized model training
-│   │   ├── datasets/           # Training data (Socratic, drill-down, interruption)
-│   │   ├── models/             # Trained specialist models
-│   │   ├── training/           # Training scripts & workflows
-│   │   ├── validation/         # Model validation & testing
-│   │   └── tooling/            # LLM-as-Judge, coordination tools
-│
-├── 📄 Data & Knowledge
-│   ├── data/                   # Raw datasets & samples
-│   ├── sql/                    # Database schemas
-│   ├── artifact/               # Knowledge graph artifacts
-│   └── memory_snapshot.json    # System state snapshots
-│
-├── 🏗️ Infrastructure
-│   ├── infrastructure/         # Deployment configs
-│   ├── scripts/                # Automation & utilities
-│   ├── docker-compose.yml      # Container orchestration
-│   └── Makefile               # Build automation
-│
-├── 📚 Documentation
-│   ├── docs/                   # Technical documentation
-│   ├── README.md               # Project overview
-│   ├── DEVOPS.md              # Operations guide
-│   └── DEVOPS_TODO_HISTORY.md # Operational history
-│
-└── 🧪 Development
-    ├── tests/                  # Test suites
-    ├── frontend/               # Web UI components
-    └── archive/                # Archived/deprecated code
+## Go Components (Current)
+
+- Notifier (`tools/notifier`): Templated HTTP event publisher (`gate.open`, `gate.done`, `embed.start`).
+- Ingestion gRPC scaffold (`cmd/ingester/`, `internal/ingester`): Client-streaming RPC for record ingestion (post-spool replay / embedding pipeline). Currently a stub awaiting codegen + COPY/embedding logic.
+- Canonical query service (`internal/canonical` + client example `cmd/topk-client`): Provides `TopKEvents` (semantic lookup; embedding stub today) — candidate to refresh after successful `embed.start` batches.
+- gRPC router (`grpc-router/`): General routing & future cross-service coordination (hot cache, logging services scaffolded).
+
+All Go binaries are optional; Python spool + FastAPI API function without them. They convert critical paths (notifications, ingestion, semantic query) into fast-start static binaries.
+
+## Dual Database Alignment
+
+The current model: Core DB (non-PII events/metrics/embeddings) + PII Vault DB (identity, token map, audit). Go services should avoid direct PII access; pass only `user_token` or anonymized fields. See `docs/PII_ARCHITECTURE.md`.
+
+Recommended environment usage inside Go services:
+```
+DATABASE_URL      # core
+PII_DATABASE_URL  # vault (only if absolutely required; prefer service boundary)
 ```
 
-## Architecture: Hybrid Data + Specialized Models
+## Event-Driven Hooks
 
-### 🎯 Core Concept
+Pattern for integrating Go services with notifier events:
+1. Subscribe to `ingest_updates` + `embed_updates` (Redis / Edge relay).
+2. Cache `gate.open` metadata by `batch_tag`.
+3. On `gate.done success` schedule embedding & ingest RPC.
+4. On `embed.start` notify canonical service to warm caches or queue vector refresh.
 
-**Specialized Models** = Expert interaction patterns  
-**RAG System** = Contextual knowledge provider  
-**Integration** = Specialists leverage RAG for domain-relevant context
+### Embedding Workers (Transition)
 
-### 🔄 Data Flow Architecture
+Two embedding worker variants exist during migration:
+- `app/inference/gating.py` (psycopg v3, per-row updates, correct SKIP LOCKED order) — forward path.
+- `archive/async_embedding_worker_legacy.py` (legacy psycopg2 bulk UPDATE, archived) — kept only for benchmarking.
 
-```mermaid
-graph TB
-    User[User Input] --> Router[Model Router]
-    Router --> Specialist{Specialist Selection}
+Plan: Enhance v3 worker with bulk UPDATE / COPY, then remove legacy script and drop psycopg2-binary.
 
-    Specialist -->|Socratic| SocMod[Socratic Model]
-    Specialist -->|Drill-Down| DrillMod[Drill-Down Model]
-    Specialist -->|Interruption| IntMod[Interruption Model]
-    Specialist -->|General| GenMod[General Model]
+## Roadmap (Condensed)
 
-    SocMod --> RAG[RAG Context Retrieval]
-    DrillMod --> RAG
-    IntMod --> RAG
-    GenMod --> RAG
-
-   RAG --> Vector[Vector Store<br/>pgvector on Timescale]
-    RAG --> Context[Contextual Response]
-
-    Context --> SocMod
-    Context --> DrillMod
-    Context --> IntMod
-    Context --> GenMod
-
-    SocMod --> Response[Specialized Response]
-    DrillMod --> Response
-    IntMod --> Response
-    GenMod --> Response
-```
-
-### 🧠 Specialized Model Types
-
-| Specialist               | Purpose                 | Training Data                | RAG Integration                              |
-| ------------------------ | ----------------------- | ---------------------------- | -------------------------------------------- |
-| **Socratic Tutor**       | Question-based learning | 846 examples                 | Retrieves curriculum context for questioning |
-| **Drill-Down Expert**    | Intent probing          | 648 examples                 | Gets background knowledge for deeper inquiry |
-| **Interruption Handler** | Graceful interruptions  | 71 examples                  | Retrieves interrupted topic context          |
-| **Base Foundation**      | Core methodology        | 500 pure + 1,842 personality | General knowledge retrieval                  |
-
-### 🏗️ System Architecture Layers
-
-1. **API Layer** (FastAPI)
-   - Model routing & selection
-   - Request/response handling
-   - Health monitoring
-
-2. **Specialist Layer** (Fine-tuned Models)
-   - Domain-specific interaction patterns
-   - Specialized response generation
-   - Context-aware behavior
-
-3. **RAG Layer** (Retrieval & Context)
-   - Vector similarity search (pgvector on Timescale)
-   - Contextual knowledge retrieval
-   - Domain-specific content filtering
-
-4. **Knowledge & Storage Layers**
-   - Timescale (ZFS): Events hypertable (pgvector), partitioned activity log
-   - Supabase: swarms, agents, missions, knowledge_graph, user-scoped data
-   - FDW bridge on Supabase to reach Timescale (operator pushdown for vectors)
-   - Conversation memory and logs
-
-5. **Infrastructure Layer** (DevOps)
-   - Docker Compose (dev) + light Swarm stack (caps, secrets)
-   - Caching (Redis)
-   - Monitoring & metrics
-
-### 🎓 Example: Socratic Math Tutoring
-
-```
-1. Student: "I don't understand quadratic equations"
-2. Router: Selects Socratic Specialist
-3. RAG: Retrieves quadratic equation concepts, common misconceptions
-4. Socratic Model + Context: "What do you think happens when we have x²?
-   Have you worked with simpler equations like x + 3 = 7 before?"
-5. Response: Contextually-informed Socratic questioning sequence
-```
-
-### 🔧 Technical Integration
-
-**Interruption Handling Example:**
-
-```
-1. TTS playing explanation → User speaks → [USER_INTERRUPTION] token
-2. Application Controller: Pause TTS, capture user input
-3. Interruption Specialist: Process interruption gracefully
-4. RAG: Retrieve context about interrupted topic
-5. Response: "Great question! Let me address that..."
-```
-
+- Flesh out ingestion gRPC: dedupe, batch COPY, embedding integration.
+- Replace embedding stub with real model (local or external) & distance queries via pgvector/Chroma.
+- Add RLS-aware reporting (vault-limited) through narrow FDW or service façade.
+- Introduce retry/backoff + idempotency keys for notifier consumers.
 ### � Privacy & Access
 
 - PII vault with token map (mint/resolve/rotate) — see `docs/PII_ARCHITECTURE.md`
@@ -208,7 +116,7 @@ graph TB
 
 - ✅ Docker Compose stack (backend, ollama, redis, webui)
 - ✅ Leonardo voice integration (TTS/Whisper)
-- ✅ RAG pipeline with pgvector (Timescale)
+- ✅ RAG pipeline with Chroma (pgvector optional)
 - ✅ Metrics & health monitoring
 
 **Training Infrastructure:**

@@ -1,6 +1,6 @@
 # AoS Edge Tools
 
-Two lightweight scripts that operate close to the DB (Timescale/Postgres). They respect the 2x2 DSN layout; pass the appropriate DSN via `--dsn`.
+Two lightweight scripts that operate close to the DB (Postgres; partitions + BRIN recommended). They respect the 2x2 DSN layout; pass the appropriate DSN via `--dsn`.
 
 - `scripts/aos_predict.py`: loads `aos_matches`, builds rolling features per player, trains a logistic regression, and prints AUC/accuracy.
 - `scripts/aos_stats_report.py`: prints player stats from `aos_player_stats` (materialized view). If the MV isn’t present, it attempts to call `refresh_aos_stats()`.
@@ -8,7 +8,7 @@ Two lightweight scripts that operate close to the DB (Timescale/Postgres). They 
 Examples
 
 ```bash
-# Use non-PII Timescale DSN; optionally search a schema prefix first (e.g., pii)
+# Use non-PII Postgres DSN; optionally search a schema prefix first (e.g., pii)
 ./scripts/aos_predict.py --dsn "$DATABASE_URL_TS" --player "Alice" --window 12
 
 # Report top players

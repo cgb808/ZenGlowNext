@@ -22,15 +22,74 @@ type ReqTemplate struct {
 	Body    any               `json:"body"`
 }
 
+func toJSON(v any) (string, error) {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return "", err
+	}
+	return string(b), nil
+}
+
+func dict(kv ...any) (map[string]any, error) {
+	if len(kv)%2 != 0 {
+		return nil, errors.New("dict requires even number of args")
+	}
+	m := make(map[string]any, len(kv)/2)
+	for i := 0; i < len(kv); i += 2 {
+		k, ok := kv[i].(string)
+		if !ok {
+			return nil, errors.New("dict keys must be strings")
+		}
+		m[k] = kv[i+1]
+	}
+	return m, nil
+}
+
 func loadTemplate(path string) (*template.Template, error) {
 	b, err := os.ReadFile(path)
 	if err != nil {
 		return nil, err
 	}
+	coalesce := func(args ...any) any {
+		for _, a := range args {
+			if a == nil {
+				continue
+			}
+			switch v := a.(type) {
+			case string:
+				if v != "" {
+					return v
+				}
+			case int:
+				if v != 0 {
+					return v
+				}
+			case int64:
+				if v != 0 {
+					return v
+				}
+			case float64:
+				if v != 0 {
+					return v
+				}
+			case bool:
+				if v {
+					return v
+				}
+			default:
+				return v
+			}
+		}
+		return nil
+	}
 	return template.New("req").Funcs(template.FuncMap{
-		"env":  os.Getenv,
-		"now":  time.Now,
-		"join": strings.Join,
+		"env":      os.Getenv,
+		"now":      time.Now,
+		"join":     strings.Join,
+		"epoch":    func() int64 { return time.Now().Unix() },
+		"tojson":   toJSON,
+		"dict":     dict,
+		"coalesce": coalesce,
 	}).Parse(string(b))
 }
 
@@ -58,7 +117,6 @@ func doRequest(ctx context.Context, rt *ReqTemplate, timeout time.Duration) (int
 		}
 		body = bytes.NewReader(b)
 	}
-
 	req, err := http.NewRequestWithContext(ctx, strings.ToUpper(rt.Method), rt.URL, body)
 	if err != nil {
 		return 0, nil, err
@@ -69,7 +127,6 @@ func doRequest(ctx context.Context, rt *ReqTemplate, timeout time.Duration) (int
 	if req.Header.Get("Content-Type") == "" && rt.Body != nil {
 		req.Header.Set("Content-Type", "application/json")
 	}
-
 	client := &http.Client{Timeout: timeout}
 	resp, err := client.Do(req)
 	if err != nil {
@@ -93,13 +150,11 @@ func main() {
 		fmt.Fprintln(os.Stderr, "-template is required")
 		os.Exit(2)
 	}
-
 	var data map[string]any
 	if err := json.Unmarshal([]byte(*dataJSON), &data); err != nil {
 		fmt.Fprintf(os.Stderr, "invalid -data JSON: %v\n", err)
 		os.Exit(2)
 	}
-
 	t, err := loadTemplate(*tplPath)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "load template: %v\n", err)
@@ -114,7 +169,6 @@ func main() {
 		enc, _ := json.Marshal(rt)
 		fmt.Fprintf(os.Stderr, "request: %s\n", string(enc))
 	}
-
 	ctx, cancel := context.WithTimeout(context.Background(), time.Duration(*timeoutS)*time.Second)
 	defer cancel()
 	status, body, err := doRequest(ctx, rt, time.Duration(*timeoutS)*time.Second)

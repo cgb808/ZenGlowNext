@@ -1,16 +1,13 @@
 {
   "method": "POST",
-  "url": "{{ env "GATE_URL" }}",
+  "url": "{{ env "EDGE_URL" }}",
   "headers": {
-    "Authorization": "Bearer {{ env "GATE_TOKEN" }}",
+    "Authorization": "Bearer {{ env "EDGE_TOKEN" }}",
     "Content-Type": "application/json"
   },
   "body": {
-    "event": "gate.open",
-    "batch_tag": "{{ .batch_tag }}",
-    "count": {{ .count }},
-    "bytes": {{ .bytes }},
-    "spool": "{{ .spool }}",
-    "ts": "{{ now | printf "%s" }}"
+    "action": "publish",
+    "channel": "ingest_updates",
+  "message": "{{ tojson (dict "event" "gate.open" "batch_tag" .batch_tag "spool" .spool "bytes" .bytes "count" .count "pii" (coalesce .pii false) "ts" (coalesce .ts (epoch))) }}"
   }
 }

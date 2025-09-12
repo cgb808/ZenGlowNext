@@ -1,12 +1,12 @@
--- ZenGlow RAG System - Indexes and ANN setup
--- Safe, idempotent indexes to complement consolidated_rag_schema_v2.sql
--- Notes:
--- - Uses pg_trgm for trigram GIN/GIST where helpful
--- - For pgvector columns, attempts HNSW first, falls back to IVFFlat if unsupported
--- - Default metric opclass is cosine (vector_cosine_ops); adjust if you use l2/ip
+-- - Keep CREATE INDEX IF NOT EXISTS for idempotency; DO blocks catch unsupported HNSW
 
 -- Helpful extensions (idempotent)
-CREATE EXTENSION IF NOT EXISTS pg_trgm;
+DO $$ BEGIN IF EXISTS (SELECT 1 FROM pg_available_extensions WHERE name='pg_trgm') THEN CREATE EXTENSION IF NOT EXISTS pg_trgm; END IF; END $$;
+DO $$ BEGIN IF EXISTS (SELECT 1 FROM pg_available_extensions WHERE name='vector') THEN CREATE EXTENSION IF NOT EXISTS vector; END IF; END $$; -- ensure pgvector present
+
+-- HNSW SUPPORT NOTE:
+-- pgvector >=0.5.0 provides native HNSW. If running an older version the DO blocks
+-- will catch errors and fall back to IVFFlat automatically.
 
 -- ========== Helper: Create ANN index with HNSW→IVFFlat fallback ==========
 -- We avoid creating a persistent helper function; instead, we inline DO blocks per index.

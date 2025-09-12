@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://zenglow.dev/schemas/ingest_events.schema.json",
+  "title": "Ingestion Events (Redis payloads)",
+  "type": "object",
+  "oneOf": [
+    { "$ref": "#/definitions/GateOpen" },
+    { "$ref": "#/definitions/GateDone" },
+    { "$ref": "#/definitions/EmbedStart" }
+  ],
+  "definitions": {
+    "Common": {
+      "type": "object",
+      "properties": {
+        "event": { "type": "string" },
+        "batch_tag": { "type": "string", "minLength": 1 },
+  "ts": { "type": "integer", "minimum": 0 },
+  "pii": { "type": "boolean" }
+      },
+      "required": ["event", "batch_tag", "ts"],
+      "additionalProperties": true
+    },
+    "GateOpen": {
+      "allOf": [
+        { "$ref": "#/definitions/Common" },
+        {
+          "properties": {
+            "event": { "const": "gate.open" },
+            "spool": { "type": "string" },
+            "bytes": { "type": "integer", "minimum": 0 },
+            "count": { "type": "integer", "minimum": 0 }
+          },
+          "required": ["spool", "bytes", "count"]
+        }
+      ]
+    },
+    "GateDone": {
+      "allOf": [
+        { "$ref": "#/definitions/Common" },
+        {
+          "properties": {
+            "event": { "const": "gate.done" },
+            "status": { "type": "string", "enum": ["success", "failed"] },
+            "processed": { "type": "integer", "minimum": 0 }
+          },
+          "required": ["status", "processed"]
+        }
+      ]
+    },
+    "EmbedStart": {
+      "allOf": [
+        { "$ref": "#/definitions/Common" },
+        { "properties": { "event": { "const": "embed.start" } } }
+      ]
+    }
+  }
+}

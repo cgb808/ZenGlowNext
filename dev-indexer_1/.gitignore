@@ -23,3 +23,19 @@ vendor/whisper.cpp/models/
 vendor/whisper.cpp/ggml-*.bin
 tests/whisper/
 .wdmc/
+
+# Local large artifacts and transients (keep locally, do not track)
+# Model bundles and checkpoints
+app/inference/model_bundle/
+
+# Whisper.cpp build and model cache
+whisper.cpp/
+
+# Local tarballs or archives
+.models.tar
+
+# Docker/DB volumes (permissions + huge)
+volumes/
+
+# Supabase CLI temp files
+supabase/.temp/

@@ -1,11 +1,13 @@
-"""Ranking Pipeline Router (Artifact B)
+"""Ranking + Fusion Router
 
-Integrates:
-  * Similarity search (current doc_embeddings table)
-  * Feature assembly scaffold
-  * LTR linear scoring
+Provides:
+- POST /rag/query2: retrieval + feature assembly + LTR scoring + fusion
+- GET/PUT /rag/fusion/weights: inspect/update fusion weights (process-local)
 
-Provides /rag/query2 endpoint returning scored results with feature metadata.
+Design goals:
+- Safe to import without external services (DB/Redis optional)
+- Works in "disabled" retrieval mode (no embed/db calls)
+- Cache-friendly (feature-level + full-response)
 """
 
 from __future__ import annotations
@@ -13,54 +15,75 @@ from __future__ import annotations
 import logging
 import os
 import time
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Tuple
 
-import psycopg2  # type: ignore
+import requests
+
+import psycopg  # psycopg v3
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel, Field
 
 from app.core.redis_cache import cache_get_msgpack  # type: ignore
-from app.core.redis_cache import (cache_rag_query_result, cache_set_msgpack,
-                                  get_cached_rag_query)
+from app.core.redis_cache import (
+    cache_rag_query_result,
+    cache_set_msgpack,
+    get_cached_rag_query,
+)
 
-from .feature_assembler import (FEATURE_SCHEMA_VERSION, Candidate,
-                                assemble_features)
+from .feature_assembler import FEATURE_SCHEMA_VERSION, Candidate, assemble_features
 from .ltr import GLOBAL_LTR_MODEL
 
-try:
+try:  # optional metrics
     from app.health.health_router import RAG_QUERY_COUNT  # type: ignore
-    from app.health.health_router import RAG_QUERY_LATENCY
+    from app.health.health_router import RAG_QUERY_LATENCY  # type: ignore
 except Exception:  # pragma: no cover
     RAG_QUERY_COUNT = None
     RAG_QUERY_LATENCY = None
 
-router = APIRouter(prefix="/rag", tags=["rag-advanced"])
 
-DEFAULT_TOP_K = int(os.getenv("RAG_TOP_K_DEFAULT", "10"))
-MAX_TOP_K = int(os.getenv("RAG_TOP_K_MAX", "200"))
+# Router and constants -------------------------------------------------------
+router = APIRouter(prefix="/rag", tags=["rag-ranking"])  # exported
 
-# Fusion weight override / versioning (dynamic updates via endpoint)
-_FUSION_WEIGHT_OVERRIDE: tuple[float, float] | None = (
-    None  # (ltr, conceptual) raw values
-)
+DEFAULT_TOP_K: int = int(os.getenv("RAG_DEFAULT_TOP_K", "5"))
+MAX_TOP_K: int = int(os.getenv("RAG_MAX_TOP_K", "20"))
+
+
+# Fusion weights (process-local override with versioning) --------------------
+_FUSION_WEIGHT_OVERRIDE: tuple[float, float] | None = None
 _FUSION_WEIGHT_VERSION: int = 1
 
 
-def get_current_fusion_weights() -> tuple[float, float, int]:
-    """Return normalized (ltr, conceptual) weights + version.
-    If override present use it, else derive from environment.
-    Normalization ensures they sum to 1 (fallback 0.5/0.5 if invalid).
-    """
-    if _FUSION_WEIGHT_OVERRIDE is not None:
-        ltr_raw, concept_raw = _FUSION_WEIGHT_OVERRIDE
-    else:
-        ltr_raw = float(os.getenv("RAG_FUSION_LTR_WEIGHT", "0.6"))
-        concept_raw = float(os.getenv("RAG_FUSION_CONCEPTUAL_WEIGHT", "0.4"))
-    total = ltr_raw + concept_raw
-    if total <= 0:
-        return 0.5, 0.5, _FUSION_WEIGHT_VERSION
-    return ltr_raw / total, concept_raw / total, _FUSION_WEIGHT_VERSION
+def _normalize_pair(a: float, b: float) -> tuple[float, float]:
+    s = float(a) + float(b)
+    if s <= 1e-12:
+        return 0.5, 0.5
+    return float(a) / s, float(b) / s
 
+
+def get_current_fusion_weights() -> tuple[float, float, int]:
+    """Return (ltr_weight, conceptual_weight, version).
+
+    Supports both new env names (RAG_FUSION_LTR_WEIGHT, RAG_FUSION_CONCEPTUAL_WEIGHT)
+    and legacy names (RAG_FUSION_LTR, RAG_FUSION_CONCEPTUAL). Normalizes pair and
+    falls back to (0.5, 0.5) if both are zero or invalid.
+    """
+    global _FUSION_WEIGHT_OVERRIDE, _FUSION_WEIGHT_VERSION
+    if _FUSION_WEIGHT_OVERRIDE is not None:
+        ltr, con = _normalize_pair(_FUSION_WEIGHT_OVERRIDE[0], _FUSION_WEIGHT_OVERRIDE[1])
+        return ltr, con, _FUSION_WEIGHT_VERSION
+    # Prefer *_WEIGHT vars if present, else fall back to legacy names
+    env_ltr = os.getenv("RAG_FUSION_LTR_WEIGHT")
+    env_con = os.getenv("RAG_FUSION_CONCEPTUAL_WEIGHT")
+    try:
+        base_ltr = float(env_ltr) if env_ltr is not None else float(os.getenv("RAG_FUSION_LTR", "0.7"))
+    except Exception:
+        base_ltr = 0.7
+    try:
+        base_con = float(env_con) if env_con is not None else float(os.getenv("RAG_FUSION_CONCEPTUAL", "0.3"))
+    except Exception:
+        base_con = 0.3
+    ltr, con = _normalize_pair(base_ltr, base_con)
+    return ltr, con, 1
 
 class Query2Payload(BaseModel):
     query: str = Field(..., min_length=1)
@@ -101,7 +124,8 @@ def _pg_connect():
     dsn = os.getenv("DATABASE_URL")
     if not dsn:
         raise HTTPException(500, "DATABASE_URL not set")
-    return psycopg2.connect(dsn)
+    # psycopg v3 connect
+    return psycopg.connect(dsn)
 
 
 def _embed_query(text: str) -> List[float]:
@@ -145,9 +169,90 @@ def _similarity_search_pgvector(query_vec: List[float], k: int) -> List[Candidat
 def _similarity_search_supabase(
     query_vec: List[float], k: int
 ) -> List[Candidate]:  # pragma: no cover - stub
-    # Placeholder for Supabase RPC-based retrieval; returns empty list for now.
-    # Future: call postgrest RPC with embedding vector & limit.
-    return []
+    """Supabase PostgREST RPC-based similarity search.
+
+    Expects a Postgres function exposed via PostgREST that accepts an embedding vector
+    and a match count, returning a setof rows with at least id, text (or chunk), and distance.
+
+    Environment variables:
+    - SUPABASE_URL: Base URL of the Supabase project (required)
+    - SUPABASE_KEY | SUPABASE_SERVICE_ROLE_KEY | SUPABASE_ANON_KEY: API key (required)
+    - SUPABASE_SIM_SEARCH_RPC: RPC function name (default: match_documents)
+    - SUPABASE_SIM_RPC_EMBED_KEY: JSON key for embedding param (default: embedding)
+    - SUPABASE_SIM_RPC_K_KEY: JSON key for limit param (default: match_count)
+    - SUPABASE_SIM_RPC_ID_KEY: field name in response for id (default: id)
+    - SUPABASE_SIM_RPC_TEXT_KEY: field name in response for text (default: chunk)
+    - SUPABASE_SIM_RPC_DIST_KEY: field name in response for distance (default: distance)
+    - SUPABASE_SIM_RPC_EXTRA: Optional JSON string with extra payload members
+    - SUPABASE_TIMEOUT: request timeout seconds (default: 15)
+    """
+    base_url = os.getenv("SUPABASE_URL")
+    key = (
+        os.getenv("SUPABASE_KEY")
+        or os.getenv("SUPABASE_SERVICE_ROLE_KEY")
+        or os.getenv("SUPABASE_ANON_KEY")
+    )
+    if not base_url or not key:
+        return []
+    fn = os.getenv("SUPABASE_SIM_SEARCH_RPC", "match_documents")
+    embed_key = os.getenv("SUPABASE_SIM_RPC_EMBED_KEY", "embedding")
+    k_key = os.getenv("SUPABASE_SIM_RPC_K_KEY", "match_count")
+    id_key = os.getenv("SUPABASE_SIM_RPC_ID_KEY", "id")
+    text_key = os.getenv("SUPABASE_SIM_RPC_TEXT_KEY", "chunk")
+    dist_key = os.getenv("SUPABASE_SIM_RPC_DIST_KEY", "distance")
+    # Extra payload members (optional)
+    extra_raw = os.getenv("SUPABASE_SIM_RPC_EXTRA")
+    extra: Dict[str, Any] = {}
+    if extra_raw:
+        try:
+            import json as _json
+
+            extra = _json.loads(extra_raw)
+        except Exception:
+            extra = {}
+    url = f"{base_url.rstrip('/')}/rest/v1/rpc/{fn}"
+    headers = {
+        "Content-Type": "application/json",
+        "apikey": key,
+        "Authorization": f"Bearer {key}",
+        # Allow read-only key for RPC if function marked security definer appropriately
+        "Prefer": "return=representation",
+    }
+    payload: Dict[str, Any] = {embed_key: query_vec, k_key: int(k), **extra}
+    timeout = int(os.getenv("SUPABASE_TIMEOUT", "15"))
+    try:
+        resp = requests.post(url, json=payload, headers=headers, timeout=timeout)
+        if resp.status_code != 200:
+            # Best-effort: include brief context in env for diagnostics
+            os.environ["SUPABASE_LAST_ERROR"] = f"HTTP {resp.status_code}: {resp.text[:200]}"
+            return []
+        data = resp.json()
+        items: List[Candidate] = []
+        if isinstance(data, list):
+            for row in data:
+                try:
+                    cid = int(row.get(id_key))
+                except Exception:
+                    cid = None  # type: ignore[assignment]
+                if cid is None:
+                    continue
+                txt = row.get(text_key) or ""
+                try:
+                    dist = float(row.get(dist_key, 0.0))
+                except Exception:
+                    dist = 0.0
+                items.append(
+                    Candidate(
+                        chunk_id=cid,
+                        text=str(txt)[:2048],
+                        distance=dist,
+                        source="supabase_rpc",
+                    )
+                )
+        return items[:k]
+    except Exception as e:
+        os.environ["SUPABASE_LAST_ERROR"] = f"exception: {type(e).__name__}: {e}"
+        return []
 
 
 FEATURE_CACHE_NS_PREFIX = "rag:features"  # namespace base
@@ -271,6 +376,7 @@ async def rag_query2(payload: Query2Payload) -> Dict[str, Any]:
     w_ltr, w_concept = cur_w_ltr, cur_w_concept
 
     # Derive conceptual score (currently distance-based similarity) & normalize LTR for fusion
+    # Adopt first feature as conceptual similarity (by convention in feature_assembler)
     conceptual_scores = [feats[0] if feats else 0.0 for feats in feature_matrix]
 
     if ltr_scores:

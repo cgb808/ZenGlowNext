@@ -23,6 +23,7 @@ except Exception:
     pass
 
 from fastapi import APIRouter, FastAPI, Request
+from contextlib import asynccontextmanager
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, JSONResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
@@ -67,30 +68,48 @@ except Exception:  # pragma: no cover - stub buffer
 
     _log_buffer = _LogBuf()  # type: ignore
 
-try:
-    from app.core import metrics as inproc_metrics  # type: ignore[attr-defined]
-except Exception:  # pragma: no cover - stub metrics
-    class _Timer:
-        import time as _t
+try:  # Prefer new typed metrics facade
+    from app.core.metrics_facade import timer as _mf_timer, counter as _mf_counter, observe as _mf_observe  # type: ignore[attr-defined]
+    import time as _mt
 
+    class _TimerWrapper:  # pragma: no cover - thin adapter
         def __init__(self):
-            self._s = self._t.time()
-
+            self._inner = _mf_timer("request_latency_ms")
+            self._start = _mt.time()
         def ms(self) -> float:
-            return (self._t.time() - self._s) * 1000.0
+            return ( _mt.time() - self._start) * 1000.0
+        def stop(self) -> float:
+            return self._inner.stop()
 
-    class _Metrics:
-        Timer = _Timer
+    def _m_timer():  # pragma: no cover
+        return _TimerWrapper()
 
-        @staticmethod
-        def inc(_name: str):
-            return None
+    def _m_inc(name: str):  # pragma: no cover
+        try:
+            _mf_counter(name)
+        except Exception:
+            pass
 
-        @staticmethod
-        def observe(_name: str, _val: float):
-            return None
-
-    inproc_metrics = _Metrics()  # type: ignore
+    def _m_obs(name: str, val: float):  # pragma: no cover
+        try:
+            _mf_observe(name, val)
+        except Exception:
+            pass
+except Exception:  # fallback no-ops
+    import time as _mt
+    class _FallbackTimerWrapper:  # type: ignore
+        def __init__(self):
+            self._s = _mt.time()
+        def ms(self) -> float:
+            return (_mt.time() - self._s) * 1000.0
+        def stop(self) -> float:
+            return self.ms()
+    def _m_timer():  # type: ignore  # fallback timer
+        return _FallbackTimerWrapper()
+    def _m_inc(name: str):  # type: ignore
+        return None
+    def _m_obs(name: str, val: float):  # type: ignore
+        return None
 
 try:
     from app.core.access_log_middleware import AccessLogMiddleware  # type: ignore[attr-defined]
@@ -120,6 +139,16 @@ except Exception:
     diagnostics_router = APIRouter()
 
 try:
+    from app.core import binaries as bin_cache  # type: ignore[attr-defined]
+except Exception:  # pragma: no cover - stub
+    class _BinStub:
+        def ensure_cached(self, _n: str) -> bool:  # noqa: D401
+            return False
+        def get_all(self):
+            return {}
+    bin_cache = _BinStub()  # type: ignore
+
+try:
     from app.core.events_router import router as events_router  # type: ignore[attr-defined]
 except Exception:
     events_router = APIRouter()
@@ -143,6 +172,14 @@ try:
     from app.core.metrics_endpoint_router import metrics_endpoint_router  # type: ignore[attr-defined]
 except Exception:
     metrics_endpoint_router = APIRouter()
+
+try:  # inline lightweight snapshot endpoint if not already provided elsewhere
+    from app.core import metrics_facade as _metrics_facade  # type: ignore[attr-defined]
+    @metrics_endpoint_router.get("/metrics/snapshot")  # type: ignore[misc]
+    async def _metrics_snapshot() -> dict[str, Any]:  # pragma: no cover - simple passthrough
+        return _metrics_facade.snapshot()
+except Exception:  # pragma: no cover - snapshot unavailable
+    pass
 
 try:
     from app.core.metrics_router import router as metrics_router  # type: ignore[attr-defined]
@@ -195,12 +232,24 @@ except Exception:  # pragma: no cover - minimal health stub
 
     @health_router.get("/health")
     async def _health_stub() -> dict[str, Any]:
-        return {"ok": True, "service": "indexer"}
+            # Lazy import for pool stats to avoid import cycles during early bootstrap
+            try:
+                from app.db.pool import pool_stats  # type: ignore
+                _pool = pool_stats()
+            except Exception:  # pragma: no cover - defensive
+                _pool = {"enabled": False, "error": "unavailable"}
+            return {"ok": True, "service": "indexer", "db_pool": _pool}
 
 try:
-    from app.leonardo.audio_router import router as leonardo_router  # type: ignore[attr-defined]
+    # Leonardo analytical audio suite (LLM + TTS + STT)
+    from app.audio.leonardo_router import router as leonardo_router  # type: ignore[attr-defined]
 except Exception:
     leonardo_router = APIRouter()
+
+try:  # Async transcription jobs router (queue-based)
+    from app.audio.transcription_jobs_router import router as transcription_jobs_router  # type: ignore[attr-defined]
+except Exception:
+    transcription_jobs_router = APIRouter()
 
 try:
     from app.memory import pool as memory_pool  # type: ignore
@@ -217,19 +266,21 @@ except Exception:
     ws_metrics_router = APIRouter()
 
 try:
-    from app.persona_brightness import (
-        clamp_level,
-        maybe_add_finisher,
-        infer_brightness as infer_brightness_level,
-    )  # type: ignore[attr-defined]
+    from app.persona_brightness import (  # type: ignore[attr-defined]
+        clamp_level,  # type: ignore
+        maybe_add_finisher,  # type: ignore
+        infer_brightness as infer_brightness_level,  # type: ignore
+    )
 except Exception:  # pragma: no cover - stubs
-    def clamp_level(x):
+    from typing import Any as _Any
+
+    def clamp_level(x: _Any) -> int | None:  # minimal fallback
         try:
-            return int(x)
+            return int(x)  # type: ignore[arg-type]
         except Exception:
             return None
 
-    def maybe_add_finisher(text: str, _lvl: int | None, phase: str = "closure") -> str:
+    def maybe_add_finisher(text: str, _lvl: int | None, phase: str = "closure") -> str:  # noqa: D401
         return text
 
     def infer_brightness_level(_q: str) -> int:
@@ -243,12 +294,20 @@ except Exception:  # pragma: no cover - stubs
 
     def resolve_persona(key: str | None, override: str | None) -> str:  # type: ignore
         return override or PERSONAS.get(key or DEFAULT_PERSONA_KEY, PERSONAS[DEFAULT_PERSONA_KEY])
-
 try:
-    from app.rag.cache_version import get_cache_version  # type: ignore[attr-defined]
-except Exception:
-    def get_cache_version() -> int:  # type: ignore
-        return 0
+    from app.core.config import (
+        apply_backward_compat_env,
+        validate_required_env,
+        config_router,
+    )  # type: ignore[attr-defined]
+except Exception:  # pragma: no cover - stubs
+    def apply_backward_compat_env() -> bool:  # type: ignore
+        return False
+
+    def validate_required_env() -> list[str]:  # type: ignore
+        return []
+
+    config_router = APIRouter()
 
 try:
     from app.rag.db_client import DBClient  # type: ignore[import]
@@ -310,21 +369,21 @@ except Exception:
             return f"(stub pipeline answer for: {query})"
 
 try:
-    from app.rag.ranking_router import (
+    from app.rag.ranking_router import (  # type: ignore[attr-defined]
         Query2Payload,
-        rag_query2,
-    )  # type: ignore[attr-defined]
+        rag_query2,  # type: ignore
+    )
     from app.rag.ranking_router import router as ranking_router  # type: ignore[attr-defined]
-except Exception:
+except Exception:  # pragma: no cover - minimal stub
     ranking_router = APIRouter()
-
-    class Query2Payload:  # type: ignore
-        def __init__(self, query: str, top_k: int = 5):
-            self.query = query
-            self.top_k = top_k
-
-    async def rag_query2(_payload: Query2Payload) -> dict[str, Any]:  # type: ignore
+    async def rag_query2(_payload):  # type: ignore
         return {"results": [], "timings": {}}
+
+try:
+    from app.rag.cache_version import get_cache_version  # type: ignore[attr-defined]
+except Exception:  # pragma: no cover - stub
+    def get_cache_version() -> int:  # type: ignore
+        return 0
 
 try:
     from app.rag.rebuild_router import router as rebuild_router  # type: ignore[attr-defined]
@@ -379,6 +438,11 @@ try:
 except Exception:
     arc_router = APIRouter()
 
+try:  # optional Supabase diagnostics
+    from app.integrations.supabase_router import router as supabase_router  # type: ignore[attr-defined]
+except Exception:
+    supabase_router = APIRouter()
+
 try:  # optional Jarvis inference endpoint
     if os.getenv("JARVIS_ENABLE", "0").lower() in {"1", "true", "yes"}:
         from app.jarvis.router import router as jarvis_router  # type: ignore[attr-defined]
@@ -431,137 +495,44 @@ except Exception:  # pragma: no cover - defensive
     _profiles = []
 
 _skip_audio = os.getenv("SKIP_AUDIO_IMPORTS", "0").lower() in {"1", "true", "yes"}
-# Auto-skip audio if heavy deps are missing, unless FORCE_AUDIO=1
+# Auto-skip audio if heavy deps are missing, unless FORCE_AUDIO=1. This lightweight probe
+# replaces the older in-module _load_audio() bootstrap (now centralized in app.bootstrap.audio).
 if not _skip_audio and os.getenv("FORCE_AUDIO", "0").lower() not in {"1", "true", "yes"}:
     try:  # pragma: no cover - dependency probe
         import importlib
 
-        # If numpy isn't installed, many audio deps will fail; skip in that case
         if importlib.util.find_spec("numpy") is None:  # type: ignore[attr-defined]
             _skip_audio = True
     except Exception:
-        # If probing fails for any reason, be conservative but do not force skip here
-        pass
+        pass  # stay optimistic if probe fails
 
 
-def _load_audio() -> dict[str, Any]:  # pragma: no cover - import side-effects at runtime
-    """Load audio routers if available; otherwise provide safe stubs.
+# Use extracted audio bootstrap
+from app.bootstrap.audio import load_audio as _bootstrap_load_audio  # type: ignore[attr-defined]
 
-    Returns a dict with keys matching expected variables in this module.
-    """
-
-    if _skip_audio:
-        class _StubRouter:
-            router = None
-
-        class _StubObj:
-            def __getattr__(self, _):  # noqa: D401
-                raise RuntimeError("Audio stack disabled (dependencies missing)")
-
-            # Commonly used optional methods in shutdown/startup paths
-            def register_persona_callback(self, *args: Any, **kwargs: Any) -> None:
-                return None
-
-            def flush_pending(self) -> int:
-                return 0
-
-        def _noop_session(_s: str) -> None:
-            return None
-
-        return {
-            "devices_router": _StubRouter(),
-            "transcription_router": _StubRouter(),
-            "tts_router": _StubRouter(),
-            "speaker_router": None,
-            "wake_router": None,
-            "xtts_router": None,
-            "switchr_router": None,
-            "transcript_enqueue": _StubObj(),
-            "audio_discovery": _StubObj(),
-            "activate_tutor_persona": None,
-            "get_session_persona": _noop_session,
-        }
-
-    # Attempt to import actual audio routers (each is independently optional)
-    audio: dict[str, Any] = {
-        "devices_router": None,
-        "transcription_router": None,
-        "tts_router": None,
-        "speaker_router": None,
-        "wake_router": None,
-        "xtts_router": None,
-        "switchr_router": None,
-        "transcript_enqueue": None,
-        "audio_discovery": None,
-        "activate_tutor_persona": None,
-        "get_session_persona": lambda _s: None,
-    }
-
-    try:
-        from app.audio import devices_router as _devices_router  # type: ignore[attr-defined]
-
-        audio["devices_router"] = _devices_router
-    except Exception:
-        pass
-    try:
-        from app.audio import transcription_router as _transcription_router  # type: ignore[attr-defined]
-
-        audio["transcription_router"] = _transcription_router
-    except Exception:
-        pass
-    try:
-        from app.audio import tts_router as _tts_router  # type: ignore[attr-defined]
-
-        audio["tts_router"] = _tts_router
-    except Exception:
-        pass
-    try:
-        from app.audio.speaker_router import router as _speaker_router  # type: ignore[attr-defined]
-
-        audio["speaker_router"] = _speaker_router
-    except Exception:
-        pass
-    try:
-        from app.audio.wake_router import router as _wake_router  # type: ignore[attr-defined]
-
-        audio["wake_router"] = _wake_router
-    except Exception:
-        pass
-    try:
-        from app.audio.xtts_router import router as _xtts_router  # type: ignore[attr-defined]
-
-        audio["xtts_router"] = _xtts_router
-    except Exception:
-        pass
-
-    # Optional helpers (no-ops if missing)
-    class _Null:
-        def __getattr__(self, _):
-            return lambda *a, **k: None
-
-    if audio["transcript_enqueue"] is None:
-        audio["transcript_enqueue"] = _Null()
-    if audio["audio_discovery"] is None:
-        audio["audio_discovery"] = _Null()
-
-    return audio
-
-
-_AUDIO = _load_audio()
+# Centralized audio bootstrap (replaces legacy _load_audio). Returns a dict of optional routers
+# and helper objects; all may be None/sentinels depending on env flags and dependency presence.
+_AUDIO = _bootstrap_load_audio(_skip_audio)
 devices_router = _AUDIO["devices_router"]
 transcription_router = _AUDIO["transcription_router"]
 tts_router = _AUDIO["tts_router"]
 speaker_router = _AUDIO["speaker_router"]
 wake_router = _AUDIO["wake_router"]
 xtts_router = _AUDIO["xtts_router"]
-switchr_router = _AUDIO["switchr_router"]
 transcript_enqueue = _AUDIO["transcript_enqueue"]
 audio_discovery = _AUDIO["audio_discovery"]
 activate_tutor_persona = _AUDIO["activate_tutor_persona"]
 get_session_persona = _AUDIO["get_session_persona"]  # type: ignore
+piper_router = _AUDIO.get("piper_router")
+
+# Switchr router decoupled from audio gating so predictive tests don't 404 when audio stack skipped
+try:  # pragma: no cover - optional import
+    from app.central_control.switchr_router import router as switchr_router  # type: ignore[attr-defined]
+except Exception:  # noqa: BLE001
+    switchr_router = None  # type: ignore
 
 # Early env + secrets bootstrap so subsequent imports/routers have config
-_applied_compat = apply_backward_compat_env()
+_applied_compat: bool = apply_backward_compat_env()
 bootstrap_supabase_key()
 try:
     _required_env_missing = validate_required_env()
@@ -569,7 +540,107 @@ except Exception:  # pragma: no cover - defensive
     _required_env_missing = []
 
 init_logging()
-app: FastAPI = FastAPI(title="ZenGlow Indexer API")
+
+
+from typing import Optional as _Opt
+from app.db.async_db import init_async_pool, get_async_db_client  # type: ignore[attr-defined]
+
+app_state: dict[str, Any] = {}
+
+
+@asynccontextmanager
+async def _lifespan(app: FastAPI):  # pragma: no cover - runtime path
+    # Startup logic (migrated from @app.on_event("startup"))
+    log(
+        "startup_event",
+        applied_compat=_applied_compat,
+        required_env_missing=_required_env_missing,
+    )
+    try:
+        ensure_timescale_hypertables()
+    except Exception:
+        pass
+    guard_errors: list[str] = []
+    from app.core.config import validate_required_env as _vre  # local import for safety
+
+    missing = _vre()
+    if missing:
+        guard_errors.append(f"missing_env={','.join(missing)}")
+    allowed_modes = {"pgvector", "weaviate", "supabase_rpc", "disabled"}
+    mode = os.getenv("RAG_RETRIEVAL_MODE", "pgvector")
+    if mode not in allowed_modes:
+        guard_errors.append(f"invalid_retrieval_mode={mode}")
+    if mode != "disabled" and not os.getenv("EMBED_BASE_URL"):
+        os.environ["RAG_RETRIEVAL_MODE"] = "disabled"
+        mode = "disabled"
+        log("embed_base_url_missing_auto_disabled_retrieval", previous_mode=mode)
+    strict = os.getenv("STRICT_ENV", "true").lower() == "true"
+    if guard_errors:
+        log("startup_config_guard_failed", issues=guard_errors, strict=strict)
+        if strict:
+            raise SystemExit("config guard failed: " + ";".join(guard_errors))
+    else:
+        log("startup_config_guard_pass", mode=mode)
+    if not _skip_audio:
+        try:
+            transcript_enqueue.register_persona_callback(activate_tutor_persona)
+        except Exception as e:
+            log("persona_callback_registration_failed", error=str(e))
+        try:
+            audio_discovery.start_server()
+        except Exception:
+            pass
+    try:
+        start_refresh_thread()
+    except Exception:
+        log("cache_refresh_thread_start_failed")
+
+    # Initialize async DB pool (Step 1 migration)
+    try:
+        pool = await init_async_pool()
+        if pool:
+            app_state["async_db_pool"] = pool
+            log("async_db_pool_initialized")
+    except Exception as e:  # pragma: no cover - defensive
+        log("async_db_pool_init_failed", error=str(e))
+
+    # Optional TinyToolController load
+    try:
+        import importlib
+        mod = importlib.import_module("app.audio.integrated_audio_pipeline")
+        TinyToolController = getattr(mod, "TinyToolController", None)
+        if TinyToolController:
+            app_state["tiny_controller"] = TinyToolController()
+            log("tiny_controller_loaded")
+        else:
+            app_state["tiny_controller"] = None
+    except Exception as e:
+        app_state["tiny_controller"] = None
+        log("tiny_controller_load_failed", error=str(e))
+    # Yield to allow application to serve
+    yield
+    # Shutdown logic (migrated from @app.on_event("shutdown"))
+    if not _skip_audio:
+        try:
+            flushed = transcript_enqueue.flush_pending()
+            log("shutdown_flush_transcripts", flushed=flushed)
+        except Exception as e:
+            log("shutdown_flush_transcripts_error", error=str(e))
+    # Close async pool if present
+    try:
+        pool = app_state.get("async_db_pool")
+        if pool:
+            await pool.close()  # type: ignore[attr-defined]
+            log("async_db_pool_closed")
+    except Exception:
+        pass
+    try:
+        log("shutdown_flush_events", forced=True)
+    except Exception as e:
+        log("shutdown_flush_events_error", error=str(e))
+
+
+app: FastAPI = FastAPI(title="ZenGlow Indexer API", lifespan=_lifespan)
 
 
 class CacheVersionHeaderMiddleware(
@@ -614,49 +685,41 @@ app.include_router(metrics_endpoint_router)
 app.include_router(ranking_router)
 app.include_router(rebuild_router)
 app.include_router(llm_probe_router)
+@app.get("/config/binaries")
+def list_binaries() -> dict[str, Any]:  # pragma: no cover - simple
+    # Touch a small known set; safe even if absent
+    for _b in ("ffmpeg", "sox", "curl"):
+        try:
+            bin_cache.ensure_cached(_b)
+        except Exception:
+            pass
+    return {"binaries": bin_cache.get_all()}
 if not _skip_audio:
-    try:
-        if transcription_router and getattr(transcription_router, "router", None):  # type: ignore[attr-defined]
-            app.include_router(transcription_router.router)  # type: ignore[attr-defined]
-    except Exception:
-        pass
-    try:
-        if tts_router and getattr(tts_router, "router", None):  # type: ignore[attr-defined]
-            app.include_router(tts_router.router)  # type: ignore[attr-defined]
-    except Exception:
-        pass
-    try:
-        if devices_router and getattr(devices_router, "router", None):  # type: ignore[attr-defined]
-            app.include_router(devices_router.router)  # type: ignore[attr-defined]
-    except Exception:
-        pass
-    if speaker_router:
+    # Unified inclusion loop for audio-related routers (each may either expose .router or be a router itself)
+    _audio_candidates = [
+        transcription_router,
+        tts_router,
+        devices_router,
+        speaker_router,
+        xtts_router,
+        piper_router,  # Piper explicitly exposed for clarity
+        switchr_router,  # predictive controller (decoupled but related UX-wise)
+        wake_router,
+    ]
+    for _r in _audio_candidates:
+        if not _r:
+            continue
         try:
-            app.include_router(speaker_router)
+            inner = getattr(_r, "router", None)
+            app.include_router(inner or _r)  # type: ignore[arg-type]
         except Exception:
             pass
-    if xtts_router:
-        try:
-            app.include_router(xtts_router)
-        except Exception:
-            pass
+    # Optional dynamically injected coqui_tts_router (legacy experimental)
     try:
-        # coqui_tts_router may be injected by optional module; define stub if missing
         if "coqui_tts_router" in globals() and globals().get("coqui_tts_router"):
             app.include_router(globals()["coqui_tts_router"])  # type: ignore[arg-type]
     except Exception:
         pass
-        pass
-    if switchr_router:
-        try:
-            app.include_router(switchr_router)
-        except Exception:
-            pass
-    if wake_router:
-        try:
-            app.include_router(wake_router)
-        except Exception:
-            pass
 if "tts_sidecar_router" in globals() and tts_sidecar_router:
     app.include_router(tts_sidecar_router)
 
@@ -684,6 +747,7 @@ if os.getenv("SOUND_DIAG_ENABLE", "0").lower() in {"1", "true", "yes"}:
     except Exception:
         pass
 app.include_router(leonardo_router)
+app.include_router(transcription_jobs_router)
 app.include_router(embed_router)
 app.include_router(streaming_router)
 app.include_router(config_router)
@@ -691,9 +755,15 @@ app.include_router(metrics_router)
 app.include_router(ws_metrics_router)  # WebSocket metrics streaming
 app.include_router(openelm_router)
 app.include_router(arc_router)
+app.include_router(supabase_router)
 app.include_router(discovery_router)
 app.include_router(swarm_state_router)
 app.include_router(swarm_predict_router)
+try:  # optional next-gen swarm router (swarm2)
+    from app.swarm2.router import router as swarm2_router  # type: ignore[attr-defined]
+    app.include_router(swarm2_router)
+except Exception:
+    pass
 app.include_router(index_assist_router)
 app.include_router(jarvis_router)
 app.include_router(handlers_router)
@@ -713,6 +783,18 @@ try:
 except Exception:
     pass
 log("routers registered")
+
+
+# ---------------- Dependency Accessors (importable) -----------------
+def get_async_db_client_dep():  # pragma: no cover - thin accessor
+    try:
+        return get_async_db_client()
+    except Exception:
+        return None
+
+
+def get_tiny_controller():  # pragma: no cover
+    return app_state.get("tiny_controller")
 
 # ---------------------------------------------------------------------------
 # Lightweight Phi-3 status probe (dashboard expects /phi3/ping)
@@ -815,81 +897,13 @@ async def preview_family_adjustment(payload: dict[str, Any]) -> Any:
     }
 
 
-@app.on_event("startup")  # type: ignore[call-arg]
-def _on_startup():  # pragma: no cover - runtime path
-    log(
-        "startup_event",
-        applied_compat=_applied_compat,
-        required_env_missing=_required_env_missing,
-    )
-    # Optional Timescale hypertable verification (non-fatal)
-    try:
-        ensure_timescale_hypertables()
-    except Exception:
-        pass
-    # Config guard (quick win step 5)
-    guard_errors: list[str] = []
-    from app.core.config import validate_required_env as _vre
-
-    missing = _vre()
-    if missing:
-        guard_errors.append(f"missing_env={','.join(missing)}")
-    allowed_modes = {"pgvector", "weaviate", "supabase_rpc", "disabled"}
-    mode = os.getenv("RAG_RETRIEVAL_MODE", "pgvector")
-    if mode not in allowed_modes:
-        guard_errors.append(f"invalid_retrieval_mode={mode}")
-    if mode != "disabled" and not os.getenv("EMBED_BASE_URL"):
-        # Instead of hard-failing (previous behavior), degrade gracefully by disabling retrieval.
-        os.environ["RAG_RETRIEVAL_MODE"] = "disabled"
-        mode = "disabled"
-        log("embed_base_url_missing_auto_disabled_retrieval", previous_mode=mode)
-    strict = os.getenv("STRICT_ENV", "true").lower() == "true"
-    if guard_errors:
-        log("startup_config_guard_failed", issues=guard_errors, strict=strict)
-        if strict:
-            raise SystemExit("config guard failed: " + ";".join(guard_errors))
-    else:
-        log("startup_config_guard_pass", mode=mode)
-    # Register persona callback so tutor trigger phrases activate persona mapping
-    if not _skip_audio:
-        try:
-            transcript_enqueue.register_persona_callback(activate_tutor_persona)
-        except Exception as e:  # pragma: no cover - defensive
-            log("persona_callback_registration_failed", error=str(e))
-        # Start audio discovery responder if configured
-        try:
-            audio_discovery.start_server()
-        except Exception:
-            pass
-    # Start swarm manager (active/standby) if enabled (disabled placeholder)
-    # swarm_manager.start(background=True, health_func=lambda: True)  # noqa: E265 (disabled)
-    # Start redis cache refresh loop if enabled
-    try:
-        start_refresh_thread()
-    except Exception:
-        log("cache_refresh_thread_start_failed")
-
-
-@app.on_event("shutdown")  # type: ignore[call-arg]
-def _on_shutdown():  # pragma: no cover - runtime path
-    """Graceful shutdown: flush pending transcript batches & analytical events."""
-    if not _skip_audio:
-        try:
-            flushed = transcript_enqueue.flush_pending()
-            log("shutdown_flush_transcripts", flushed=flushed)
-        except Exception as e:  # defensive
-            log("shutdown_flush_transcripts_error", error=str(e))
-    try:
-        ## core_events.flush(force=True)
-        log("shutdown_flush_events", forced=True)
-    except Exception as e:
-        log("shutdown_flush_events_error", error=str(e))
+## (startup/shutdown handlers migrated to lifespan context _lifespan)
 
 
 @app.post("/rag/query")  # Retrieval + scoring via ranking_router
 async def rag_query(request: Request) -> dict[str, Any]:
-    total_timer = inproc_metrics.Timer()
-    inproc_metrics.inc("requests_total")
+    total_timer = _m_timer()
+    _m_inc("requests_total")
     body = await request.json()
     query = body.get("query")
     top_k = body.get("top_k", 5)
@@ -921,7 +935,7 @@ async def rag_query(request: Request) -> dict[str, Any]:
     except Exception as e:  # graceful fallback: continue with empty context & note error
         ranked_dict = {"results": [], "timings": {}}
         retrieval_error = str(e)
-        inproc_metrics.inc("errors_total")
+    _m_inc("errors_total")
 
     # Build answer using fused ranked chunks
     # Normalize typing for strict mode
@@ -962,16 +976,20 @@ async def rag_query(request: Request) -> dict[str, Any]:
     # Use unified client; fallback to legacy edge model on error
     llm_client = LLMClient()
     gen_meta: dict[str, Any]
-    llm_timer = inproc_metrics.Timer()
+    llm_timer = _m_timer()
     try:
         gen_meta = llm_client.generate_with_metadata(prompt, prefer=prefer)
     except Exception as e:  # pragma: no cover - defensive
-        inproc_metrics.inc("errors_total")
+        _m_inc("errors_total")
         # Fallback to legacy edge-only path
         answer = get_edge_model_response(prompt)
-        gen_meta = {"text": answer, "backend": "edge_legacy", "errors": [str(e)]}
+        gen_meta = {
+            "text": answer,
+            "backend": "edge_legacy",
+            "errors": [str(e)],
+        }
     _llm_elapsed_ms = llm_timer.ms()  # reserved for future logging / metrics
-    inproc_metrics.inc("llm_calls_total")
+    _m_inc("llm_calls_total")
 
     answer = gen_meta.get("text", "")
     # Update STM with this interaction
@@ -1025,17 +1043,17 @@ async def rag_query(request: Request) -> dict[str, Any]:
                 val = timings.get(src_key)
                 if val is not None:
                     try:
-                        inproc_metrics.observe(metric_key, float(val))
+                        _m_obs(metric_key, float(val))
                     except Exception:
                         pass
         if answer_latency is not None:
             try:
-                inproc_metrics.observe("llm_ms", float(answer_latency))
+                _m_obs("llm_ms", float(answer_latency))
             except Exception:
                 pass
         # Overall end-to-end (from request ingress to response build)
         try:
-            inproc_metrics.observe("total_ms", total_timer.ms())
+            _m_obs("total_ms", total_timer.ms())
         except Exception:
             pass
     except Exception:

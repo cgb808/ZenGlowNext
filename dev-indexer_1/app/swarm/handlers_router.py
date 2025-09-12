@@ -89,7 +89,7 @@ async def _get(r, key: str) -> Optional[bytes]:
 
 async def _set(r, key: str, val: bytes | bytearray) -> None:
     try:
-    await r.set(key, bytes(val))
+        await r.set(key, bytes(val))
     except Exception:
         pass
 

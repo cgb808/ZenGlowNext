@@ -2,6 +2,8 @@
 // Context: Formatters/validators are disabled and vendored CI folders are excluded to reduce editor noise; re-enable selectively as needed.
 {
   "python.analysis.typeCheckingMode": "basic",
+  "python.languageServer": "Pylance",
+  "python.analysis.indexing": false,
   "python.analysis.diagnosticSeverityOverrides": {
     "reportPrivateUsage": "none",
     "reportUnknownMemberType": "none",
@@ -48,19 +50,50 @@
   "yaml.schemaStore.enable": false,
   "yaml.schemas": {},
   "files.associations": {},
+  "editor.accessibilitySupport": "off",
+  "files.watcherExclude": {
+    "**/.git/**": true,
+    "**/.venv/**": true,
+    "**/node_modules/**": true,
+    "**/__pycache__/**": true,
+    "**/.pytest_cache/**": true,
+    "**/.mypy_cache/**": true,
+    "**/.cache/**": true,
+    "**/whisper.cpp/**": true,
+    "**/pgdata/**": true,
+    "**/volumes/**": true,
+    "logs/**": true
+  },
   "files.exclude": {
     "**/.github/**": true,
     "**/node_modules/**": true,
+    "**/__pycache__/**": true,
+    "**/.pytest_cache/**": true,
+    "**/.mypy_cache/**": true,
+    "**/.cache/**": true,
+    "**/whisper.cpp/**": true,
+    "**/pgdata/**": true,
+    "**/volumes/**": true,
+    "logs/**": true,
     "whisper.cpp/.github/**": true,
     "vendor/whisper.cpp/.github/**": true
   },
   "search.exclude": {
     "**/.github/**": true,
     "**/node_modules/**": true,
+    "**/__pycache__/**": true,
+    "**/.pytest_cache/**": true,
+    "**/.mypy_cache/**": true,
+    "**/.cache/**": true,
+    "**/whisper.cpp/**": true,
+    "**/pgdata/**": true,
+    "**/volumes/**": true,
+    "logs/**": true,
     "whisper.cpp/.github/**": true,
     "vendor/whisper.cpp/.github/**": true
   },
   "files.trimTrailingWhitespace": false,
   "files.insertFinalNewline": false,
   "files.eol": "\n"
+  ,"githubCopilot.executionMode": "auto"
 }

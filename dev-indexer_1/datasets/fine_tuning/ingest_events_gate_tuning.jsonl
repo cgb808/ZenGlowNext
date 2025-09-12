@@ -1,0 +1,3 @@
+{"prompt":"Render gate.open with pii=false and current epoch for batch tag foo (ignore spool) using Go notifier contract.","completion":"{\"event\":\"gate.open\",\"batch_tag\":\"foo\",\"spool\":\"/ignored\",\"bytes\":1,\"count\":1,\"pii\":false,\"ts\":1694265600}"}
+{"prompt":"Render gate.done(success) for tag foo with processed=3 and backfill ts 1694265610.","completion":"{\"event\":\"gate.done\",\"batch_tag\":\"foo\",\"status\":\"success\",\"processed\":3,\"pii\":false,\"ts\":1694265610}"}
+{"prompt":"Render embed.start for tag foo with pii=true and current epoch.","completion":"{\"event\":\"embed.start\",\"batch_tag\":\"foo\",\"pii\":true,\"ts\":1694265612}"}

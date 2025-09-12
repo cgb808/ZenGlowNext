@@ -15,7 +15,7 @@ services:
     volumes:
       - tts_models:/root/.local/share/tts
     networks:
-  - backend
+      - backend
     ports:
       - '5002:5002'
     deploy:
